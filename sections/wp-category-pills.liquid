@@ -1,0 +1,145 @@
+<div class="wp wp-pills" id="wp-{{ section.id }}" style="--wp-section-bg: {{ section.settings.background_color }}; --wp-pt: {{ section.settings.padding_top }}px; --wp-pb: {{ section.settings.padding_bottom }}px;">
+  <div class="wp__inner">
+    <nav class="wp-pills__row" aria-label="{{ section.settings.label | escape }}">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign c = block.settings.collection
+          assign img = block.settings.image
+          if img == blank and c != blank
+            assign img = c.featured_image
+          endif
+          assign label = block.settings.label | default: c.title
+          assign url = block.settings.link | default: c.url
+          assign active = false
+          if collection and c != blank and c.handle == collection.handle
+            assign active = true
+          endif
+        -%}
+        <a class="wp-pills__pill{% if active %} is-active{% endif %}" href="{{ url | default: '#' }}" {% if active %}aria-current="page"{% endif %} {{ block.shopify_attributes }}>
+          {%- if section.settings.show_images -%}
+            <span class="wp-pills__img">
+              {%- if img != blank -%}{{ img | image_url: width: 96, height: 96, crop: 'top' | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}
+            </span>
+          {%- endif -%}
+          <span>{{ label | default: 'Category' }}</span>
+        </a>
+      {%- endfor -%}
+    </nav>
+  </div>
+</div>
+
+{% stylesheet %}
+.wp-pills__row { display: flex; gap: 12px; flex-wrap: wrap; }
+@media (max-width: 749px) { .wp-pills__row { flex-wrap: nowrap; overflow-x: auto; margin-inline: -16px; padding: 2px 16px; scrollbar-width: none; } }
+.wp-pills__pill { flex: none; display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 4px 18px 4px 4px; border-radius: 999px; background: #FFFFFF; color: var(--wp-ink); text-decoration: none; font-size: 14px; font-weight: 700; }
+.wp-pills__pill:not(:has(.wp-pills__img)) { padding-left: 18px; }
+.wp-pills__pill:hover { box-shadow: inset 0 0 0 1px var(--wp-ink); }
+.wp-pills__pill.is-active { background: var(--wp-ink); color: #FFFFFF; }
+.wp-pills__img { width: 40px; height: 40px; border-radius: 999px; overflow: hidden; background: var(--wp-bg); flex: none; }
+.wp-pills__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "WP Category pills",
+  "class": "wp-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Menu name for screen readers",
+      "default": "Categories"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_images",
+      "label": "Show images",
+      "default": true
+    },
+    {
+      "type": "paragraph",
+      "content": "The pill for the collection being viewed is highlighted."
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pill",
+      "name": "Pill",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "info": "Leave empty to use the collection name."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Leave empty to use the collection image."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link",
+          "info": "Leave empty to link to the collection."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 16,
+  "presets": [
+    {
+      "name": "WP Category pills",
+      "blocks": [
+        {
+          "type": "pill"
+        },
+        {
+          "type": "pill"
+        },
+        {
+          "type": "pill"
+        },
+        {
+          "type": "pill"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

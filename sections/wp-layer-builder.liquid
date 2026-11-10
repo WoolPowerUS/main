@@ -1,0 +1,158 @@
+<div class="wp wp-layers" id="wp-{{ section.id }}" style="--wp-section-bg: {{ section.settings.background_color }}; --wp-pt: {{ section.settings.padding_top }}px; --wp-pb: {{ section.settings.padding_bottom }}px;">
+  <div class="wp__inner">
+    <div style="margin-bottom: 24px">
+      {%- if section.settings.heading != blank -%}<h2 class="wp-h2">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.text != blank -%}<p style="margin: 6px 0 0">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+    <ol class="wp-layers__list">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign p = block.settings.product
+          assign current = false
+          if product and p != blank and p.id == product.id
+            assign current = true
+          endif
+        -%}
+        <li class="wp-layers__item{% if current %} is-current{% endif %}" {{ block.shopify_attributes }}>
+          <a href="{{ p.url | default: '#' }}" class="wp-layers__link" {% if current %}aria-current="page"{% endif %}>
+            <span class="wp-media wp-layers__img">
+              {%- if p.featured_media -%}
+                {{ p.featured_media | image_url: width: 240 | image_tag: loading: 'lazy', widths: '120, 240', sizes: '96px', alt: '' }}
+              {%- else -%}
+                {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+            </span>
+            <span class="wp-layers__text">
+              <span class="wp-layers__step">{{ block.settings.step }}</span>
+              <strong>{% if current %}{{ section.settings.current_prefix }} {% endif %}{{ p.title | default: 'Choose a product' }}</strong>
+              {%- if block.settings.note != blank -%}<span>{{ block.settings.note }}</span>{%- endif -%}
+              {%- if p != blank -%}<span class="wp-layers__price">{{ p.price | money }}</span>{%- endif -%}
+            </span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</div>
+
+{% stylesheet %}
+.wp-layers__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.wp-layers__link { display: flex; align-items: center; gap: 16px; padding: 12px; border-radius: var(--wp-radius); background: #FFFFFF; border: 2px solid transparent; color: var(--wp-text); text-decoration: none; height: 100%; }
+.wp-layers__link:hover { border-color: var(--wp-line); }
+.wp-layers__item.is-current .wp-layers__link { border-color: var(--wp-ink); }
+.wp-layers__img { flex: none; width: 96px; height: 120px; border-radius: 8px; }
+.wp-layers__text { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+.wp-layers__text strong { font-size: 15px; color: var(--wp-ink); }
+.wp-layers__step { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.wp-layers__price { font-size: 14px; font-weight: 700; color: var(--wp-ink); }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "WP How to layer it",
+  "class": "wp-section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "How to layer it"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "Build the system around it."
+    },
+    {
+      "type": "text",
+      "id": "current_prefix",
+      "label": "Label before the product being viewed",
+      "default": "This one:"
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Layer",
+      "settings": [
+        {
+          "type": "text",
+          "id": "step",
+          "label": "Step label",
+          "default": "1 · Next to skin"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "label": "Note",
+          "default": "Moves moisture, keeps you dry"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "WP How to layer it",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "step": "1 · Next to skin",
+            "note": "Moves moisture, keeps you dry"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step": "2 · Mid layer",
+            "note": "Traps warmth when you stop"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step": "3 · Feet",
+            "note": "Warm feet, all day"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

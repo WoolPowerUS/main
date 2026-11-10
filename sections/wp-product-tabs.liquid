@@ -1,0 +1,187 @@
+<div class="wp wp-ptabs" id="wp-{{ section.id }}" style="--wp-section-bg: {{ section.settings.background_color }}; --wp-pt: {{ section.settings.padding_top }}px; --wp-pb: {{ section.settings.padding_bottom }}px;">
+  <wp-tabs class="wp__inner">
+    <div class="wp-head">
+      <div class="wp-ptabs__title">
+        {%- if section.settings.heading != blank -%}<h2 class="wp-h2">{{ section.settings.heading }}</h2>{%- endif -%}
+        {%- if section.blocks.size > 1 -%}
+          <div class="wp-ptabs__list" role="tablist" aria-label="{{ section.settings.heading | strip_html | escape }}">
+            {%- for block in section.blocks -%}
+              <button type="button" class="wp-ptabs__tab" role="tab" id="tab-{{ block.id }}" aria-controls="panel-{{ block.id }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" {{ block.shopify_attributes }}>{{ block.settings.label | default: block.settings.collection.title }}</button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+    {%- for block in section.blocks -%}
+      <div class="wp-ptabs__panel" role="tabpanel" id="panel-{{ block.id }}" aria-labelledby="tab-{{ block.id }}" {% unless forloop.first %}hidden{% endunless %}>
+        <div class="wp-grid" style="--wp-cols: {{ section.settings.columns }};">
+          {%- if block.settings.collection != blank -%}
+            {%- for product in block.settings.collection.products limit: section.settings.products_to_show -%}
+              {% render 'wp-product-card', product: product, quick_add: section.settings.quick_add %}
+            {%- endfor -%}
+          {%- else -%}
+            {%- for i in (1..section.settings.products_to_show) -%}
+              <div class="wp-card"><div class="wp-card__media wp-media">{{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}</div><span class="wp-card__title">Choose a collection</span></div>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+        {%- if section.settings.view_all_label != blank and block.settings.collection != blank -%}
+          <div class="wp-ptabs__more"><a class="wp-btn wp-btn--outline" href="{{ block.settings.collection.url }}">{{ section.settings.view_all_label }} {{ block.settings.label | default: block.settings.collection.title }}</a></div>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </wp-tabs>
+</div>
+
+{% stylesheet %}
+.wp-ptabs__title { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.wp-ptabs__list { display: flex; gap: 4px; padding: 4px; border-radius: 999px; background: #FFFFFF; }
+.wp-ptabs__tab { height: 36px; padding: 0 18px; border: 0; border-radius: 999px; background: transparent; color: var(--wp-ink); font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+.wp-ptabs__tab[aria-selected="true"] { background: var(--wp-ink); color: #FFFFFF; }
+.wp-ptabs__tab:focus-visible { outline: 2px solid var(--wp-ink); outline-offset: 2px; }
+.wp-ptabs__more { display: flex; justify-content: center; margin-top: 32px; }
+{% endstylesheet %}
+
+{% javascript %}
+if (!customElements.get('wp-tabs')) {
+  customElements.define('wp-tabs', class extends HTMLElement {
+    connectedCallback() {
+      this.tabs = Array.from(this.querySelectorAll('[role="tab"]'));
+      this.tabs.forEach((tab, i) => {
+        tab.addEventListener('click', () => this.select(i));
+        tab.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+            e.preventDefault();
+            const n = (i + (e.key === 'ArrowRight' ? 1 : -1) + this.tabs.length) % this.tabs.length;
+            this.select(n);
+            this.tabs[n].focus();
+          }
+        });
+      });
+    }
+    select(index) {
+      this.tabs.forEach((tab, i) => {
+        const on = i === index;
+        tab.setAttribute('aria-selected', on ? 'true' : 'false');
+        tab.tabIndex = on ? 0 : -1;
+        const panel = this.querySelector('#' + tab.getAttribute('aria-controls'));
+        if (panel) panel.hidden = !on;
+      });
+    }
+  });
+}
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "WP Product tabs",
+  "class": "wp-section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Cold-weather essentials"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products per tab",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns on desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "quick_add",
+      "label": "Quick add by size",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View all button",
+      "default": "Shop all",
+      "info": "The tab name is added after this text."
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Tab name",
+          "default": "Women"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "WP Product tabs",
+      "blocks": [
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Women"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Men"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

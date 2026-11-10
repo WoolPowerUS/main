@@ -1,0 +1,145 @@
+<div class="wp wp-faq" id="wp-{{ section.id }}" style="--wp-section-bg: {{ section.settings.background_color }}; --wp-pt: {{ section.settings.padding_top }}px; --wp-pb: {{ section.settings.padding_bottom }}px;">
+  <div class="wp__inner wp-faq__wrap">
+    <div class="wp-faq__intro">
+      {%- if section.settings.heading != blank -%}<h2 class="wp-h2">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.text != blank -%}<div class="wp-rte" style="margin-top: 12px">{{ section.settings.text }}</div>{%- endif -%}
+    </div>
+    <div class="wp-faq__list">
+      {%- for block in section.blocks -%}
+        <details class="wp-faq__item" {% if forloop.first and section.settings.open_first %}open{% endif %} {{ block.shopify_attributes }}>
+          <summary>{{ block.settings.question }}<span aria-hidden="true" class="wp-faq__icon"></span></summary>
+          <div class="wp-rte wp-faq__answer">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+  {%- if section.settings.schema_markup and section.blocks.size > 0 -%}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {%- for block in section.blocks -%}
+            {
+              "@type": "Question",
+              "name": {{ block.settings.question | json }},
+              "acceptedAnswer": { "@type": "Answer", "text": {{ block.settings.answer | strip_html | json }} }
+            }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ]
+      }
+    </script>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+.wp-faq__wrap { display: flex; gap: 48px; flex-wrap: wrap; }
+.wp-faq__intro { flex: 1 1 360px; }
+.wp-faq__list { flex: 1 1 480px; }
+.wp-faq__item { border-bottom: 1px solid var(--wp-line); }
+.wp-faq__item summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 56px; padding: 12px 0; cursor: pointer; font-weight: 700; color: var(--wp-ink); }
+.wp-faq__item summary::-webkit-details-marker { display: none; }
+.wp-faq__icon { position: relative; flex: none; width: 14px; height: 14px; }
+.wp-faq__icon::before, .wp-faq__icon::after { content: ""; position: absolute; left: 0; top: 6px; width: 14px; height: 2px; background: currentColor; transition: transform .2s; }
+.wp-faq__icon::after { transform: rotate(90deg); }
+.wp-faq__item[open] .wp-faq__icon::after { transform: rotate(0deg); }
+.wp-faq__answer { padding-bottom: 18px; font-size: 14px; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "WP FAQ",
+  "class": "wp-section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Questions"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first",
+      "label": "Open the first question",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "schema_markup",
+      "label": "Add FAQ data for Google",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Answer</p>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 20,
+  "presets": [
+    {
+      "name": "WP FAQ",
+      "blocks": [
+        {
+          "type": "question"
+        },
+        {
+          "type": "question"
+        },
+        {
+          "type": "question"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

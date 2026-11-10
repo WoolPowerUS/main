@@ -1,0 +1,307 @@
+<div class="wp wp-icons wp-icons--{{ section.settings.style }} wp-icons--{{ section.settings.layout }}" id="wp-{{ section.id }}" style="--wp-section-bg: {{ section.settings.background_color }}; --wp-pt: {{ section.settings.padding_top }}px; --wp-pb: {{ section.settings.padding_bottom }}px;">
+  <div class="wp__inner">
+    {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.text != blank -%}
+      <div class="wp-icons__head">
+        {%- if section.settings.eyebrow != blank -%}<span class="wp-eyebrow" style="color: var(--wp-forest)">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="wp-h2 wp-h2--lg" style="margin-top: 8px">{{ section.settings.heading }}</h2>{%- endif -%}
+        {%- if section.settings.text != blank -%}<div class="wp-rte" style="margin-top: 8px">{{ section.settings.text }}</div>{%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="wp-icons__grid" style="--wp-cols: {{ section.settings.columns }}; --wp-icon-color: {{ section.settings.icon_color }};">
+      {%- for block in section.blocks -%}
+        <div class="wp-icons__item" {{ block.shopify_attributes }}>
+          <span class="wp-icons__icon">
+            {%- if block.settings.custom_icon != blank -%}
+              {{ block.settings.custom_icon | image_url: width: 96 | image_tag: loading: 'lazy', alt: '' }}
+            {%- else -%}
+              <svg aria-hidden="true" focusable="false" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="{%- case block.settings.icon -%}{%- when 'thermometer' -%}M12 3v12M8 15a4 4 0 1 0 8 0M12 3a2 2 0 0 1 2 2v8{%- when 'airflow' -%}M4 12c3-6 13-6 16 0M4 12c3 6 13 6 16 0M12 9v6{%- when 'seamless' -%}M7 3h10l3 5-3 2v11H7V10L4 8z{%- when 'shield' -%}M12 3l7 4v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V7z{%- when 'soft' -%}M5 12c2-3 4-3 7 0s5 3 7 0{%- when 'mountain' -%}M3 20l6-12 4 7 3-4 5 9z{%- when 'truck' -%}M3 7h13v10H3zM16 10h3l2 3v4h-5M7 18.5a1.5 1.5 0 1 0 0 .01M18 18.5a1.5 1.5 0 1 0 0 .01{%- when 'exchange' -%}M4 12a8 8 0 0 1 14-5l2 2M20 12a8 8 0 0 1-14 5l-2-2M20 4v5h-5M4 20v-5h5{%- when 'chat' -%}M4 5h16v11H8l-4 4z{%- when 'layers' -%}M12 2v20M5 6l7 4 7-4M5 18l7-4 7 4{%- when 'leaf' -%}M5 19c0-8 6-14 14-14 0 8-6 14-14 14zM5 19l7-7{%- when 'clock' -%}M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2{%- when 'star' -%}M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z{%- when 'snowflake' -%}M12 2v20M4 7l16 10M20 7L4 17M9 4l3 2 3-2M9 20l3-2 3 2{%- when 'check' -%}M5 12l5 5 9-10{%- endcase -%}"></path></svg>
+            {%- endif -%}
+          </span>
+          <span class="wp-icons__text">
+            {%- if block.settings.title != blank -%}<strong>{{ block.settings.title }}</strong>{%- endif -%}
+            {%- if block.settings.text != blank -%}<span>{{ block.settings.text }}</span>{%- endif -%}
+          </span>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+.wp-icons__head { max-width: 640px; margin-bottom: 40px; }
+.wp-icons__grid { display: grid; gap: 32px 24px; grid-template-columns: repeat(var(--wp-cols, 3), minmax(0, 1fr)); }
+.wp-icons--cards .wp-icons__grid { gap: 16px; }
+@media (max-width: 989px) { .wp-icons__grid { grid-template-columns: repeat(min(var(--wp-cols, 3), 2), minmax(0, 1fr)); } }
+@media (max-width: 599px) { .wp-icons__grid { grid-template-columns: 1fr; gap: 20px; } }
+.wp-icons__item { display: flex; flex-direction: column; gap: 10px; }
+.wp-icons--inline .wp-icons__item { flex-direction: row; align-items: center; gap: 16px; }
+.wp-icons--cards .wp-icons__item { background: #FFFFFF; border-radius: var(--wp-radius); padding: 24px; }
+.wp-icons__icon { flex: none; width: 48px; height: 48px; border-radius: 999px; background: #FFFFFF; color: var(--wp-icon-color, var(--wp-forest)); display: flex; align-items: center; justify-content: center; }
+.wp-icons--cards .wp-icons__icon { background: var(--wp-bg); }
+.wp-icons__icon img { width: 26px; height: 26px; object-fit: contain; }
+.wp-icons__text { display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+.wp-icons__text strong { font-size: 15px; color: var(--wp-ink); }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "WP Icon grid",
+  "class": "wp-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns on desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Style",
+      "options": [
+        {
+          "value": "plain",
+          "label": "Plain"
+        },
+        {
+          "value": "cards",
+          "label": "Cards"
+        }
+      ],
+      "default": "plain"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Icon position",
+      "options": [
+        {
+          "value": "stacked",
+          "label": "Above text"
+        },
+        {
+          "value": "inline",
+          "label": "Beside text"
+        }
+      ],
+      "default": "stacked"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "{{ settings.color_palette.color2 }}"
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "thermometer",
+              "label": "Thermometer"
+            },
+            {
+              "value": "airflow",
+              "label": "Airflow"
+            },
+            {
+              "value": "seamless",
+              "label": "Seamless"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "soft",
+              "label": "Soft"
+            },
+            {
+              "value": "mountain",
+              "label": "Mountain"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "exchange",
+              "label": "Exchange"
+            },
+            {
+              "value": "chat",
+              "label": "Chat"
+            },
+            {
+              "value": "layers",
+              "label": "Layers"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "clock",
+              "label": "Clock"
+            },
+            {
+              "value": "star",
+              "label": "Star"
+            },
+            {
+              "value": "snowflake",
+              "label": "Snowflake"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            }
+          ],
+          "default": "check"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon",
+          "label": "Custom icon (optional)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Benefit"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "WP Icon grid",
+      "settings": {
+        "eyebrow": "Why Woolpower",
+        "heading": "Merino that works as hard as you do"
+      },
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "icon": "thermometer",
+            "title": "Regulates temperature",
+            "text": "Warm when you are still, breathable when you move."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "icon": "airflow",
+            "title": "Resists odor",
+            "text": "Wear it for days in the field without the smell."
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "icon": "seamless",
+            "title": "No side seams",
+            "text": "Circular knitted bodies. Nothing to rub under a pack."
+          }
+        }
+      ]
+    },
+    {
+      "name": "WP Service strip",
+      "settings": {
+        "style": "cards",
+        "layout": "inline",
+        "padding_top": 0,
+        "padding_bottom": 64
+      },
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Free shipping",
+            "text": "On US orders over $[X]"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "icon": "exchange",
+            "title": "Free exchanges",
+            "text": "Wrong size? Swap within [X] days"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "icon": "chat",
+            "title": "Real people",
+            "text": "Layering help at [phone or email]"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

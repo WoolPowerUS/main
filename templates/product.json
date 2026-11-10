@@ -528,124 +528,97 @@
         "padding-block-end": 96
       }
     },
-    "facts_band": {
-      "type": "section",
+    "features": {
+      "type": "wp-icon-grid",
+      "settings": {
+        "columns": 4,
+        "background_color": "#FFFFFF",
+        "padding_top": 48,
+        "padding_bottom": 48
+      },
       "blocks": {
-        "group_019": {
-          "type": "group",
+        "f1": {
+          "type": "item",
           "settings": {
-            "gap": 10
-          },
-          "blocks": {
-            "text_017": {
-              "type": "text",
-              "settings": {
-                "text": "<h2>Made in Östersund</h2>",
-                "type_preset": "h5",
-                "width": "100%",
-                "text_color": "#FFFFFF"
-              },
-              "blocks": {}
-            },
-            "text_018": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Knitted from our own Ullfrotté fabric in Sweden, where winter is a way of life.</p>",
-                "type_preset": "rte",
-                "width": "100%",
-                "text_color": "{{ settings.color_palette.background }}"
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "text_017",
-            "text_018"
-          ]
+            "icon": "thermometer",
+            "title": "Warm when still",
+            "text": "Terry loops hold a layer of warm air against you."
+          }
         },
-        "group_022": {
-          "type": "group",
+        "f2": {
+          "type": "item",
           "settings": {
-            "gap": 10
-          },
-          "blocks": {
-            "text_020": {
-              "type": "text",
-              "settings": {
-                "text": "<h2>No side seams</h2>",
-                "type_preset": "h5",
-                "width": "100%",
-                "text_color": "#FFFFFF"
-              },
-              "blocks": {}
-            },
-            "text_021": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Circular knitted bodies, so there's nothing to rub under a pack or harness.</p>",
-                "type_preset": "rte",
-                "width": "100%",
-                "text_color": "{{ settings.color_palette.background }}"
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "text_020",
-            "text_021"
-          ]
+            "icon": "airflow",
+            "title": "Breathes when moving",
+            "text": "Merino moves moisture out before it chills you."
+          }
         },
-        "group_025": {
-          "type": "group",
+        "f3": {
+          "type": "item",
           "settings": {
-            "gap": 10
-          },
-          "blocks": {
-            "text_023": {
-              "type": "text",
-              "settings": {
-                "text": "<h2>Built to last</h2>",
-                "type_preset": "h5",
-                "width": "100%",
-                "text_color": "#FFFFFF"
-              },
-              "blocks": {}
-            },
-            "text_024": {
-              "type": "text",
-              "settings": {
-                "text": "<p>Merino blended with polyamide for durability. Buy it once, wear it for a decade.</p>",
-                "type_preset": "rte",
-                "width": "100%",
-                "text_color": "{{ settings.color_palette.background }}"
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "text_023",
-            "text_024"
-          ]
+            "icon": "seamless",
+            "title": "No side seams",
+            "text": "Nothing to rub under a pack or harness."
+          }
+        },
+        "f4": {
+          "type": "item",
+          "settings": {
+            "icon": "mountain",
+            "title": "Made in Östersund",
+            "text": "Knitted from our own Ullfrotté fabric in Sweden."
+          }
         }
       },
+      "block_order": [
+        "f1",
+        "f2",
+        "f3",
+        "f4"
+      ]
+    },
+    "layering": {
+      "type": "wp-layer-builder",
       "settings": {
-        "content_direction": "row",
-        "vertical_on_mobile": true,
-        "gap": 40,
-        "background_color": "{{ settings.color_palette.color2 }}",
-        "padding-block-start": 72,
-        "padding-block-end": 72
+        "text": "Build the system around it."
+      },
+      "blocks": {
+        "l1": {
+          "type": "step",
+          "settings": {
+            "step": "1 · Next to skin",
+            "product": "womens-zip-turtleneck-200",
+            "note": "Moves moisture, keeps you dry"
+          }
+        },
+        "l2": {
+          "type": "step",
+          "settings": {
+            "step": "2 · Mid layer",
+            "product": "womens-full-zip-jacket-400",
+            "note": "Traps warmth when you stop"
+          }
+        },
+        "l3": {
+          "type": "step",
+          "settings": {
+            "step": "3 · Feet",
+            "product": "womens-socks-skilled-classic-400",
+            "note": "Warm feet, all day"
+          }
+        }
       },
       "block_order": [
-        "group_019",
-        "group_022",
-        "group_025"
+        "l1",
+        "l2",
+        "l3"
       ]
     }
   },
   "order": [
     "main",
-    "facts_band",
+    "features",
+    "layering",
     "product_recommendations_qggXJq"
   ]
 }

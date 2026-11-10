@@ -1,0 +1,292 @@
+<div class="wp wp-hero" id="wp-{{ section.id }}" style="--wp-section-bg: {{ section.settings.background_color }}; --wp-pt: {{ section.settings.padding_top }}px; --wp-pb: {{ section.settings.padding_bottom }}px;">
+  <div class="wp__inner wp__inner--wide">
+    <div class="wp-hero__card wp-hero--{{ section.settings.height }} wp-hero--{{ section.settings.content_position }}" style="--wp-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};">
+      <div class="wp-hero__media">
+        {%- if section.settings.image != blank -%}
+          {%- if section.settings.image_mobile != blank -%}
+            {{ section.settings.image_mobile | image_url: width: 1200 | image_tag: loading: 'eager', fetchpriority: 'high', class: 'wp-hero__img wp-hero__img--mobile', sizes: '100vw', widths: '600, 900, 1200', alt: section.settings.image_mobile.alt }}
+          {%- endif -%}
+          {%- liquid
+            assign hero_class = 'wp-hero__img'
+            if section.settings.image_mobile != blank
+              assign hero_class = 'wp-hero__img wp-hero__img--desktop'
+            endif
+          -%}
+          {{ section.settings.image | image_url: width: 2800 | image_tag: loading: 'eager', fetchpriority: 'high', class: hero_class, sizes: '100vw', widths: '750, 1100, 1500, 2000, 2800', alt: section.settings.image.alt }}
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'wp-hero__img placeholder-svg' }}
+        {%- endif -%}
+      </div>
+      <div class="wp-hero__content">
+        {%- if section.settings.eyebrow != blank -%}<span class="wp-eyebrow" style="--wp-eyebrow: {{ section.settings.eyebrow_color }}">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h1 class="wp-hero__heading">{{ section.settings.heading }}</h1>{%- endif -%}
+        {%- if section.settings.text != blank -%}<p class="wp-hero__text">{{ section.settings.text }}</p>{%- endif -%}
+        {%- if section.blocks.size > 0 -%}
+          <div class="wp-hero__buttons">
+            {%- for block in section.blocks -%}
+              <a class="wp-btn wp-btn--{{ block.settings.style }}" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.show_card and section.settings.card_title != blank -%}
+        <a class="wp-hero__float" href="{{ section.settings.card_link | default: '#layer-finder' }}">
+          <span class="wp-hero__float-icon"><svg aria-hidden="true" focusable="false" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="{%- case 'layers' -%}{%- when 'thermometer' -%}M12 3v12M8 15a4 4 0 1 0 8 0M12 3a2 2 0 0 1 2 2v8{%- when 'airflow' -%}M4 12c3-6 13-6 16 0M4 12c3 6 13 6 16 0M12 9v6{%- when 'seamless' -%}M7 3h10l3 5-3 2v11H7V10L4 8z{%- when 'shield' -%}M12 3l7 4v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V7z{%- when 'soft' -%}M5 12c2-3 4-3 7 0s5 3 7 0{%- when 'mountain' -%}M3 20l6-12 4 7 3-4 5 9z{%- when 'truck' -%}M3 7h13v10H3zM16 10h3l2 3v4h-5M7 18.5a1.5 1.5 0 1 0 0 .01M18 18.5a1.5 1.5 0 1 0 0 .01{%- when 'exchange' -%}M4 12a8 8 0 0 1 14-5l2 2M20 12a8 8 0 0 1-14 5l-2-2M20 4v5h-5M4 20v-5h5{%- when 'chat' -%}M4 5h16v11H8l-4 4z{%- when 'layers' -%}M12 2v20M5 6l7 4 7-4M5 18l7-4 7 4{%- when 'leaf' -%}M5 19c0-8 6-14 14-14 0 8-6 14-14 14zM5 19l7-7{%- when 'clock' -%}M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2{%- when 'star' -%}M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z{%- when 'snowflake' -%}M12 2v20M4 7l16 10M20 7L4 17M9 4l3 2 3-2M9 20l3-2 3 2{%- when 'check' -%}M5 12l5 5 9-10{%- endcase -%}"></path></svg></span>
+          <span><strong>{{ section.settings.card_title }}</strong>{%- if section.settings.card_text != blank -%}<span>{{ section.settings.card_text }}</span>{%- endif -%}</span>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+.wp-hero__card { position: relative; display: flex; min-height: var(--wp-hero-h, 640px); border-radius: var(--wp-radius); overflow: hidden; background: #2E3531; }
+.wp-hero--small { --wp-hero-h: 440px; }
+.wp-hero--medium { --wp-hero-h: 560px; }
+.wp-hero--large { --wp-hero-h: 680px; }
+.wp-hero--full { --wp-hero-h: calc(100svh - 140px); }
+.wp-hero--bottom-left { align-items: flex-end; }
+.wp-hero--center-left { align-items: center; }
+.wp-hero--center { align-items: center; justify-content: center; text-align: center; }
+.wp-hero--center .wp-hero__content { align-items: center; }
+.wp-hero__media { position: absolute; inset: 0; }
+.wp-hero__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(20,26,24,var(--wp-overlay)) 0%, rgba(20,26,24,calc(var(--wp-overlay) * 0.4)) 60%, rgba(20,26,24,0) 100%); }
+.wp-hero--center .wp-hero__media::after { background: rgba(20,26,24,var(--wp-overlay)); }
+.wp-hero__img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.wp-hero__img--mobile { display: none; }
+.wp-hero__content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; padding: 56px; max-width: 760px; }
+.wp-hero__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-weight: 800; font-size: clamp(40px, 6vw, 80px); line-height: 1; text-transform: uppercase; color: #FFFFFF; }
+.wp-hero__text { margin: 0; font-size: 18px; color: #F0F4F6; max-width: 480px; }
+.wp-hero__buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+.wp-hero__float { position: absolute; right: 24px; bottom: 24px; z-index: 1; display: flex; align-items: center; gap: 16px; max-width: 320px; padding: 18px 20px; border-radius: var(--wp-radius); background: #FFFFFF; color: var(--wp-ink); text-decoration: none; text-align: left; box-shadow: 0 8px 24px rgba(31,45,64,0.18); }
+.wp-hero__float strong { display: block; font-size: 14px; }
+.wp-hero__float span span { display: block; font-size: 13px; color: var(--wp-text); }
+.wp-hero__float-icon { flex: none; width: 44px; height: 44px; border-radius: 999px; background: var(--wp-bg); display: flex; align-items: center; justify-content: center; color: var(--wp-forest); }
+@media (max-width: 749px) {
+  .wp-hero__card { min-height: min(var(--wp-hero-h, 640px), 560px); flex-direction: column; justify-content: flex-end; }
+  .wp-hero__img--mobile { display: block; }
+  .wp-hero__img--desktop { display: none; }
+  .wp-hero__media::after { background: linear-gradient(0deg, rgba(20,26,24,var(--wp-overlay)) 0%, rgba(20,26,24,calc(var(--wp-overlay) * 0.3)) 70%); }
+  .wp-hero__content { padding: 28px 20px; }
+  .wp-hero__float { position: relative; right: auto; bottom: auto; margin: 0 12px 12px; max-width: none; }
+  .wp-hero__buttons .wp-btn { flex: 1 1 auto; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "WP Hero",
+  "class": "wp-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image (optional)"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Image shade",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 55
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Height",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "full",
+          "label": "Full screen"
+        }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Text position",
+      "options": [
+        {
+          "value": "bottom-left",
+          "label": "Bottom left"
+        },
+        {
+          "value": "center-left",
+          "label": "Middle left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "bottom-left"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Merino base and mid layers"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "{{ settings.color_palette.color7 }}"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Built for<br>real cold"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Warm when you're still. Breathable when you move. Made in Östersund, Sweden."
+    },
+    {
+      "type": "header",
+      "content": "Helper card"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_card",
+      "label": "Show helper card",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "card_title",
+      "label": "Card title",
+      "default": "Not sure which weight?"
+    },
+    {
+      "type": "text",
+      "id": "card_text",
+      "label": "Card text",
+      "default": "Find your layer in 2 taps"
+    },
+    {
+      "type": "url",
+      "id": "card_link",
+      "label": "Card link"
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "Autumn red"
+            },
+            {
+              "value": "light",
+              "label": "White"
+            },
+            {
+              "value": "outline-light",
+              "label": "Outline"
+            }
+          ],
+          "default": "primary"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "WP Hero",
+      "blocks": [
+        {
+          "type": "button",
+          "settings": {
+            "label": "Shop women",
+            "style": "primary"
+          }
+        },
+        {
+          "type": "button",
+          "settings": {
+            "label": "Shop men",
+            "style": "light"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
