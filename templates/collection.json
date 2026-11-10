@@ -31,81 +31,17 @@
             "max_width": "narrow"
           },
           "blocks": {}
-        },
-        "group_008": {
-          "type": "group",
-          "settings": {
-            "content_direction": "row",
-            "vertical_on_mobile": false,
-            "gap": 8,
-            "padding-block-start": 16
-          },
-          "blocks": {
-            "button_003": {
-              "type": "button",
-              "settings": {
-                "label": "LITE",
-                "link": "shopify://collections/lite",
-                "style_class": "button-secondary"
-              },
-              "blocks": {}
-            },
-            "button_004": {
-              "type": "button",
-              "settings": {
-                "label": "Base layer",
-                "link": "shopify://collections/base-layer",
-                "style_class": "button-secondary"
-              },
-              "blocks": {}
-            },
-            "button_005": {
-              "type": "button",
-              "settings": {
-                "label": "Mid layer",
-                "link": "shopify://collections/mid-layer",
-                "style_class": "button-secondary"
-              },
-              "blocks": {}
-            },
-            "button_006": {
-              "type": "button",
-              "settings": {
-                "label": "Socks",
-                "link": "shopify://collections/socks",
-                "style_class": "button-secondary"
-              },
-              "blocks": {}
-            },
-            "button_007": {
-              "type": "button",
-              "settings": {
-                "label": "Hunting kit",
-                "link": "shopify://collections/hunting-kit",
-                "style_class": "button-secondary"
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "button_003",
-            "button_004",
-            "button_005",
-            "button_006",
-            "button_007"
-          ]
         }
       },
       "settings": {
         "gap": 16,
         "background_color": "{{ settings.color_palette.background }}",
         "padding-block-start": 48,
-        "padding-block-end": 16
+        "padding-block-end": 8
       },
       "block_order": [
         "text_001",
-        "text_002",
-        "group_008"
+        "text_002"
       ]
     },
     "main": {
@@ -191,94 +127,108 @@
         "padding-block-end": 56
       }
     },
-    "weight_help": {
-      "type": "section",
+    "pills": {
+      "type": "wp-category-pills",
+      "settings": {
+        "padding_top": 8,
+        "padding_bottom": 16
+      },
       "blocks": {
-        "group_016": {
-          "type": "group",
+        "p1": {
+          "type": "pill",
           "settings": {
-            "content_direction": "row",
-            "horizontal_alignment": "space-between",
-            "vertical_alignment": "center",
-            "gap": 32,
-            "background_color": "#FFFFFF",
-            "border": "solid",
-            "border_width": 1,
-            "border_color": "#D5DCDF",
-            "border_radius": 4,
-            "padding-block-start": 40,
-            "padding-block-end": 40,
-            "padding-inline-start": 40,
-            "padding-inline-end": 40
-          },
-          "blocks": {
-            "group_014": {
-              "type": "group",
-              "settings": {
-                "gap": 10,
-                "width": "fit-content"
-              },
-              "blocks": {
-                "text_012": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<h2>Not sure which weight?</h2>",
-                    "type_preset": "h3",
-                    "width": "100%",
-                    "text_color": "{{ settings.color_palette.color3 }}"
-                  },
-                  "blocks": {}
-                },
-                "text_013": {
-                  "type": "text",
-                  "settings": {
-                    "text": "<p>Moving hard? Start with LITE. Long days in the cold? 200 next to skin, a 400 over it when you stop moving.</p>",
-                    "type_preset": "rte",
-                    "width": "100%",
-                    "max_width": "narrow"
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "text_012",
-                "text_013"
-              ]
-            },
-            "button_015": {
-              "type": "button",
-              "settings": {
-                "label": "Shop LITE to 400",
-                "link": "shopify://collections/base-layer",
-                "style_class": "button"
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "group_014",
-            "button_015"
-          ]
+            "collection": "base-layer"
+          }
+        },
+        "p2": {
+          "type": "pill",
+          "settings": {
+            "collection": "lite",
+            "label": "LITE"
+          }
+        },
+        "p3": {
+          "type": "pill",
+          "settings": {
+            "collection": "mid-layer"
+          }
+        },
+        "p4": {
+          "type": "pill",
+          "settings": {
+            "collection": "socks"
+          }
+        },
+        "p5": {
+          "type": "pill",
+          "settings": {
+            "collection": "hunting-kit"
+          }
+        },
+        "p6": {
+          "type": "pill",
+          "settings": {
+            "collection": "ullfrotte"
+          }
         }
       },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6"
+      ]
+    },
+    "faq": {
+      "type": "wp-faq",
       "settings": {
-        "content_direction": "row",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "space-between",
-        "vertical_alignment": "center",
-        "gap": 32,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 16,
-        "padding-block-end": 96
+        "heading": "How to choose a base layer",
+        "text": "<p>A base layer sits against your skin and moves moisture away before it cools you. The number is the fabric weight in grams per square metre. A higher number is warmer.</p><p>Most people start with 200 and add a 400 mid layer on colder days. If you sweat hard, go LITE.</p>"
+      },
+      "blocks": {
+        "f1": {
+          "type": "question",
+          "settings": {
+            "question": "Does merino itch?",
+            "answer": "<p>Our fine merino is knitted with soft terry loops on the inside, so it sits gently against skin.</p>"
+          }
+        },
+        "f2": {
+          "type": "question",
+          "settings": {
+            "question": "How should a base layer fit?",
+            "answer": "<p>Close to the body but not tight. If you are between sizes, see the size guide.</p>"
+          }
+        },
+        "f3": {
+          "type": "question",
+          "settings": {
+            "question": "Can I machine wash it?",
+            "answer": "<p>[Care instructions to confirm.]</p>"
+          }
+        },
+        "f4": {
+          "type": "question",
+          "settings": {
+            "question": "What if the size is wrong?",
+            "answer": "<p>Exchanges are free within [X] days.</p>"
+          }
+        }
       },
       "block_order": [
-        "group_016"
+        "f1",
+        "f2",
+        "f3",
+        "f4"
       ]
     }
   },
   "order": [
     "section",
+    "pills",
     "main",
-    "weight_help"
+    "faq"
   ]
 }

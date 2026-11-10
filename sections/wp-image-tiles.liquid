@@ -1,0 +1,198 @@
+<div class="wp wp-itiles" id="wp-{{ section.id }}" style="--wp-section-bg: {{ section.settings.background_color }}; --wp-pt: {{ section.settings.padding_top }}px; --wp-pb: {{ section.settings.padding_bottom }}px;">
+  <div class="wp__inner">
+  {%- if section.settings.eyebrow != blank or section.settings.heading != blank -%}
+    <div class="wp-head">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<span class="wp-eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="wp-h2{% if section.settings.eyebrow != blank %} wp-h2--lg{% endif %}" style="margin-top: 8px">{{ section.settings.heading }}</h2>{%- endif -%}
+      </div>
+      {%- if section.settings.link_label != blank and section.settings.link_url != blank -%}
+        <a class="wp-link" href="{{ section.settings.link_url }}">{{ section.settings.link_label }}</a>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+    <div class="wp-itiles__grid" style="--wp-cols: {{ section.settings.columns }};">
+      {%- for block in section.blocks -%}
+        <a class="wp-itiles__item wp-itiles__item--{{ section.settings.aspect }}" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 25vw, 80vw', widths: '400, 700, 1000', alt: '' }}
+          {%- else -%}
+            {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+          <span class="wp-itiles__text">
+            <span class="wp-itiles__title">{{ block.settings.title }}</span>
+            {%- if block.settings.text != blank -%}<span>{{ block.settings.text }}</span>{%- endif -%}
+          </span>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+.wp-itiles__grid { display: grid; gap: 16px; grid-template-columns: repeat(var(--wp-cols, 4), minmax(0, 1fr)); }
+@media (max-width: 989px) { .wp-itiles__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 599px) { .wp-itiles__grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -16px; padding-inline: 16px; } .wp-itiles__item { flex: 0 0 78%; scroll-snap-align: start; } }
+.wp-itiles__item { position: relative; display: block; overflow: hidden; border-radius: var(--wp-radius); background: #2E3531; text-decoration: none; }
+.wp-itiles__item--portrait { aspect-ratio: 3 / 4; }
+.wp-itiles__item--square { aspect-ratio: 1 / 1; }
+.wp-itiles__item--landscape { aspect-ratio: 4 / 3; }
+.wp-itiles__item img, .wp-itiles__item svg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+.wp-itiles__item:hover img { transform: scale(1.03); }
+.wp-itiles__item::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(20,26,24,0.7) 0%, rgba(20,26,24,0) 55%); }
+.wp-itiles__text { position: absolute; left: 20px; right: 20px; bottom: 20px; z-index: 1; display: flex; flex-direction: column; gap: 4px; color: #F0F4F6; font-size: 13px; }
+.wp-itiles__title { font-size: 22px; font-weight: 800; color: #FFFFFF; text-transform: uppercase; line-height: 1.15; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "WP Image tiles",
+  "class": "wp-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by activity"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns on desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "aspect",
+      "label": "Tile shape",
+      "options": [
+        {
+          "value": "portrait",
+          "label": "Portrait"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        },
+        {
+          "value": "landscape",
+          "label": "Landscape"
+        }
+      ],
+      "default": "portrait"
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Tile",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Activity"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "WP Image tiles",
+      "blocks": [
+        {
+          "type": "tile",
+          "settings": {
+            "title": "Hunting",
+            "text": "Quiet, warm, odor resistant"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "title": "Work outdoors",
+            "text": "For long shifts in the cold"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "title": "Snow",
+            "text": "Ski touring, ice fishing, snowshoe"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "title": "Everyday",
+            "text": "Commutes, travel, dog walks"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

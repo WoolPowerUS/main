@@ -1,0 +1,157 @@
+{%- doc -%}
+  Woolpower product card: image with hover image, weight badge, quick add by size, color swatches, title, use and price.
+
+  @param {product} product - The product to show
+  @param {boolean} [quick_add] - Show size buttons on hover (default true)
+  @param {string} [image_loading] - lazy or eager (default lazy)
+{%- enddoc -%}
+
+{%- liquid
+  assign quick_add = quick_add | default: true
+  assign image_loading = image_loading | default: 'lazy'
+
+  assign weight = ''
+  assign title_words = product.title | upcase | split: ' '
+  for w in title_words
+    if w == 'LITE' or w == '200' or w == '400' or w == '600' or w == '800'
+      assign weight = w
+    endif
+  endfor
+
+  case weight
+    when 'LITE'
+      assign use = 'Thinnest. For hard effort'
+    when '200'
+      assign use = 'Everyday base layer'
+    when '400'
+      assign use = 'Mid layer warmth'
+    when '600'
+      assign use = 'Warm, for low activity'
+    when '800'
+      assign use = 'Warmest. For standing still'
+    else
+      assign use = product.type
+  endcase
+
+  assign color_option = nil
+  assign size_option = nil
+  for option in product.options_with_values
+    assign oname = option.name | downcase
+    if oname == 'color' or oname == 'colour' or oname == 'färg'
+      assign color_option = option
+    elsif oname == 'size' or oname == 'storlek'
+      assign size_option = option
+    endif
+  endfor
+
+  assign first_color = ''
+  assign color_idx = 0
+  assign size_idx = 0
+  if color_option
+    assign first_color = color_option.values.first
+    assign color_idx = color_option.position | minus: 1
+  endif
+  if size_option
+    assign size_idx = size_option.position | minus: 1
+  endif
+-%}
+
+<div class="wp-card">
+  <div class="wp-card__media wp-media">
+    <a href="{{ product.url }}" aria-label="{{ product.title | escape }}" tabindex="-1">
+      {%- if product.featured_media -%}
+        {{ product.featured_media | image_url: width: 900 | image_tag: loading: image_loading, sizes: '(min-width: 990px) 25vw, 50vw', widths: '360, 540, 720, 900', alt: product.featured_media.alt | default: product.title }}
+        {%- if product.media.size > 1 -%}
+          {{ product.media[1] | image_url: width: 900 | image_tag: loading: 'lazy', class: 'wp-card__alt', sizes: '(min-width: 990px) 25vw, 50vw', widths: '360, 540, 720, 900', alt: '' }}
+        {%- endif -%}
+      {%- else -%}
+        {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    </a>
+    {%- if weight != '' -%}
+      <span class="wp-card__badge wp-badge wp-badge--{{ weight | downcase }}">{{ weight }}</span>
+    {%- endif -%}
+
+    {%- if quick_add and product.available and size_option -%}
+      <form class="wp-card__quick" action="{{ routes.cart_add_url }}" method="post">
+        <input type="hidden" name="quantity" value="1">
+        <span class="wp-card__quick-label">Quick add{% if first_color != '' %} · {{ first_color }}{% endif %}</span>
+        <div class="wp-card__sizes">
+          {%- for variant in product.variants -%}
+            {%- liquid
+              assign show = true
+              if color_option
+                assign vcolor = variant.options[color_idx]
+                if vcolor != first_color
+                  assign show = false
+                endif
+              endif
+            -%}
+            {%- if show -%}
+              {%- assign vsize = variant.options[size_idx] -%}
+              <button
+                type="submit"
+                name="id"
+                value="{{ variant.id }}"
+                class="wp-card__size"
+                aria-label="Add size {{ vsize | escape }} to cart"
+                {% unless variant.available %}disabled{% endunless %}
+              >
+                {{ vsize }}
+              </button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </form>
+    {%- endif -%}
+  </div>
+
+  {%- if color_option and color_option.values.size > 0 -%}
+    <div class="wp-card__swatches">
+      {%- for value in color_option.values limit: 4 -%}
+        {%- liquid
+          assign v = value | downcase
+          assign hex = '#9AA0A2'
+          if v contains 'black' or v contains 'svart'
+            assign hex = '#1A1A1A'
+          elsif v contains 'navy' or v contains 'blue'
+            assign hex = '#1F2D40'
+          elsif v contains 'green' or v contains 'grön'
+            assign hex = '#414A44'
+          elsif v contains 'melange' or v contains 'light grey'
+            assign hex = '#9AA0A2'
+          elsif v contains 'grey' or v contains 'gray' or v contains 'grå'
+            assign hex = '#6E7577'
+          elsif v contains 'red' or v contains 'röd' or v contains 'rust'
+            assign hex = '#8A3B2E'
+          elsif v contains 'orange'
+            assign hex = '#D2691E'
+          elsif v contains 'brown' or v contains 'brun'
+            assign hex = '#6B4F3A'
+          elsif v contains 'white' or v contains 'vit' or v contains 'nature'
+            assign hex = '#F4F1EA'
+          endif
+          if value.swatch.color
+            assign hex = value.swatch.color
+          endif
+        -%}
+        <span class="wp-swatch" style="--sw: {{ hex }}" title="{{ value | escape }}"></span>
+      {%- endfor -%}
+      <span>
+        {%- if color_option.values.size > 1 -%}
+          {{ color_option.values.size }} colors
+        {%- else -%}
+          {{ color_option.values.first }}
+        {%- endif -%}
+      </span>
+    </div>
+  {%- endif -%}
+
+  <a class="wp-card__title" href="{{ product.url }}">{{ product.title }}</a>
+  {%- if use != blank -%}<span class="wp-card__sub">{{ use }}</span>{%- endif -%}
+  <span class="wp-card__price">
+    {%- if product.price_varies -%}From {% endif -%}
+    {{ product.price | money }}
+    {%- if product.compare_at_price > product.price -%}<s>{{ product.compare_at_price | money }}</s>{%- endif -%}
+  </span>
+</div>

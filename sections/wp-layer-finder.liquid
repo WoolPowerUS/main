@@ -1,0 +1,385 @@
+<div class="wp wp-finder" id="wp-{{ section.id }}" style="--wp-section-bg: {{ section.settings.background_color }}; --wp-pt: {{ section.settings.padding_top }}px; --wp-pb: {{ section.settings.padding_bottom }}px;">
+  <div class="wp__inner wp__inner--wide">
+    <wp-finder id="layer-finder" class="wp-finder__card" data-act="{{ section.settings.default_activity }}" data-temp="{{ section.settings.default_temp }}">
+      <div class="wp-finder__q">
+        <div>
+          {%- if section.settings.eyebrow != blank -%}<span class="wp-eyebrow" style="color: var(--wp-forest)">{{ section.settings.eyebrow }}</span>{%- endif -%}
+          {%- if section.settings.heading != blank -%}<h2 class="wp-h2 wp-h2--lg" style="margin-top: 8px">{{ section.settings.heading }}</h2>{%- endif -%}
+        </div>
+        <fieldset class="wp-finder__group">
+          <legend>{{ section.settings.q1 }}</legend>
+          <div class="wp-finder__opts">
+            {%- for i in (1..3) -%}
+              {%- capture key -%}activity_{{ i }}{%- endcapture -%}
+              {%- if section.settings[key] != blank -%}
+                <button type="button" class="wp-pill" data-q="act" data-v="{{ i }}" aria-pressed="false">{{ section.settings[key] }}</button>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </fieldset>
+        <fieldset class="wp-finder__group">
+          <legend>{{ section.settings.q2 }}</legend>
+          <div class="wp-finder__opts">
+            {%- for i in (1..3) -%}
+              {%- capture key -%}temp_{{ i }}{%- endcapture -%}
+              {%- if section.settings[key] != blank -%}
+                <button type="button" class="wp-pill" data-q="temp" data-v="{{ i }}" aria-pressed="false">{{ section.settings[key] }}</button>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </fieldset>
+      </div>
+      <div class="wp-finder__a" aria-live="polite">
+        {%- for block in section.blocks -%}
+          <div class="wp-finder__rec" data-act="{{ block.settings.activity }}" data-temp="{{ block.settings.temperature }}" {% unless forloop.first %}hidden{% endunless %} {{ block.shopify_attributes }}>
+            <span class="wp-media wp-finder__img">
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 400', sizes: '160px', alt: '' }}
+              {%- else -%}
+                {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+            </span>
+            <div class="wp-finder__body">
+              <span class="wp-eyebrow" style="color: var(--wp-yellow)">{{ section.settings.result_label }}</span>
+              <span class="wp-finder__title">{{ block.settings.title }}</span>
+              {%- if block.settings.text != blank -%}<span class="wp-finder__text">{{ block.settings.text }}</span>{%- endif -%}
+              {%- if block.settings.button_label != blank -%}<a class="wp-btn wp-btn--primary" href="{{ block.settings.button_link | default: '#' }}">{{ block.settings.button_label }}</a>{%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </wp-finder>
+  </div>
+</div>
+
+{% stylesheet %}
+.wp-finder__card { display: flex; flex-wrap: wrap; overflow: hidden; border-radius: var(--wp-radius); background: #FFFFFF; scroll-margin-top: 100px; }
+.wp-finder__q { flex: 1 1 520px; padding: 56px; display: flex; flex-direction: column; gap: 28px; }
+.wp-finder__group { border: 0; margin: 0; padding: 0; }
+.wp-finder__group legend { padding: 0; margin-bottom: 12px; font-size: 14px; font-weight: 700; color: var(--wp-ink); }
+.wp-finder__opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.wp-finder__a { flex: 1 1 420px; display: flex; align-items: center; padding: 56px; background: var(--wp-forest); color: #F0F4F6; }
+.wp-finder__rec { display: flex; flex-wrap: wrap; align-items: center; gap: 28px; width: 100%; }
+.wp-finder__rec[hidden] { display: none; }
+.wp-finder__img { flex: none; width: 160px; aspect-ratio: 4 / 5; border-radius: 10px; }
+.wp-finder__body { flex: 1 1 200px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.wp-finder__title { font-size: 30px; font-weight: 800; line-height: 1.1; color: #FFFFFF; text-transform: uppercase; }
+.wp-finder__text { font-size: 15px; }
+.wp-finder__body .wp-btn { margin-top: 8px; }
+@media (max-width: 749px) {
+  .wp-finder__q, .wp-finder__a { padding: 28px 20px; }
+  .wp-finder__img { width: 112px; }
+  .wp-finder__title { font-size: 24px; }
+}
+{% endstylesheet %}
+
+{% javascript %}
+if (!customElements.get('wp-finder')) {
+  customElements.define('wp-finder', class extends HTMLElement {
+    connectedCallback() {
+      this.state = { act: this.dataset.act || '1', temp: this.dataset.temp || '1' };
+      this.querySelectorAll('[data-q]').forEach((btn) => {
+        btn.addEventListener('click', () => { this.state[btn.dataset.q] = btn.dataset.v; this.update(); });
+      });
+      this.update();
+    }
+    update() {
+      const { act, temp } = this.state;
+      this.querySelectorAll('[data-q]').forEach((btn) => {
+        btn.setAttribute('aria-pressed', this.state[btn.dataset.q] === btn.dataset.v ? 'true' : 'false');
+      });
+      const recs = Array.from(this.querySelectorAll('.wp-finder__rec'));
+      const score = (r) => {
+        const a = r.dataset.act, t = r.dataset.temp;
+        if ((a !== 'any' && a !== act) || (t !== 'any' && t !== temp)) return -1;
+        return (a === act ? 2 : 0) + (t === temp ? 1 : 0);
+      };
+      let best = null, bestScore = -1;
+      recs.forEach((r) => { const s = score(r); if (s > bestScore) { best = r; bestScore = s; } });
+      if (!best) best = recs[0];
+      recs.forEach((r) => { r.hidden = r !== best; });
+    }
+  });
+}
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "WP Layer finder",
+  "class": "wp-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Layer finder"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Find your weight in two taps"
+    },
+    {
+      "type": "header",
+      "content": "Question 1"
+    },
+    {
+      "type": "text",
+      "id": "q1",
+      "label": "Question",
+      "default": "1. What will you be doing?"
+    },
+    {
+      "type": "text",
+      "id": "activity_1",
+      "label": "Option 1",
+      "default": "Moving hard"
+    },
+    {
+      "type": "text",
+      "id": "activity_2",
+      "label": "Option 2",
+      "default": "Stop and go"
+    },
+    {
+      "type": "text",
+      "id": "activity_3",
+      "label": "Option 3",
+      "default": "Standing still"
+    },
+    {
+      "type": "select",
+      "id": "default_activity",
+      "label": "Selected at start",
+      "options": [
+        {
+          "value": "1",
+          "label": "Option 1"
+        },
+        {
+          "value": "2",
+          "label": "Option 2"
+        },
+        {
+          "value": "3",
+          "label": "Option 3"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "header",
+      "content": "Question 2"
+    },
+    {
+      "type": "text",
+      "id": "q2",
+      "label": "Question",
+      "default": "2. How cold does it get?"
+    },
+    {
+      "type": "text",
+      "id": "temp_1",
+      "label": "Option 1",
+      "default": "Cool"
+    },
+    {
+      "type": "text",
+      "id": "temp_2",
+      "label": "Option 2",
+      "default": "Cold"
+    },
+    {
+      "type": "text",
+      "id": "temp_3",
+      "label": "Option 3",
+      "default": "Deep cold"
+    },
+    {
+      "type": "select",
+      "id": "default_temp",
+      "label": "Selected at start",
+      "options": [
+        {
+          "value": "1",
+          "label": "Option 1"
+        },
+        {
+          "value": "2",
+          "label": "Option 2"
+        },
+        {
+          "value": "3",
+          "label": "Option 3"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "header",
+      "content": "Answer"
+    },
+    {
+      "type": "text",
+      "id": "result_label",
+      "label": "Answer label",
+      "default": "Your layer"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add one Recommendation block per answer. The most specific match wins, so a block set to Any works as a fallback."
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "recommendation",
+      "name": "Recommendation",
+      "settings": [
+        {
+          "type": "select",
+          "id": "activity",
+          "label": "Show for question 1 answer",
+          "options": [
+            {
+              "value": "any",
+              "label": "Any"
+            },
+            {
+              "value": "1",
+              "label": "Option 1"
+            },
+            {
+              "value": "2",
+              "label": "Option 2"
+            },
+            {
+              "value": "3",
+              "label": "Option 3"
+            }
+          ],
+          "default": "any"
+        },
+        {
+          "type": "select",
+          "id": "temperature",
+          "label": "Show for question 2 answer",
+          "options": [
+            {
+              "value": "any",
+              "label": "Any"
+            },
+            {
+              "value": "1",
+              "label": "Option 1"
+            },
+            {
+              "value": "2",
+              "label": "Option 2"
+            },
+            {
+              "value": "3",
+              "label": "Option 3"
+            }
+          ],
+          "default": "any"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "200"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop 200"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "WP Layer finder",
+      "blocks": [
+        {
+          "type": "recommendation",
+          "settings": {
+            "activity": "any",
+            "temperature": "any",
+            "title": "200",
+            "text": "Terry loops trap warmth when you stop and breathe when you move.",
+            "button_label": "Shop 200"
+          }
+        },
+        {
+          "type": "recommendation",
+          "settings": {
+            "activity": "1",
+            "temperature": "any",
+            "title": "LITE",
+            "text": "Our thinnest rib knit moves sweat fast, so you stay dry on the climb.",
+            "button_label": "Shop LITE"
+          }
+        },
+        {
+          "type": "recommendation",
+          "settings": {
+            "activity": "3",
+            "temperature": "any",
+            "title": "200 + 400",
+            "text": "A 200 next to skin with a 400 jacket over it for long, still hours.",
+            "button_label": "Shop the system"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
