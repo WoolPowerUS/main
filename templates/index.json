@@ -9,293 +9,980 @@
  */
 {
   "sections": {
-    "hero_jVaWmY": {
+    "hero_007": {
       "type": "hero",
       "blocks": {
-        "text_YLPk4p": {
+        "text_001": {
           "type": "text",
-          "name": "t:names.heading",
           "settings": {
-            "text": "<p>Browse our latest products</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h1",
+            "text": "<p>Merino base and mid layers</p>",
+            "type_preset": "custom",
             "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "text_color": "{{ settings.color_palette.background }}",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "font_size": "0.75rem",
+            "letter_spacing": "loose",
+            "case": "uppercase",
+            "width": "100%",
+            "text_color": "{{ settings.color_palette.color7 }}"
+          },
+          "name": "Eyebrow",
+          "blocks": {}
+        },
+        "text_002": {
+          "type": "text",
+          "settings": {
+            "text": "<h1>Built for real cold</h1>",
+            "type_preset": "custom",
+            "width": "100%",
+            "font": "var(--font-heading--family)",
+            "font_size": "5.5rem",
+            "line_height": "tight",
+            "case": "uppercase",
+            "text_color": "#FFFFFF",
+            "max_width": "normal"
           },
           "blocks": {}
         },
-        "button_H9gpTf": {
-          "type": "button",
-          "name": "t:names.button",
+        "text_003": {
+          "type": "text",
           "settings": {
-            "label": "Shop all",
-            "link": "shopify://collections/all",
-            "open_in_new_tab": false,
-            "style_class": "button-custom",
-            "custom_button_background": "rgba(0,0,0,0)",
-            "custom_button_text": "{{ settings.color_palette.background }}",
-            "custom_button_border": "{{ settings.color_palette.background }}",
-            "link_text_color": "",
-            "width": "fit-content",
-            "custom_width": 100,
-            "width_mobile": "fit-content",
-            "custom_width_mobile": 100
+            "text": "<p>Warm when you're still, breathable when you move. Made in Östersund, Sweden, for the long shift and the early start.</p>",
+            "type_preset": "custom",
+            "width": "100%",
+            "font": "var(--font-body--family)",
+            "font_size": "1.125rem",
+            "line_height": "loose",
+            "text_color": "{{ settings.color_palette.background }}",
+            "max_width": "narrow"
           },
           "blocks": {}
+        },
+        "group_006": {
+          "type": "group",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": false,
+            "gap": 12,
+            "width": "fit-content",
+            "width_mobile": "fit-content",
+            "padding-block-start": 12
+          },
+          "blocks": {
+            "button_004": {
+              "type": "button",
+              "settings": {
+                "label": "Shop men",
+                "link": "shopify://collections/men",
+                "style_class": "button"
+              },
+              "blocks": {}
+            },
+            "button_005": {
+              "type": "button",
+              "settings": {
+                "label": "Shop women",
+                "link": "shopify://collections/women",
+                "style_class": "button-custom",
+                "custom_button_background": "rgba(0,0,0,0)",
+                "custom_button_text": "{{ settings.color_palette.background }}",
+                "custom_button_border": "{{ settings.color_palette.background }}"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "button_004",
+            "button_005"
+          ]
         }
       },
-      "block_order": [
-        "text_YLPk4p",
-        "button_H9gpTf"
-      ],
-      "name": "t:names.hero",
       "settings": {
-        "media_type_1": "image",
-        "media_type_2": "image",
-        "stack_media_on_mobile": false,
-        "custom_mobile_media": false,
-        "media_type_1_mobile": "image",
-        "media_type_2_mobile": "image",
-        "link": "",
-        "open_in_new_tab": false,
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "space-between",
-        "vertical_alignment": "flex-end",
-        "align_baseline": true,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "flex-end",
-        "gap": 24,
-        "section_width": "page-width",
-        "section_height": "medium",
-        "section_height_custom": 50,
-        "background_color": "rgba(0,0,0,0)",
+        "section_height": "large",
+        "section_width": "full-width",
+        "background_color": "{{ settings.color_palette.color2 }}",
         "toggle_overlay": true,
-        "overlay_color": "#12121266",
-        "overlay_style": "solid",
-        "gradient_direction": "to bottom",
-        "blurred_reflection": false,
-        "reflection_opacity": 75,
+        "overlay_color": "#1F2D4059",
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "flex-end",
+        "gap": 20,
         "padding-block-start": 100,
-        "padding-block-end": 72
-      }
+        "padding-block-end": 88
+      },
+      "block_order": [
+        "text_001",
+        "text_002",
+        "text_003",
+        "group_006"
+      ]
     },
-    "product_list_fa6P9H": {
+    "section_020": {
+      "type": "section",
+      "blocks": {
+        "group_010": {
+          "type": "group",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": false,
+            "vertical_alignment": "center",
+            "gap": 14
+          },
+          "blocks": {
+            "icon_008": {
+              "type": "icon",
+              "settings": {
+                "icon": "star",
+                "width": 28,
+                "icon_color": "{{ settings.color_palette.color2 }}"
+              },
+              "blocks": {}
+            },
+            "text_009": {
+              "type": "text",
+              "settings": {
+                "text": "<p><strong>Trusted by militaries</strong><br>Issued for decades</p>",
+                "type_preset": "rte",
+                "width": "100%"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "icon_008",
+            "text_009"
+          ]
+        },
+        "group_013": {
+          "type": "group",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": false,
+            "vertical_alignment": "center",
+            "gap": 14
+          },
+          "blocks": {
+            "icon_011": {
+              "type": "icon",
+              "settings": {
+                "icon": "map_pin",
+                "width": 28,
+                "icon_color": "{{ settings.color_palette.color2 }}"
+              },
+              "blocks": {}
+            },
+            "text_012": {
+              "type": "text",
+              "settings": {
+                "text": "<p><strong>Made in Östersund</strong><br>Knitted and sewn in Sweden</p>",
+                "type_preset": "rte",
+                "width": "100%"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "icon_011",
+            "text_012"
+          ]
+        },
+        "group_016": {
+          "type": "group",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": false,
+            "vertical_alignment": "center",
+            "gap": 14
+          },
+          "blocks": {
+            "icon_014": {
+              "type": "icon",
+              "settings": {
+                "icon": "shirt",
+                "width": 28,
+                "icon_color": "{{ settings.color_palette.color2 }}"
+              },
+              "blocks": {}
+            },
+            "text_015": {
+              "type": "text",
+              "settings": {
+                "text": "<p><strong>No side seams</strong><br>Circular knitted bodies</p>",
+                "type_preset": "rte",
+                "width": "100%"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "icon_014",
+            "text_015"
+          ]
+        },
+        "group_019": {
+          "type": "group",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": false,
+            "vertical_alignment": "center",
+            "gap": 14
+          },
+          "blocks": {
+            "icon_017": {
+              "type": "icon",
+              "settings": {
+                "icon": "stopwatch",
+                "width": 28,
+                "icon_color": "{{ settings.color_palette.color2 }}"
+              },
+              "blocks": {}
+            },
+            "text_018": {
+              "type": "text",
+              "settings": {
+                "text": "<p><strong>Buy it once</strong><br>Wear it for a decade</p>",
+                "type_preset": "rte",
+                "width": "100%"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "icon_017",
+            "text_018"
+          ]
+        }
+      },
+      "settings": {
+        "content_direction": "row",
+        "vertical_on_mobile": true,
+        "gap": 24,
+        "background_color": "#FFFFFF",
+        "border": "solid",
+        "border_width": 1,
+        "border_color": "#D5DCDF",
+        "padding-block-start": 28,
+        "padding-block-end": 28
+      },
+      "block_order": [
+        "group_010",
+        "group_013",
+        "group_016",
+        "group_019"
+      ]
+    },
+    "section_047": {
+      "type": "section",
+      "blocks": {
+        "group_025": {
+          "type": "group",
+          "settings": {
+            "content_direction": "row",
+            "horizontal_alignment": "space-between",
+            "vertical_alignment": "flex-end",
+            "align_baseline": false,
+            "gap": 24
+          },
+          "blocks": {
+            "group_023": {
+              "type": "group",
+              "settings": {
+                "gap": 14,
+                "width": "fit-content"
+              },
+              "blocks": {
+                "text_021": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h2>Choose your weight</h2>",
+                    "type_preset": "h2",
+                    "width": "100%",
+                    "text_color": "{{ settings.color_palette.color3 }}"
+                  },
+                  "blocks": {}
+                },
+                "text_022": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>The number is the fabric weight. Go thinner when you move a lot, heavier when you stand still in the cold.</p>",
+                    "type_preset": "rte",
+                    "width": "100%",
+                    "max_width": "narrow"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_021",
+                "text_022"
+              ]
+            },
+            "button_024": {
+              "type": "button",
+              "settings": {
+                "label": "Shop all layers",
+                "link": "shopify://collections/base-layer",
+                "style_class": "button-unstyled"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "group_023",
+            "button_024"
+          ]
+        },
+        "group_046": {
+          "type": "group",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "gap": 0,
+            "vertical_alignment": "flex-start"
+          },
+          "blocks": {
+            "group_029": {
+              "type": "group",
+              "settings": {
+                "gap": 10,
+                "link": "shopify://collections/lite",
+                "background_color": "{{ settings.color_palette.background }}",
+                "border": "solid",
+                "border_width": 1,
+                "border_color": "#D5DCDF",
+                "padding-block-start": 28,
+                "padding-block-end": 32,
+                "padding-inline-start": 24,
+                "padding-inline-end": 24
+              },
+              "blocks": {
+                "text_026": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>LITE</p>",
+                    "type_preset": "custom",
+                    "width": "100%",
+                    "font": "var(--font-heading--family)",
+                    "font_size": "3rem",
+                    "line_height": "tight",
+                    "text_color": "{{ settings.color_palette.color3 }}"
+                  },
+                  "blocks": {}
+                },
+                "text_027": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Thinnest base layer</p>",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.75rem",
+                    "letter_spacing": "loose",
+                    "case": "uppercase",
+                    "width": "100%",
+                    "text_color": "{{ settings.color_palette.color2 }}"
+                  },
+                  "name": "Eyebrow",
+                  "blocks": {}
+                },
+                "text_028": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Rib knit for high output and year-round use.</p>",
+                    "type_preset": "rte",
+                    "width": "100%"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_026",
+                "text_027",
+                "text_028"
+              ]
+            },
+            "group_033": {
+              "type": "group",
+              "settings": {
+                "gap": 10,
+                "link": "shopify://collections/base-layer",
+                "background_color": "{{ settings.color_palette.background }}",
+                "border": "solid",
+                "border_width": 1,
+                "border_color": "#D5DCDF",
+                "padding-block-start": 28,
+                "padding-block-end": 32,
+                "padding-inline-start": 24,
+                "padding-inline-end": 24
+              },
+              "blocks": {
+                "text_030": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>200</p>",
+                    "type_preset": "custom",
+                    "width": "100%",
+                    "font": "var(--font-heading--family)",
+                    "font_size": "3rem",
+                    "line_height": "tight",
+                    "text_color": "{{ settings.color_palette.color3 }}"
+                  },
+                  "blocks": {}
+                },
+                "text_031": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Everyday base layer</p>",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.75rem",
+                    "letter_spacing": "loose",
+                    "case": "uppercase",
+                    "width": "100%",
+                    "text_color": "{{ settings.color_palette.color2 }}"
+                  },
+                  "name": "Eyebrow",
+                  "blocks": {}
+                },
+                "text_032": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Terry loops inside hold warmth and move moisture out.</p>",
+                    "type_preset": "rte",
+                    "width": "100%"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_030",
+                "text_031",
+                "text_032"
+              ]
+            },
+            "group_037": {
+              "type": "group",
+              "settings": {
+                "gap": 10,
+                "link": "shopify://collections/mid-layer",
+                "background_color": "{{ settings.color_palette.background }}",
+                "border": "solid",
+                "border_width": 1,
+                "border_color": "#D5DCDF",
+                "padding-block-start": 28,
+                "padding-block-end": 32,
+                "padding-inline-start": 24,
+                "padding-inline-end": 24
+              },
+              "blocks": {
+                "text_034": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>400</p>",
+                    "type_preset": "custom",
+                    "width": "100%",
+                    "font": "var(--font-heading--family)",
+                    "font_size": "3rem",
+                    "line_height": "tight",
+                    "text_color": "{{ settings.color_palette.color3 }}"
+                  },
+                  "blocks": {}
+                },
+                "text_035": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Mid layer</p>",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.75rem",
+                    "letter_spacing": "loose",
+                    "case": "uppercase",
+                    "width": "100%",
+                    "text_color": "{{ settings.color_palette.color2 }}"
+                  },
+                  "name": "Eyebrow",
+                  "blocks": {}
+                },
+                "text_036": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Thick terry over a base layer for low activity.</p>",
+                    "type_preset": "rte",
+                    "width": "100%"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_034",
+                "text_035",
+                "text_036"
+              ]
+            },
+            "group_041": {
+              "type": "group",
+              "settings": {
+                "gap": 10,
+                "link": "shopify://collections/mid-layer",
+                "background_color": "{{ settings.color_palette.background }}",
+                "border": "solid",
+                "border_width": 1,
+                "border_color": "#D5DCDF",
+                "padding-block-start": 28,
+                "padding-block-end": 32,
+                "padding-inline-start": 24,
+                "padding-inline-end": 24
+              },
+              "blocks": {
+                "text_038": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>600</p>",
+                    "type_preset": "custom",
+                    "width": "100%",
+                    "font": "var(--font-heading--family)",
+                    "font_size": "3rem",
+                    "line_height": "tight",
+                    "text_color": "{{ settings.color_palette.color3 }}"
+                  },
+                  "blocks": {}
+                },
+                "text_039": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Heavy mid layer</p>",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.75rem",
+                    "letter_spacing": "loose",
+                    "case": "uppercase",
+                    "width": "100%",
+                    "text_color": "{{ settings.color_palette.color2 }}"
+                  },
+                  "name": "Eyebrow",
+                  "blocks": {}
+                },
+                "text_040": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>For long hours standing still in deep cold.</p>",
+                    "type_preset": "rte",
+                    "width": "100%"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_038",
+                "text_039",
+                "text_040"
+              ]
+            },
+            "group_045": {
+              "type": "group",
+              "settings": {
+                "gap": 10,
+                "link": "shopify://collections/socks",
+                "background_color": "{{ settings.color_palette.background }}",
+                "border": "solid",
+                "border_width": 1,
+                "border_color": "#D5DCDF",
+                "padding-block-start": 28,
+                "padding-block-end": 32,
+                "padding-inline-start": 24,
+                "padding-inline-end": 24
+              },
+              "blocks": {
+                "text_042": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>800</p>",
+                    "type_preset": "custom",
+                    "width": "100%",
+                    "font": "var(--font-heading--family)",
+                    "font_size": "3rem",
+                    "line_height": "tight",
+                    "text_color": "{{ settings.color_palette.color3 }}"
+                  },
+                  "blocks": {}
+                },
+                "text_043": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Heaviest socks</p>",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.75rem",
+                    "letter_spacing": "loose",
+                    "case": "uppercase",
+                    "width": "100%",
+                    "text_color": "{{ settings.color_palette.color2 }}"
+                  },
+                  "name": "Eyebrow",
+                  "blocks": {}
+                },
+                "text_044": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Maximum insulation in the boot.</p>",
+                    "type_preset": "rte",
+                    "width": "100%"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "text_042",
+                "text_043",
+                "text_044"
+              ]
+            }
+          },
+          "block_order": [
+            "group_029",
+            "group_033",
+            "group_037",
+            "group_041",
+            "group_045"
+          ]
+        }
+      },
+      "settings": {
+        "gap": 40,
+        "padding-block-start": 96,
+        "padding-block-end": 40,
+        "background_color": "{{ settings.color_palette.background }}"
+      },
+      "block_order": [
+        "group_025",
+        "group_046"
+      ]
+    },
+    "product_list_054": {
       "type": "product-list",
       "blocks": {
         "static-header": {
           "type": "_product-list-content",
-          "name": "t:names.header",
-          "static": true,
           "settings": {
             "content_direction": "row",
             "vertical_on_mobile": false,
             "horizontal_alignment": "space-between",
             "vertical_alignment": "flex-end",
-            "align_baseline": true,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "background_media": "none",
-            "background_color": "",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_color": "",
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "gap": 12
           },
+          "name": "t:names.header",
+          "static": true,
           "blocks": {
-            "product_list_text_YFtzcL": {
+            "product_list_text_048": {
               "type": "_product-list-text",
-              "name": "t:names.collection_title",
               "settings": {
-                "text": "<h3>{{ closest.collection.title }}</h3>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h4",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "text": "<h2>Start with the essentials</h2>",
+                "type_preset": "h2"
               },
               "blocks": {}
             },
-            "product_list_button_MWeP9V": {
+            "product_list_button_049": {
               "type": "_product-list-button",
-              "name": "t:names.product_list_button",
               "settings": {
-                "label": "View all",
-                "open_in_new_tab": false,
-                "style_class": "link",
-                "custom_button_background": "{{ settings.color_palette.foreground }}",
-                "custom_button_text": "{{ settings.color_palette.background }}",
-                "custom_button_border": "{{ settings.color_palette.background }}",
-                "link_text_color": "",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
+                "label": "Shop all base layer",
+                "style_class": "button-unstyled"
               },
               "blocks": {}
             }
           },
           "block_order": [
-            "product_list_text_YFtzcL",
-            "product_list_button_MWeP9V"
+            "product_list_text_048",
+            "product_list_button_049"
           ]
         },
         "static-product-card": {
           "type": "_product-card",
+          "settings": {
+            "product_card_gap": 6
+          },
           "name": "t:names.product_card",
           "static": true,
-          "settings": {
-            "product_card_gap": 4,
-            "background_color": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_color": "",
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
           "blocks": {
-            "product_card_gallery_677WP3": {
+            "product_card_gallery_050": {
               "type": "_product-card-gallery",
-              "name": "t:names.product_card_media",
               "settings": {
-                "image_ratio": "adapt",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_color": "",
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "image_ratio": "portrait",
+                "border_radius": 4
               },
               "blocks": {}
             },
-            "product_title_YXxMTj": {
+            "product_title_051": {
               "type": "product-title",
-              "name": "t:names.product_title",
               "settings": {
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
+                "type_preset": "custom",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "width": "100%"
               },
               "blocks": {}
             },
-            "price_JQzVV4": {
+            "swatches_052": {
+              "type": "swatches",
+              "settings": {},
+              "blocks": {}
+            },
+            "price_053": {
               "type": "price",
-              "name": "t:names.product_price",
               "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "h6",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "text_color": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "type_preset": "paragraph"
               },
               "blocks": {}
             }
           },
           "block_order": [
-            "product_card_gallery_677WP3",
-            "product_title_YXxMTj",
-            "price_JQzVV4"
+            "product_card_gallery_050",
+            "product_title_051",
+            "swatches_052",
+            "price_053"
           ]
         }
       },
-      "name": "t:names.product_list",
       "settings": {
-        "collection": "all",
+        "collection": "base-layer",
         "layout_type": "grid",
-        "carousel_on_mobile": false,
-        "max_products": 8,
+        "max_products": 4,
         "columns": 4,
         "mobile_columns": "2",
-        "mobile_card_size": "60cqw",
-        "columns_gap": 8,
-        "rows_gap": 24,
-        "icons_style": "arrow",
-        "icons_shape": "none",
-        "section_width": "page-width",
-        "horizontal_alignment": "flex-start",
-        "gap": 28,
+        "columns_gap": 24,
+        "rows_gap": 40,
+        "gap": 32,
         "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-start": 72,
+        "padding-block-end": 96
       }
+    },
+    "media_with_content_059": {
+      "type": "media-with-content",
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "settings": {},
+          "static": true,
+          "blocks": {}
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 20
+          },
+          "static": true,
+          "blocks": {
+            "text_055": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Rooted in craft and place</p>",
+                "type_preset": "custom",
+                "font": "var(--font-body--family)",
+                "font_size": "0.75rem",
+                "letter_spacing": "loose",
+                "case": "uppercase",
+                "width": "100%",
+                "text_color": "{{ settings.color_palette.color7 }}"
+              },
+              "name": "Eyebrow",
+              "blocks": {}
+            },
+            "text_056": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>Made in Östersund, Sweden</h2>",
+                "type_preset": "h2",
+                "width": "100%",
+                "text_color": "#FFFFFF"
+              },
+              "blocks": {}
+            },
+            "text_057": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Where winter is not a season, it's a way of life. We knit our own Ullfrotté fabric: fine merino blended with polyamide so it lasts, with terry loops inside that trap warm air against your skin.</p>",
+                "type_preset": "rte",
+                "width": "100%",
+                "text_color": "{{ settings.color_palette.background }}",
+                "max_width": "narrow"
+              },
+              "blocks": {}
+            },
+            "button_058": {
+              "type": "button",
+              "settings": {
+                "label": "How we make it",
+                "link": "",
+                "style_class": "button-custom",
+                "custom_button_background": "rgba(0,0,0,0)",
+                "custom_button_text": "{{ settings.color_palette.background }}",
+                "custom_button_border": "{{ settings.color_palette.background }}"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_055",
+            "text_056",
+            "text_057",
+            "button_058"
+          ]
+        }
+      },
+      "settings": {
+        "media_position": "left",
+        "media_width": "medium",
+        "media_height": "60svh",
+        "section_width": "full-width",
+        "extend_media": true,
+        "background_color": "{{ settings.color_palette.color2 }}"
+      }
+    },
+    "collection_list_064": {
+      "type": "collection-list",
+      "blocks": {
+        "group_062": {
+          "type": "group",
+          "settings": {
+            "gap": 12
+          },
+          "blocks": {
+            "text_060": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>Made for people who go out anyway</h2>",
+                "type_preset": "h2",
+                "width": "100%",
+                "text_color": "{{ settings.color_palette.color3 }}"
+              },
+              "blocks": {}
+            },
+            "text_061": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Hunters at 5am. Linemen in a storm. Skiers on day three. Find the kit for your cold.</p>",
+                "type_preset": "rte",
+                "width": "100%",
+                "max_width": "narrow"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_060",
+            "text_061"
+          ]
+        },
+        "static-collection-card": {
+          "type": "_collection-card",
+          "settings": {
+            "placement": "on_image",
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "flex-end",
+            "border_radius": 4
+          },
+          "name": "t:names.collection_card",
+          "static": true,
+          "blocks": {
+            "collection-card-image": {
+              "type": "_collection-card-image",
+              "settings": {
+                "image_ratio": "portrait"
+              },
+              "name": "t:names.collection_card_image",
+              "static": true,
+              "blocks": {}
+            },
+            "collection_title_063": {
+              "type": "collection-title",
+              "settings": {
+                "type_preset": "h4",
+                "text_color": "#FFFFFF"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "collection_title_063"
+          ]
+        }
+      },
+      "settings": {
+        "collection_list": [
+          "hunting-kit",
+          "base-layer",
+          "socks"
+        ],
+        "layout_type": "grid",
+        "columns": 3,
+        "mobile_columns": "1",
+        "max_collections": 3,
+        "columns_gap": 24,
+        "gap": 32,
+        "background_color": "{{ settings.color_palette.background }}",
+        "padding-block-start": 96,
+        "padding-block-end": 96
+      },
+      "block_order": [
+        "group_062"
+      ]
+    },
+    "section_067": {
+      "type": "section",
+      "blocks": {
+        "text_065": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>Buy it once.<br>Wear it for a decade.</h2>",
+            "type_preset": "custom",
+            "width": "fit-content",
+            "alignment": "center",
+            "font": "var(--font-heading--family)",
+            "font_size": "3.5rem",
+            "line_height": "tight",
+            "case": "uppercase",
+            "text_color": "{{ settings.color_palette.color3 }}"
+          },
+          "blocks": {}
+        },
+        "text_066": {
+          "type": "text",
+          "settings": {
+            "text": "<p>When the wind picks up, you'll feel the difference a single merino layer makes. Not because we tell you to. Because wool has kept people warm for thousands of years.</p>",
+            "type_preset": "custom",
+            "width": "fit-content",
+            "alignment": "center",
+            "font": "var(--font-body--family)",
+            "font_size": "1.125rem",
+            "line_height": "loose",
+            "max_width": "narrow"
+          },
+          "blocks": {}
+        }
+      },
+      "settings": {
+        "horizontal_alignment_flex_direction_column": "center",
+        "gap": 24,
+        "background_color": "#FFFFFF",
+        "border": "solid",
+        "border_width": 1,
+        "border_color": "#D5DCDF",
+        "padding-block-start": 96,
+        "padding-block-end": 96
+      },
+      "block_order": [
+        "text_065",
+        "text_066"
+      ]
     }
   },
   "order": [
-    "hero_jVaWmY",
-    "product_list_fa6P9H"
+    "hero_007",
+    "section_020",
+    "section_047",
+    "product_list_054",
+    "media_with_content_059",
+    "collection_list_064",
+    "section_067"
   ]
 }
