@@ -70,7 +70,7 @@
                         assign img_loading = 'lazy'
                       endif
                     -%}
-                    {{ media | image_url: width: 1600 | image_tag: loading: img_loading, widths: '600, 900, 1200, 1600', sizes: '(min-width: 990px) 50vw, 100vw', alt: media.alt | default: product.title }}
+                    <button type="button" class="wp-pdp__zoom-btn" data-zoom="{{ media | image_url: width: 2400 }}" aria-label="Zoom image {{ forloop.index }}">{{ media | image_url: width: 1600 | image_tag: loading: img_loading, widths: '600, 900, 1200, 1600', sizes: '(min-width: 990px) 50vw, 100vw', alt: media.alt | default: product.title }}</button>
                   {%- else -%}
                     {{ media | media_tag: image_size: '1600x' }}
                 {%- endcase -%}
@@ -81,6 +81,9 @@
           </div>
           {%- if section.settings.show_weight_badge and weight_label != '' -%}
             <span class="wp-badge wp-badge--{{ weight | downcase }} wp-pdp__badge">{{ weight_label }}</span>
+          {%- endif -%}
+          {%- if section.settings.enable_zoom and product.media.size > 0 -%}
+            <span class="wp-pdp__zoom-hint" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4M11 8v6M8 11h6"></path></svg>{{ section.settings.zoom_label }}</span>
           {%- endif -%}
           {%- if product.media.size > 1 -%}
             <div class="wp-pdp__dots" aria-hidden="true">
@@ -264,6 +267,12 @@
         </div>
       {%- endif -%}
 
+      {%- if section.settings.enable_zoom -%}
+        <dialog class="wp-pdp__zoom" data-zoom-dialog aria-label="Zoomed image">
+          <button type="button" class="wp-pdp__zoom-close" data-zoom-close aria-label="Close">×</button>
+          <img alt="" width="1600" height="2000" data-zoom-img>
+        </dialog>
+      {%- endif -%}
       <script type="application/json" data-variants>
         [
           {%- for v in product.variants -%}
@@ -341,7 +350,13 @@ input:checked + .wp-pdp__chip { background: var(--wp-ink); border-color: var(--w
 .wp-pdp__qty button { width: 44px; height: 100%; border: 0; background: transparent; font-size: 18px; color: var(--wp-ink); cursor: pointer; }
 .wp-pdp__qty input { width: 32px; border: 0; background: transparent; text-align: center; font: inherit; font-weight: 700; color: var(--wp-ink); -moz-appearance: textfield; }
 .wp-pdp__qty input::-webkit-inner-spin-button, .wp-pdp__qty input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-.wp-pdp__add { flex: 1 1 auto; min-height: 56px; }
+.wp-pdp__add { flex: 1 1 auto; min-height: 56px; font-size: calc(var(--wp-btn-fs, 13px) + 1px); }
+.wp-pdp__zoom-btn { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+.wp-pdp__zoom-hint { position: absolute; right: 16px; bottom: 16px; display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,0.94); color: var(--wp-ink); font-size: 12px; font-weight: 700; pointer-events: none; }
+.wp-pdp__zoom { width: min(96vw, 1100px); max-height: 94vh; padding: 0; border: 0; border-radius: var(--wp-radius); background: #FFFFFF; overflow: auto; }
+.wp-pdp__zoom::backdrop { background: rgba(31,45,64,0.7); }
+.wp-pdp__zoom img { display: block; width: 100%; height: auto; cursor: zoom-out; }
+.wp-pdp__zoom-close { position: sticky; top: 12px; float: right; margin: 12px 12px -56px 0; z-index: 1; width: 44px; height: 44px; border: 0; border-radius: 999px; background: #FFFFFF; color: var(--wp-ink); font-size: 24px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
 .wp-pdp__add:disabled { background: var(--wp-text); border-color: var(--wp-text); cursor: not-allowed; }
 .wp-pdp__add.is-added { background: var(--wp-forest); border-color: var(--wp-forest); }
 .wp-pdp__dynamic { margin-top: 10px; }
@@ -379,7 +394,7 @@ input:checked + .wp-pdp__chip { background: var(--wp-ink); border-color: var(--w
 @media (max-width: 989px) {
   .wp-pdp { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .wp-pdp__gallery, .wp-pdp__info { position: static; max-width: none; }
-  .wp-pdp__thumbs { display: none; }
+  .wp-pdp__thumbs, .wp-pdp__zoom-hint { display: none; }
   .wp-pdp__gallery { margin-inline: -16px; }
   .wp-pdp__stage { border-radius: 0; }
 }
@@ -414,6 +429,14 @@ if (!customElements.get('wp-product')) {
       this.querySelectorAll('[data-add-id]').forEach((btn) => btn.addEventListener('click', () => {
         const fd = new FormData(); fd.append('id', btn.dataset.addId); fd.append('quantity', '1'); this.add(fd, btn);
       }));
+      const dlg = this.querySelector('[data-zoom-dialog]');
+      if (dlg && dlg.showModal) {
+        this.querySelectorAll('[data-zoom]').forEach((b) => b.addEventListener('click', () => {
+          const img = dlg.querySelector('[data-zoom-img]'); img.src = b.dataset.zoom; img.alt = (b.querySelector('img') || {}).alt || '';
+          dlg.showModal();
+        }));
+        dlg.addEventListener('click', (e) => { if (e.target === dlg || e.target.closest('[data-zoom-close]') || e.target.matches('[data-zoom-img]')) dlg.close(); });
+      }
       this.setupSticky();
       this.updateAvailability();
       this.updateStock(this.currentVariant());
@@ -563,6 +586,18 @@ if (!customElements.get('wp-product')) {
       "label": "Show weight badge on the image",
       "default": true,
       "info": "Read from LITE, 200, 400, 600 or 800 in the product title."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_zoom",
+      "label": "Click image to zoom",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "zoom_label",
+      "label": "Zoom hint",
+      "default": "Click to zoom"
     },
     {
       "type": "checkbox",
