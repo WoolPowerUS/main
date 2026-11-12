@@ -16,9 +16,24 @@
           "type": "text",
           "settings": {
             "text": "<h1>{{ closest.collection.title }}</h1>",
-            "type_preset": "h1",
             "width": "100%",
-            "text_color": "{{ settings.color_palette.color3 }}"
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h1",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "{{ settings.color_palette.color3 }}",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
           "blocks": {}
         },
@@ -26,29 +41,149 @@
           "type": "text",
           "settings": {
             "text": "{{ closest.collection.description }}",
-            "type_preset": "rte",
             "width": "100%",
-            "max_width": "narrow"
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "text_color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
           },
           "blocks": {}
         }
       },
-      "settings": {
-        "gap": 16,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 48,
-        "padding-block-end": 8
-      },
       "block_order": [
         "text_001",
         "text_002"
-      ]
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "{{ settings.color_palette.background }}",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 48,
+        "padding-block-end": 8
+      }
+    },
+    "pills": {
+      "type": "wp-category-pills",
+      "blocks": {
+        "p1": {
+          "type": "pill",
+          "settings": {
+            "collection": "base-layer",
+            "label": "",
+            "link": ""
+          }
+        },
+        "p2": {
+          "type": "pill",
+          "settings": {
+            "collection": "lite",
+            "label": "LITE",
+            "link": ""
+          }
+        },
+        "p3": {
+          "type": "pill",
+          "settings": {
+            "collection": "mid-layer",
+            "label": "",
+            "link": ""
+          }
+        },
+        "p4": {
+          "type": "pill",
+          "settings": {
+            "collection": "socks",
+            "label": "",
+            "link": ""
+          }
+        },
+        "p5": {
+          "type": "pill",
+          "settings": {
+            "collection": "hunting-kit",
+            "label": "",
+            "link": ""
+          }
+        },
+        "p6": {
+          "type": "pill",
+          "settings": {
+            "collection": "ullfrotte",
+            "label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6"
+      ],
+      "settings": {
+        "label": "Categories",
+        "show_images": true,
+        "background_color": "",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
+        "style_heading_size": "medium",
+        "style_heading_case": "upper",
+        "style_align": "left",
+        "style_radius": 0,
+        "style_width": "contained",
+        "style_button_look": "default",
+        "style_button_shape": "pill",
+        "style_button_size": "medium",
+        "style_button_case": "upper",
+        "padding_top": 8,
+        "padding_bottom": 16
+      }
     },
     "main": {
       "type": "main-collection",
       "blocks": {
         "filters": {
           "type": "filters",
+          "static": true,
           "settings": {
             "enable_filtering": true,
             "filter_style": "horizontal",
@@ -58,48 +193,106 @@
             "show_filter_label": false,
             "enable_sorting": true,
             "enable_grid_density": true,
+            "background_color": "",
+            "text_color": "",
             "padding-block-start": 8,
             "padding-block-end": 8,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0,
             "facets_margin_bottom": 16,
             "facets_margin_right": 20
           },
-          "static": true,
           "blocks": {}
         },
         "product-card": {
           "type": "_product-card",
-          "settings": {
-            "product_card_gap": 6
-          },
           "static": true,
+          "settings": {
+            "product_card_gap": 6,
+            "background_color": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
           "blocks": {
             "card-gallery": {
               "type": "_product-card-gallery",
               "settings": {
                 "image_ratio": "portrait",
-                "border_radius": 4
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "",
+                "border_radius": 4,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             },
             "product_title_009": {
               "type": "product-title",
               "settings": {
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
                 "type_preset": "custom",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
-                "width": "100%"
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             },
             "swatches_010": {
               "type": "swatches",
-              "settings": {},
+              "settings": {
+                "product_swatches_alignment": "flex-start",
+                "product_swatches_alignment_mobile": "flex-start",
+                "hide_padding": false,
+                "product_swatches_padding_top": 4,
+                "product_swatches_padding_bottom": 0,
+                "product_swatches_padding_left": 0,
+                "product_swatches_padding_right": 0
+              },
               "blocks": {}
             },
             "price_011": {
               "type": "price",
               "settings": {
-                "type_preset": "paragraph"
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "paragraph",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "text_color": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {}
             }
@@ -122,71 +315,15 @@
         "full_width_on_mobile": true,
         "columns_gap_horizontal": 24,
         "columns_gap_vertical": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0,
         "background_color": "{{ settings.color_palette.background }}",
         "padding-block-start": 8,
         "padding-block-end": 56
       }
     },
-    "pills": {
-      "type": "wp-category-pills",
-      "settings": {
-        "padding_top": 8,
-        "padding_bottom": 16
-      },
-      "blocks": {
-        "p1": {
-          "type": "pill",
-          "settings": {
-            "collection": "base-layer"
-          }
-        },
-        "p2": {
-          "type": "pill",
-          "settings": {
-            "collection": "lite",
-            "label": "LITE"
-          }
-        },
-        "p3": {
-          "type": "pill",
-          "settings": {
-            "collection": "mid-layer"
-          }
-        },
-        "p4": {
-          "type": "pill",
-          "settings": {
-            "collection": "socks"
-          }
-        },
-        "p5": {
-          "type": "pill",
-          "settings": {
-            "collection": "hunting-kit"
-          }
-        },
-        "p6": {
-          "type": "pill",
-          "settings": {
-            "collection": "ullfrotte"
-          }
-        }
-      },
-      "block_order": [
-        "p1",
-        "p2",
-        "p3",
-        "p4",
-        "p5",
-        "p6"
-      ]
-    },
     "faq": {
       "type": "wp-faq",
-      "settings": {
-        "heading": "How to choose a base layer",
-        "text": "<p>A base layer sits against your skin and moves moisture away before it cools you. The number is the fabric weight in grams per square metre. A higher number is warmer.</p><p>Most people start with 200 and add a 400 mid layer on colder days. If you sweat hard, go LITE.</p>"
-      },
       "blocks": {
         "f1": {
           "type": "question",
@@ -222,7 +359,30 @@
         "f2",
         "f3",
         "f4"
-      ]
+      ],
+      "settings": {
+        "heading": "How to choose a base layer",
+        "text": "<p>A base layer sits against your skin and moves moisture away before it cools you. The number is the fabric weight in grams per square metre. A higher number is warmer.</p><p>Most people start with 200 and add a 400 mid layer on colder days. If you sweat hard, go LITE.</p>",
+        "open_first": false,
+        "schema_markup": true,
+        "background_color": "",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
+        "style_heading_size": "medium",
+        "style_heading_case": "upper",
+        "style_align": "left",
+        "style_radius": 12,
+        "style_width": "contained",
+        "style_button_look": "default",
+        "style_button_shape": "pill",
+        "style_button_size": "medium",
+        "style_button_case": "upper",
+        "padding_top": 24,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
