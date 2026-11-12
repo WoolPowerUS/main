@@ -191,7 +191,7 @@
         "style_radius": 0,
         "style_width": "contained",
         "style_button_look": "default",
-        "style_button_shape": "pill",
+        "style_button_shape": "square",
         "style_button_size": "medium",
         "style_button_case": "upper",
         "padding_top": 48,
