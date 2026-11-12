@@ -1,0 +1,323 @@
+<div class="wp wp-recs wp--case-{{ section.settings.style_heading_case }} wp--align-{{ section.settings.style_align }} wp--width-{{ section.settings.style_width }} wp--size-{{ section.settings.style_heading_size }} wp--btn-{{ section.settings.style_button_look }} wp--btn-{{ section.settings.style_button_shape }} wp--btn-{{ section.settings.style_button_size }} wp--btn-case-{{ section.settings.style_button_case }}" id="wp-{{ section.id }}" style="--wp-section-bg: {{ section.settings.background_color }}; --wp-pt: {{ section.settings.padding_top }}px; --wp-pb: {{ section.settings.padding_bottom }}px; --wp-radius: {{ section.settings.style_radius }}px;{%- if section.settings.style_heading_color != blank %} --wp-heading-user: {{ section.settings.style_heading_color }};{%- endif -%}{%- if section.settings.style_text_color != blank %} --wp-text: {{ section.settings.style_text_color }}; --wp-text-user: {{ section.settings.style_text_color }};{%- endif -%}{%- if section.settings.style_accent_color != blank %} --wp-cta: {{ section.settings.style_accent_color }};{%- endif -%}{%- if section.settings.style_button_text_color != blank %} --wp-cta-text: {{ section.settings.style_button_text_color }};{%- endif -%}{%- if section.settings.style_card_color != blank %} --wp-card: {{ section.settings.style_card_color }}; --wp-card-user: {{ section.settings.style_card_color }};{%- endif -%}">
+  <wp-recommendations class="wp__inner" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.limit }}&intent={{ section.settings.intent }}">
+    {%- if recommendations.performed and recommendations.products_count > 0 -%}
+      <div class="wp-head">
+        {%- if section.settings.heading != blank -%}<h2 class="wp-h2">{{ section.settings.heading }}</h2>{%- endif -%}
+      </div>
+      <div class="wp-grid" style="--wp-cols: {{ section.settings.columns }};">
+        {%- for p in recommendations.products -%}
+          {% render 'wp-product-card', product: p, quick_add: section.settings.quick_add %}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </wp-recommendations>
+</div>
+
+{% javascript %}
+if (!customElements.get('wp-recommendations')) {
+  customElements.define('wp-recommendations', class extends HTMLElement {
+    connectedCallback() {
+      if (this.children.length || !this.dataset.url) return;
+      const load = () => fetch(this.dataset.url).then((r) => r.text()).then((html) => {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const fresh = doc.querySelector('wp-recommendations');
+        if (fresh && fresh.innerHTML.trim()) this.innerHTML = fresh.innerHTML;
+        else this.closest('.wp')?.setAttribute('hidden', '');
+      }).catch(() => {});
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => { if (entries[0].isIntersecting) { io.disconnect(); load(); } }, { rootMargin: '400px 0px' });
+        io.observe(this);
+      } else { load(); }
+    }
+  });
+}
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "WP Recommendations",
+  "class": "wp-section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "You may also like"
+    },
+    {
+      "type": "select",
+      "id": "intent",
+      "label": "Type",
+      "options": [
+        {
+          "value": "related",
+          "label": "Related products"
+        },
+        {
+          "value": "complementary",
+          "label": "Complementary products"
+        }
+      ],
+      "default": "related"
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Products",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns on desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "quick_add",
+      "label": "Quick add by size",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Look"
+    },
+    {
+      "type": "paragraph",
+      "content": "Leave a color empty to use the Woolpower default."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "color",
+      "id": "style_heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color",
+      "id": "style_text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "color",
+      "id": "style_accent_color",
+      "label": "Button and accent color"
+    },
+    {
+      "type": "color",
+      "id": "style_button_text_color",
+      "label": "Button text color"
+    },
+    {
+      "type": "color",
+      "id": "style_card_color",
+      "label": "Card and tile color"
+    },
+    {
+      "type": "select",
+      "id": "style_heading_size",
+      "label": "Heading size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "xlarge",
+          "label": "Extra large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "style_heading_case",
+      "label": "Heading letters",
+      "options": [
+        {
+          "value": "upper",
+          "label": "ALL CAPS"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        }
+      ],
+      "default": "upper"
+    },
+    {
+      "type": "select",
+      "id": "style_align",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "style_radius",
+      "label": "Corner rounding",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "style_width",
+      "label": "Width",
+      "options": [
+        {
+          "value": "contained",
+          "label": "Contained"
+        },
+        {
+          "value": "full",
+          "label": "Full width"
+        }
+      ],
+      "default": "contained"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "select",
+      "id": "style_button_look",
+      "label": "Button style",
+      "options": [
+        {
+          "value": "default",
+          "label": "As set on each button"
+        },
+        {
+          "value": "filled",
+          "label": "Filled with accent color"
+        },
+        {
+          "value": "outline",
+          "label": "Outline in accent color"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "style_button_shape",
+      "label": "Button shape",
+      "options": [
+        {
+          "value": "pill",
+          "label": "Pill"
+        },
+        {
+          "value": "rounded",
+          "label": "Rounded"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        }
+      ],
+      "default": "pill"
+    },
+    {
+      "type": "select",
+      "id": "style_button_size",
+      "label": "Button size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "style_button_case",
+      "label": "Button letters",
+      "options": [
+        {
+          "value": "upper",
+          "label": "ALL CAPS"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        }
+      ],
+      "default": "upper"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "WP Recommendations"
+    }
+  ],
+  "enabled_on": {
+    "templates": [
+      "product"
+    ]
+  }
+}
+{% endschema %}
