@@ -1,0 +1,33 @@
+{%- doc -%}
+  Outputs a hex color for a color option value. Uses the Shopify swatch color when one is set.
+
+  @param {string} value - The option value name, for example Pine Green
+  @param {object} [swatch] - The option value swatch, if any
+{%- enddoc -%}
+{%- liquid
+  assign v = value | downcase
+  assign hex = '#9AA0A2'
+  if v contains 'black' or v contains 'svart'
+    assign hex = '#1A1A1A'
+  elsif v contains 'navy' or v contains 'blue'
+    assign hex = '#1F2D40'
+  elsif v contains 'green' or v contains 'grön'
+    assign hex = '#414A44'
+  elsif v contains 'melange' or v contains 'light grey'
+    assign hex = '#9AA0A2'
+  elsif v contains 'grey' or v contains 'gray' or v contains 'grå'
+    assign hex = '#6E7577'
+  elsif v contains 'red' or v contains 'röd' or v contains 'rust'
+    assign hex = '#8A3B2E'
+  elsif v contains 'orange'
+    assign hex = '#D2691E'
+  elsif v contains 'brown' or v contains 'brun'
+    assign hex = '#6B4F3A'
+  elsif v contains 'white' or v contains 'vit' or v contains 'nature'
+    assign hex = '#F4F1EA'
+  endif
+  if swatch.color
+    assign hex = swatch.color
+  endif
+  echo hex
+-%}

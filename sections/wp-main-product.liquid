@@ -1,0 +1,1167 @@
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+  assign form_id = 'wp-product-form-' | append: section.id
+
+  assign weight = ''
+  assign title_words = product.title | upcase | split: ' '
+  for w in title_words
+    if w == 'LITE' or w == '200' or w == '400' or w == '600' or w == '800'
+      assign weight = w
+    endif
+  endfor
+  case weight
+    when 'LITE'
+      assign weight_label = 'LITE · Base layer'
+      assign layer_name = 'Base layer'
+    when '200'
+      assign weight_label = '200 · Base layer'
+      assign layer_name = 'Base layer'
+    when '400'
+      assign weight_label = '400 · Mid layer'
+      assign layer_name = 'Mid layer'
+    when '600'
+      assign weight_label = '600 · Warm mid layer'
+      assign layer_name = 'Mid layer'
+    when '800'
+      assign weight_label = '800 · Warmest'
+      assign layer_name = 'Outer warmth'
+    else
+      assign weight_label = ''
+      assign layer_name = product.type
+  endcase
+
+  assign crumb = collection
+  if crumb == blank
+    assign crumb = product.collections.first
+  endif
+-%}
+
+<div class="wp wp-pdp-section wp--case-{{ section.settings.style_heading_case }} wp--align-{{ section.settings.style_align }} wp--width-{{ section.settings.style_width }} wp--size-{{ section.settings.style_heading_size }} wp--btn-{{ section.settings.style_button_look }} wp--btn-{{ section.settings.style_button_shape }} wp--btn-{{ section.settings.style_button_size }} wp--btn-case-{{ section.settings.style_button_case }}" id="wp-{{ section.id }}" style="--wp-section-bg: {{ section.settings.background_color }}; --wp-pt: {{ section.settings.padding_top }}px; --wp-pb: {{ section.settings.padding_bottom }}px; --wp-radius: {{ section.settings.style_radius }}px;{%- if section.settings.style_heading_color != blank %} --wp-heading-user: {{ section.settings.style_heading_color }};{%- endif -%}{%- if section.settings.style_text_color != blank %} --wp-text: {{ section.settings.style_text_color }}; --wp-text-user: {{ section.settings.style_text_color }};{%- endif -%}{%- if section.settings.style_accent_color != blank %} --wp-cta: {{ section.settings.style_accent_color }};{%- endif -%}{%- if section.settings.style_button_text_color != blank %} --wp-cta-text: {{ section.settings.style_button_text_color }};{%- endif -%}{%- if section.settings.style_card_color != blank %} --wp-card: {{ section.settings.style_card_color }}; --wp-card-user: {{ section.settings.style_card_color }};{%- endif -%}">
+  <div class="wp__inner">
+    {%- if section.settings.show_breadcrumb -%}
+      <nav class="wp-pdp__crumbs" aria-label="Breadcrumb">
+        <a href="{{ routes.root_url }}">Home</a><span aria-hidden="true">/</span>
+        {%- if crumb != blank -%}<a href="{{ crumb.url }}">{{ crumb.title }}</a><span aria-hidden="true">/</span>{%- endif -%}
+        <span aria-current="page">{{ product.title }}</span>
+      </nav>
+    {%- endif -%}
+
+    <wp-product class="wp-pdp" data-section="{{ section.id }}" data-url="{{ product.url }}">
+      <div class="wp-pdp__gallery">
+        {%- if product.media.size > 1 -%}
+          <div class="wp-pdp__thumbs" role="list">
+            {%- for media in product.media -%}
+              <button type="button" class="wp-pdp__thumb" role="listitem" data-thumb="{{ forloop.index0 }}" aria-label="Show image {{ forloop.index }} of {{ product.media.size }}" {% if forloop.first %}aria-current="true"{% endif %}>
+                {{ media.preview_image | image_url: width: 200 | image_tag: loading: 'lazy', widths: '100, 200', sizes: '84px', alt: '' }}
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+        <div class="wp-pdp__stage wp-media">
+          <div class="wp-pdp__track" data-track tabindex="0" aria-label="Product images">
+            {%- for media in product.media -%}
+              <div class="wp-pdp__slide" data-media-id="{{ media.id }}">
+                {%- case media.media_type -%}
+                  {%- when 'image' -%}
+                    {%- liquid
+                      if forloop.first
+                        assign img_loading = 'eager'
+                      else
+                        assign img_loading = 'lazy'
+                      endif
+                    -%}
+                    {{ media | image_url: width: 1600 | image_tag: loading: img_loading, widths: '600, 900, 1200, 1600', sizes: '(min-width: 990px) 50vw, 100vw', alt: media.alt | default: product.title }}
+                  {%- else -%}
+                    {{ media | media_tag: image_size: '1600x' }}
+                {%- endcase -%}
+              </div>
+            {%- else -%}
+              <div class="wp-pdp__slide">{{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+            {%- endfor -%}
+          </div>
+          {%- if section.settings.show_weight_badge and weight_label != '' -%}
+            <span class="wp-badge wp-badge--{{ weight | downcase }} wp-pdp__badge">{{ weight_label }}</span>
+          {%- endif -%}
+          {%- if product.media.size > 1 -%}
+            <div class="wp-pdp__dots" aria-hidden="true">
+              {%- for media in product.media -%}<span class="wp-pdp__dot{% if forloop.first %} is-active{% endif %}"></span>{%- endfor -%}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="wp-pdp__info">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when '@app' -%}
+              {% render block %}
+
+            {%- when 'wp_title' -%}
+              <h1 class="wp-pdp__title" {{ block.shopify_attributes }}>{{ product.title }}</h1>
+
+            {%- when 'wp_rating' -%}
+              {%- assign rating = product.metafields.reviews.rating.value -%}
+              {%- if rating != blank -%}
+                <a class="wp-pdp__rating" href="{{ block.settings.link | default: '#reviews' }}" {{ block.shopify_attributes }}>
+                  <span class="wp-pdp__stars" style="--rating: {{ rating.rating | divided_by: rating.scale_max | times: 100 }}%;" aria-hidden="true"></span>
+                  <span>{{ rating.rating | round: 1 }} · {{ product.metafields.reviews.rating_count.value }} reviews</span>
+                </a>
+              {%- endif -%}
+
+            {%- when 'wp_price' -%}
+              <div class="wp-pdp__price" {{ block.shopify_attributes }}>
+                <span data-price>{{ current.price | money }}</span>
+                <s data-compare {% unless current.compare_at_price > current.price %}hidden{% endunless %}>{{ current.compare_at_price | money }}</s>
+                {%- if block.settings.note != blank -%}<span class="wp-pdp__price-note">{{ block.settings.note }}</span>{%- endif -%}
+              </div>
+
+            {%- when 'wp_bullets' -%}
+              <ul class="wp-pdp__bullets" {{ block.shopify_attributes }}>
+                {%- for i in (1..4) -%}
+                  {%- capture key -%}bullet_{{ i }}{%- endcapture -%}
+                  {%- if block.settings[key] != blank -%}
+                    <li><span aria-hidden="true">✓</span>{{ block.settings[key] }}</li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+
+            {%- when 'wp_text' -%}
+              <div class="wp-rte" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+
+            {%- when 'wp_variants' -%}
+              {%- unless product.has_only_default_variant -%}
+                <div class="wp-pdp__options" {{ block.shopify_attributes }}>
+                  {%- for option in product.options_with_values -%}
+                    {%- liquid
+                      assign oname = option.name | downcase
+                      assign is_color = false
+                      if oname == 'color' or oname == 'colour' or oname == 'färg'
+                        assign is_color = true
+                      endif
+                      assign is_size = false
+                      if oname == 'size' or oname == 'storlek'
+                        assign is_size = true
+                      endif
+                    -%}
+                    <fieldset class="wp-pdp__option{% if is_color %} wp-pdp__option--color{% else %} wp-pdp__option--grid{% endif %}" data-option-index="{{ forloop.index0 }}">
+                      <legend><strong>{{ option.name }}:</strong> <span data-option-label>{{ option.selected_value }}</span></legend>
+                      <div class="wp-pdp__values">
+                        {%- for value in option.values -%}
+                          {%- capture input_id -%}{{ section.id }}-{{ option.position }}-{{ forloop.index }}{%- endcapture -%}
+                          <input type="radio" class="wp-visually-hidden" id="{{ input_id }}" name="option-{{ section.id }}-{{ option.position }}" value="{{ value | escape }}" {% if value == option.selected_value %}checked{% endif %}>
+                          {%- if is_color -%}
+                            {%- capture hex -%}{% render 'wp-color-hex', value: value, swatch: value.swatch %}{%- endcapture -%}
+                            <label for="{{ input_id }}" class="wp-pdp__swatch" title="{{ value | escape }}"><span style="background: {{ hex | strip }}"></span><span class="wp-visually-hidden">{{ value }}</span></label>
+                          {%- else -%}
+                            <label for="{{ input_id }}" class="wp-pdp__chip">{{ value }}</label>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </div>
+                      {%- if is_size -%}
+                        {%- if block.settings.fit_note != blank or block.settings.size_guide_link != blank -%}
+                          <div class="wp-pdp__fit">
+                            {%- if block.settings.fit_note != blank -%}<span>{{ block.settings.fit_note }}</span>{%- endif -%}
+                            {%- if block.settings.size_guide_link != blank -%}<a href="{{ block.settings.size_guide_link }}" class="wp-link">{{ block.settings.size_guide_label }}</a>{%- endif -%}
+                          </div>
+                        {%- endif -%}
+                        <span class="wp-pdp__stock" data-low-stock hidden></span>
+                      {%- endif -%}
+                    </fieldset>
+                  {%- endfor -%}
+                </div>
+              {%- endunless -%}
+
+            {%- when 'wp_buy' -%}
+              <div class="wp-pdp__buy" {{ block.shopify_attributes }}>
+                {%- form 'product', product, id: form_id, class: 'wp-pdp__form', data-wp-form: '', novalidate: 'novalidate' -%}
+                  <input type="hidden" name="id" value="{{ current.id }}" data-variant-id>
+                  <div class="wp-pdp__buy-row">
+                    {%- if block.settings.show_quantity -%}
+                      <div class="wp-pdp__qty">
+                        <button type="button" data-qty="-1" aria-label="Decrease quantity">−</button>
+                        <input type="number" name="quantity" value="1" min="1" aria-label="Quantity" data-qty-input>
+                        <button type="button" data-qty="1" aria-label="Increase quantity">+</button>
+                      </div>
+                    {%- endif -%}
+                    <button type="submit" class="wp-btn wp-btn--primary wp-pdp__add" data-add data-label="{{ block.settings.add_label | escape }}" data-sold-out="{{ block.settings.sold_out_label | escape }}" data-unavailable="{{ block.settings.unavailable_label | escape }}" data-price-in-button="{{ block.settings.price_in_button }}" {% unless current.available %}disabled{% endunless %}>
+                      {%- if current.available -%}{{ block.settings.add_label }}{% if block.settings.price_in_button %} · {{ current.price | money }}{% endif %}{%- else -%}{{ block.settings.sold_out_label }}{%- endif -%}
+                    </button>
+                  </div>
+                  {%- if block.settings.show_dynamic_checkout -%}<div class="wp-pdp__dynamic">{{ form | payment_button }}</div>{%- endif -%}
+                  <div class="wp-pdp__status" role="status" aria-live="polite" data-status hidden></div>
+                {%- endform -%}
+              </div>
+
+            {%- when 'wp_delivery' -%}
+              <div class="wp-pdp__delivery" {{ block.shopify_attributes }}>
+                {%- if block.settings.line_1 != blank -%}<div><svg aria-hidden="true" focusable="false" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h13v10H3zM16 10h3l2 3v4h-5M7 18.5a1.5 1.5 0 1 0 0 .01M18 18.5a1.5 1.5 0 1 0 0 .01"></path></svg><span>{{ block.settings.line_1 }}</span></div>{%- endif -%}
+                {%- if block.settings.line_2 != blank -%}<div><svg aria-hidden="true" focusable="false" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 14-5l2 2M20 12a8 8 0 0 1-14 5l-2-2M20 4v5h-5M4 20v-5h5"></path></svg><span>{{ block.settings.line_2 }}</span></div>{%- endif -%}
+                {%- if block.settings.line_3 != blank -%}<div><svg aria-hidden="true" focusable="false" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l6-12 4 7 3-4 5 9z"></path></svg><span>{{ block.settings.line_3 }}</span></div>{%- endif -%}
+              </div>
+
+            {%- when 'wp_pairing' -%}
+              {%- assign pair = block.settings.product -%}
+              {%- if pair != blank and pair.id != product.id -%}
+                <div class="wp-pdp__pair" {{ block.shopify_attributes }}>
+                  <span class="wp-pdp__label">{{ block.settings.heading }}</span>
+                  <div class="wp-pdp__pair-card">
+                    <a href="{{ pair.url }}" class="wp-pdp__pair-img">{{ pair.featured_media | image_url: width: 160 | image_tag: loading: 'lazy', widths: '80, 160', sizes: '64px', alt: '' }}</a>
+                    <a href="{{ pair.url }}" class="wp-pdp__pair-text"><strong>{{ pair.title }}</strong><span>{% if block.settings.note != blank %}{{ block.settings.note }} · {% endif %}{{ pair.price | money }}</span></a>
+                    {%- if pair.available and pair.has_only_default_variant -%}
+                      <button type="button" class="wp-pdp__pair-add" data-add-id="{{ pair.selected_or_first_available_variant.id }}" aria-label="Add {{ pair.title | escape }} to cart">+</button>
+                    {%- else -%}
+                      <a href="{{ pair.url }}" class="wp-pdp__pair-add" aria-label="Choose options for {{ pair.title | escape }}">→</a>
+                    {%- endif -%}
+                  </div>
+                </div>
+              {%- endif -%}
+
+            {%- when 'wp_accordion' -%}
+              <details class="wp-pdp__acc" {% if block.settings.open %}open{% endif %} {{ block.shopify_attributes }}>
+                <summary>{{ block.settings.title }}<span aria-hidden="true" class="wp-faq__icon"></span></summary>
+                <div class="wp-rte wp-pdp__acc-body">{{ block.settings.content }}</div>
+              </details>
+
+            {%- when 'wp_specs' -%}
+              <details class="wp-pdp__acc" {% if block.settings.open %}open{% endif %} {{ block.shopify_attributes }}>
+                <summary>{{ block.settings.title }}<span aria-hidden="true" class="wp-faq__icon"></span></summary>
+                <div class="wp-pdp__acc-body">
+                  {%- if block.settings.intro != blank -%}<div class="wp-rte" style="margin-bottom: 8px">{{ block.settings.intro }}</div>{%- endif -%}
+                  <dl class="wp-pdp__specs">
+                    {%- if block.settings.auto_weight and weight != '' -%}
+                      <div><dt>Weight</dt><dd>{% if weight == 'LITE' %}LITE{% else %}{{ weight }} g/m²{% endif %}</dd></div>
+                      <div><dt>Layer</dt><dd>{{ layer_name }}</dd></div>
+                    {%- endif -%}
+                    {%- for i in (1..5) -%}
+                      {%- capture k -%}label_{{ i }}{%- endcapture -%}
+                      {%- capture v -%}value_{{ i }}{%- endcapture -%}
+                      {%- if block.settings[k] != blank and block.settings[v] != blank -%}
+                        <div><dt>{{ block.settings[k] }}</dt><dd>{{ block.settings[v] }}</dd></div>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </dl>
+                </div>
+              </details>
+
+            {%- when 'wp_disclosures' -%}
+              {%- assign disclosures = product.metafields.shopify.disclosure.value | applicable_disclosures -%}
+              {%- for disclosure in disclosures -%}
+                {%- if disclosure.display_preferences.value.surfaces contains 'product_page' -%}
+                  <details class="wp-pdp__acc" {{ block.shopify_attributes }}>
+                    <summary>{{ disclosure.title.value }}<span aria-hidden="true" class="wp-faq__icon"></span></summary>
+                    <div class="wp-rte wp-pdp__acc-body">{{ disclosure.content | metafield_tag }}</div>
+                  </details>
+                {%- endif -%}
+              {%- endfor -%}
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+
+      {%- if section.settings.sticky_mobile_bar -%}
+        <div class="wp-pdp__sticky" data-sticky hidden>
+          <span class="wp-pdp__sticky-text"><strong>{{ product.title }}</strong><span data-price>{{ current.price | money }}</span></span>
+          <button type="button" class="wp-btn wp-btn--primary" data-sticky-add>Add to cart</button>
+        </div>
+      {%- endif -%}
+
+      <script type="application/json" data-variants>
+        [
+          {%- for v in product.variants -%}
+            {
+              "id": {{ v.id }},
+              "options": {{ v.options | json }},
+              "available": {{ v.available | json }},
+              "price": {{ v.price | money | json }},
+              "compare": {% if v.compare_at_price > v.price %}{{ v.compare_at_price | money | json }}{% else %}null{% endif %},
+              "media": {% if v.featured_media %}{{ v.featured_media.id }}{% else %}null{% endif %},
+              "stock": {% if v.inventory_management == 'shopify' and v.inventory_policy == 'deny' %}{{ v.inventory_quantity }}{% else %}null{% endif %}
+            }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ]
+      </script>
+      <script type="application/json" data-settings>{"lowStock": {{ section.settings.low_stock_threshold }}, "cartUrl": {{ routes.cart_url | json }}, "addUrl": {{ routes.cart_add_url | append: '.js' | json }}, "cartJs": {{ routes.cart_url | append: '.js' | json }}}</script>
+    </wp-product>
+  </div>
+  <script type="application/ld+json">{{ product | structured_data }}</script>
+</div>
+
+{% stylesheet %}
+.wp-pdp__crumbs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; font-size: 13px; }
+.wp-pdp__crumbs a { color: var(--wp-text); text-decoration: none; }
+.wp-pdp__crumbs a:hover { color: var(--wp-cta); }
+.wp-pdp__crumbs [aria-current] { color: var(--wp-ink); font-weight: 700; }
+.wp-pdp { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 56px; align-items: start; }
+.wp-pdp__gallery { display: flex; gap: 16px; min-width: 0; position: sticky; top: 16px; }
+.wp-pdp__thumbs { display: flex; flex-direction: column; gap: 10px; flex: none; max-height: 80vh; overflow-y: auto; scrollbar-width: none; }
+.wp-pdp__thumb { width: 84px; aspect-ratio: 4 / 5; padding: 0; border: 2px solid transparent; border-radius: 8px; overflow: hidden; background: var(--wp-card); cursor: pointer; }
+.wp-pdp__thumb[aria-current="true"] { border-color: var(--wp-ink); }
+.wp-pdp__thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.wp-pdp__stage { position: relative; flex: 1 1 auto; min-width: 0; }
+.wp-pdp__track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; }
+.wp-pdp__track::-webkit-scrollbar, .wp-pdp__thumbs::-webkit-scrollbar { display: none; }
+.wp-pdp__slide { flex: 0 0 100%; aspect-ratio: 4 / 5; scroll-snap-align: start; }
+.wp-pdp__slide img, .wp-pdp__slide video, .wp-pdp__slide svg { display: block; width: 100%; height: 100%; object-fit: cover; }
+.wp-pdp__badge { position: absolute; left: 16px; top: 16px; font-size: 12px; padding: 5px 12px; }
+.wp-pdp__dots { position: absolute; left: 0; right: 0; bottom: 18px; display: flex; justify-content: center; gap: 6px; pointer-events: none; }
+.wp-pdp__dot { width: 8px; height: 8px; border-radius: 999px; background: var(--wp-line); }
+.wp-pdp__dot.is-active { background: var(--wp-ink); }
+.wp-pdp__info { display: flex; flex-direction: column; gap: 20px; max-width: 520px; position: sticky; top: 16px; }
+.wp-pdp__title { margin: 0; font-family: var(--font-heading--family, inherit); font-size: calc(32px * var(--wp-hs, 1)); line-height: 1.15; font-weight: 800; text-transform: uppercase; color: var(--wp-heading-user, var(--wp-ink)); }
+.wp--case-normal .wp-pdp__title { text-transform: none; }
+.wp-pdp__title + .wp-pdp__rating, .wp-pdp__title + .wp-pdp__price, .wp-pdp__rating + .wp-pdp__price { margin-top: -12px; }
+.wp-pdp__rating { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--wp-text); text-decoration: none; }
+.wp-pdp__stars { position: relative; display: inline-block; font-size: 15px; letter-spacing: 2px; color: var(--wp-line); }
+.wp-pdp__stars::before { content: "★★★★★"; }
+.wp-pdp__stars::after { content: "★★★★★"; position: absolute; left: 0; top: 0; width: var(--rating, 0%); overflow: hidden; color: var(--wp-yellow); }
+.wp-pdp__price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px; font-size: 24px; font-weight: 700; color: var(--wp-ink); }
+.wp-pdp__price s { font-size: 16px; font-weight: 400; color: var(--wp-text); }
+.wp-pdp__price-note { flex-basis: 100%; font-size: 13px; font-weight: 400; color: var(--wp-text); }
+.wp-pdp__bullets { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+.wp-pdp__bullets li { display: flex; gap: 10px; }
+.wp-pdp__bullets li span { color: var(--wp-forest); font-weight: 800; }
+.wp-pdp__options { display: flex; flex-direction: column; gap: 20px; }
+.wp-pdp__option { border: 0; margin: 0; padding: 0; min-width: 0; }
+.wp-pdp__option legend { padding: 0; margin-bottom: 10px; font-size: 13px; }
+.wp-pdp__option legend strong { color: var(--wp-ink); text-transform: uppercase; letter-spacing: 0.08em; }
+.wp-pdp__values { display: flex; flex-wrap: wrap; gap: 10px; }
+.wp-pdp__option--grid .wp-pdp__values { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 749px) { .wp-pdp__option--grid .wp-pdp__values { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.wp-pdp__swatch { width: 44px; height: 44px; padding: 3px; border-radius: 999px; border: 2px solid transparent; cursor: pointer; }
+.wp-pdp__swatch span:first-child { display: block; width: 100%; height: 100%; border-radius: 999px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12); }
+input:checked + .wp-pdp__swatch { border-color: var(--wp-ink); }
+input:focus-visible + .wp-pdp__swatch, input:focus-visible + .wp-pdp__chip { outline: 2px solid var(--wp-ink); outline-offset: 2px; }
+.wp-pdp__chip { display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 8px; border-radius: 8px; border: 1px solid var(--wp-line); background: var(--wp-card); color: var(--wp-ink); font-size: 14px; font-weight: 700; cursor: pointer; text-align: center; }
+input:checked + .wp-pdp__chip { background: var(--wp-ink); border-color: var(--wp-ink); color: #FFFFFF; }
+.wp-pdp__chip.is-unavailable, .wp-pdp__swatch.is-unavailable { opacity: 0.55; }
+.wp-pdp__chip.is-unavailable { background: var(--wp-bg); border-style: dashed; color: #8C979B; text-decoration: line-through; }
+.wp-pdp__fit { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 10px; font-size: 13px; }
+.wp-pdp__stock { display: block; margin-top: 8px; font-size: 13px; font-weight: 700; color: var(--wp-cta); }
+.wp-pdp__buy-row { display: flex; gap: 10px; }
+.wp-pdp__qty { flex: none; display: flex; align-items: center; height: 56px; border: 1px solid var(--wp-line); border-radius: var(--wp-btn-r, 999px); background: var(--wp-card); }
+.wp-pdp__qty button { width: 44px; height: 100%; border: 0; background: transparent; font-size: 18px; color: var(--wp-ink); cursor: pointer; }
+.wp-pdp__qty input { width: 32px; border: 0; background: transparent; text-align: center; font: inherit; font-weight: 700; color: var(--wp-ink); -moz-appearance: textfield; }
+.wp-pdp__qty input::-webkit-inner-spin-button, .wp-pdp__qty input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.wp-pdp__add { flex: 1 1 auto; min-height: 56px; }
+.wp-pdp__add:disabled { background: var(--wp-text); border-color: var(--wp-text); cursor: not-allowed; }
+.wp-pdp__add.is-added { background: var(--wp-forest); border-color: var(--wp-forest); }
+.wp-pdp__dynamic { margin-top: 10px; }
+.wp-pdp__status { margin-top: 10px; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 16px; border-left: 4px solid var(--wp-forest); border-radius: 8px; background: var(--wp-card); font-size: 14px; color: var(--wp-ink); }
+.wp-pdp__status.is-error { border-left-color: var(--wp-cta); }
+.wp-pdp__status[hidden] { display: none; }
+.wp-pdp__delivery { padding: 4px 18px; border-radius: var(--wp-radius); background: var(--wp-card); font-size: 14px; }
+.wp-pdp__delivery > div { display: flex; align-items: center; gap: 14px; padding: 14px 0; }
+.wp-pdp__delivery > div + div { border-top: 1px solid var(--wp-line-soft); }
+.wp-pdp__delivery svg { flex: none; color: var(--wp-forest); }
+.wp-pdp__delivery strong, .wp-pdp__delivery b { color: var(--wp-ink); }
+.wp-pdp__label { display: block; margin-bottom: 10px; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--wp-ink); }
+.wp-pdp__pair-card { display: flex; align-items: center; gap: 14px; padding: 10px; border-radius: var(--wp-radius); background: var(--wp-card); }
+.wp-pdp__pair-img { flex: none; width: 64px; height: 80px; border-radius: 8px; overflow: hidden; }
+.wp-pdp__pair-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.wp-pdp__pair-text { flex: 1; display: flex; flex-direction: column; font-size: 14px; color: var(--wp-text); text-decoration: none; }
+.wp-pdp__pair-text strong { color: var(--wp-ink); }
+.wp-pdp__pair-add { flex: none; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 999px; border: 1px solid var(--wp-ink); background: transparent; color: var(--wp-ink); font-size: 18px; text-decoration: none; cursor: pointer; }
+.wp-pdp__pair-add:hover { background: var(--wp-ink); color: #FFFFFF; }
+.wp-pdp__acc { border-bottom: 1px solid var(--wp-line); }
+.wp-pdp__info > .wp-pdp__acc:first-of-type, .wp-pdp__info > :not(.wp-pdp__acc) + .wp-pdp__acc { margin-top: -4px; }
+.wp-pdp__info > .wp-pdp__acc + .wp-pdp__acc { margin-top: -20px; }
+.wp-pdp__acc summary { list-style: none; display: flex; justify-content: space-between; align-items: center; min-height: 58px; cursor: pointer; font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--wp-ink); }
+.wp-pdp__acc summary::-webkit-details-marker { display: none; }
+.wp-pdp__acc[open] .wp-faq__icon::after { transform: rotate(0deg); }
+.wp-pdp__acc .wp-faq__icon { position: relative; flex: none; width: 14px; height: 14px; }
+.wp-pdp__acc .wp-faq__icon::before, .wp-pdp__acc .wp-faq__icon::after { content: ""; position: absolute; left: 0; top: 6px; width: 14px; height: 2px; background: currentColor; transition: transform .2s; }
+.wp-pdp__acc .wp-faq__icon::after { transform: rotate(90deg); }
+.wp-pdp__acc-body { padding-bottom: 18px; font-size: 14px; }
+.wp-pdp__specs { margin: 0; }
+.wp-pdp__specs div { display: flex; justify-content: space-between; gap: 16px; padding: 8px 0; border-top: 1px solid var(--wp-line-soft); }
+.wp-pdp__specs dt { margin: 0; }
+.wp-pdp__specs dd { margin: 0; font-weight: 700; color: var(--wp-ink); text-align: right; }
+.wp-pdp__sticky { display: none; }
+@media (max-width: 989px) {
+  .wp-pdp { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .wp-pdp__gallery, .wp-pdp__info { position: static; max-width: none; }
+  .wp-pdp__thumbs { display: none; }
+  .wp-pdp__gallery { margin-inline: -16px; }
+  .wp-pdp__stage { border-radius: 0; }
+}
+@media (max-width: 749px) {
+  .wp-pdp__crumbs { display: none; }
+  .wp-pdp__title { font-size: calc(22px * var(--wp-hs, 1)); }
+  .wp-pdp__price { font-size: 20px; }
+  .wp-pdp__sticky:not([hidden]) { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; align-items: center; gap: 12px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: #FFFFFF; border-top: 1px solid var(--wp-line-soft); box-shadow: 0 -6px 16px rgba(31,45,64,0.08); }
+  .wp-pdp__sticky-text { flex: 1; min-width: 0; display: flex; flex-direction: column; font-size: 13px; }
+  .wp-pdp__sticky-text strong { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: var(--wp-ink); }
+  .wp-pdp__sticky .wp-btn { flex: none; min-height: 48px; }
+}
+{% endstylesheet %}
+
+{% javascript %}
+if (!customElements.get('wp-product')) {
+  customElements.define('wp-product', class extends HTMLElement {
+    connectedCallback() {
+      try { this.variants = JSON.parse(this.querySelector('[data-variants]').textContent); } catch (e) { this.variants = []; }
+      try { this.settings = JSON.parse(this.querySelector('[data-settings]').textContent); } catch (e) { this.settings = {}; }
+      this.form = this.querySelector('[data-wp-form]');
+      this.addBtn = this.querySelector('[data-add]');
+      this.track = this.querySelector('[data-track]');
+      this.querySelectorAll('.wp-pdp__option input[type="radio"]').forEach((input) => input.addEventListener('change', () => this.onOptionChange()));
+      this.querySelectorAll('[data-thumb]').forEach((btn) => btn.addEventListener('click', () => this.goTo(Number(btn.dataset.thumb))));
+      if (this.track) this.track.addEventListener('scroll', () => { window.clearTimeout(this._st); this._st = window.setTimeout(() => this.syncGallery(), 60); }, { passive: true });
+      this.querySelectorAll('[data-qty]').forEach((btn) => btn.addEventListener('click', () => {
+        const input = this.querySelector('[data-qty-input]');
+        input.value = Math.max(1, (parseInt(input.value, 10) || 1) + Number(btn.dataset.qty));
+      }));
+      if (this.form) this.form.addEventListener('submit', (e) => { e.preventDefault(); this.add(new FormData(this.form)); });
+      this.querySelectorAll('[data-add-id]').forEach((btn) => btn.addEventListener('click', () => {
+        const fd = new FormData(); fd.append('id', btn.dataset.addId); fd.append('quantity', '1'); this.add(fd, btn);
+      }));
+      this.setupSticky();
+      this.updateAvailability();
+      this.updateStock(this.currentVariant());
+    }
+    selectedOptions() {
+      return Array.from(this.querySelectorAll('.wp-pdp__option')).map((fs) => {
+        const checked = fs.querySelector('input:checked');
+        return checked ? checked.value : null;
+      });
+    }
+    currentVariant() {
+      const id = this.form ? Number(this.form.querySelector('[data-variant-id]').value) : null;
+      return this.variants.find((v) => v.id === id);
+    }
+    onOptionChange() {
+      const opts = this.selectedOptions();
+      const variant = this.variants.find((v) => v.options.every((o, i) => opts[i] === null || o === opts[i]));
+      this.querySelectorAll('.wp-pdp__option').forEach((fs, i) => {
+        const label = fs.querySelector('[data-option-label]');
+        if (label) label.textContent = opts[i] || '';
+      });
+      this.updateAvailability();
+      this.setVariant(variant);
+    }
+    updateAvailability() {
+      const opts = this.selectedOptions();
+      this.querySelectorAll('.wp-pdp__option').forEach((fs, i) => {
+        fs.querySelectorAll('input[type="radio"]').forEach((input) => {
+          const ok = this.variants.some((v) => v.available && v.options[i] === input.value && v.options.every((o, j) => j === i || opts[j] === null || o === opts[j]));
+          const label = input.nextElementSibling;
+          if (label) label.classList.toggle('is-unavailable', !ok);
+        });
+      });
+    }
+    setVariant(variant, keepStatus) {
+      const btn = this.addBtn;
+      if (!keepStatus) this.querySelectorAll('[data-status]').forEach((s) => { s.hidden = true; });
+      if (!variant) {
+        if (btn) { btn.disabled = true; btn.textContent = btn.dataset.unavailable; }
+        return;
+      }
+      if (this.form) this.form.querySelector('[data-variant-id]').value = variant.id;
+      this.querySelectorAll('[data-price]').forEach((el) => { el.textContent = variant.price; });
+      this.querySelectorAll('[data-compare]').forEach((el) => { el.hidden = !variant.compare; el.textContent = variant.compare || ''; });
+      if (btn) {
+        btn.disabled = !variant.available;
+        btn.classList.remove('is-added');
+        btn.textContent = variant.available ? btn.dataset.label + (btn.dataset.priceInButton === 'true' ? ' · ' + variant.price : '') : btn.dataset.soldOut;
+      }
+      this.updateStock(variant);
+      if (variant.media && !keepStatus) {
+        const slides = Array.from(this.querySelectorAll('.wp-pdp__slide'));
+        const idx = slides.findIndex((s) => Number(s.dataset.mediaId) === variant.media);
+        if (idx > -1) this.goTo(idx);
+      }
+      if (keepStatus) return;
+      const url = new URL(window.location.href);
+      url.searchParams.set('variant', variant.id);
+      window.history.replaceState({}, '', url.toString());
+    }
+    updateStock(variant) {
+      const el = this.querySelector('[data-low-stock]');
+      if (!el) return;
+      const n = variant && variant.stock;
+      const show = variant && variant.available && n !== null && n > 0 && n <= (this.settings.lowStock || 0);
+      el.hidden = !show;
+      if (show) el.textContent = 'Only ' + n + ' left in this size';
+    }
+    goTo(i) {
+      if (!this.track) return;
+      this.track.scrollTo({ left: this.track.clientWidth * i, behavior: 'smooth' });
+      this.markActive(i);
+    }
+    syncGallery() {
+      if (!this.track || !this.track.clientWidth) return;
+      this.markActive(Math.round(this.track.scrollLeft / this.track.clientWidth));
+    }
+    markActive(i) {
+      this.querySelectorAll('[data-thumb]').forEach((t, j) => t.setAttribute('aria-current', j === i ? 'true' : 'false'));
+      this.querySelectorAll('.wp-pdp__dot').forEach((d, j) => d.classList.toggle('is-active', j === i));
+    }
+    setupSticky() {
+      const bar = this.querySelector('[data-sticky]');
+      if (!bar || !this.addBtn || !('IntersectionObserver' in window)) return;
+      new IntersectionObserver(([entry]) => { bar.hidden = entry.isIntersecting || entry.boundingClientRect.top > 0; }).observe(this.addBtn);
+      bar.querySelector('[data-sticky-add]').addEventListener('click', () => {
+        if (this.addBtn.disabled) { this.addBtn.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+        this.form.requestSubmit ? this.form.requestSubmit() : this.form.submit();
+      });
+    }
+    async add(formData, sourceBtn) {
+      const btn = sourceBtn || this.addBtn;
+      const status = this.querySelector('[data-status]');
+      if (btn) btn.setAttribute('aria-busy', 'true');
+      try {
+        const res = await fetch(this.settings.addUrl || '/cart/add.js', { method: 'POST', headers: { Accept: 'application/json' }, body: formData });
+        const data = await res.json();
+        if (!res.ok || data.status) throw new Error(data.description || data.message || 'Could not add to cart');
+        if (status) {
+          status.classList.remove('is-error');
+          status.innerHTML = '';
+          const msg = document.createElement('span');
+          msg.innerHTML = '<strong>Added to cart.</strong> ';
+          msg.append(document.createTextNode(data.variant_title || data.product_title || ''));
+          const link = document.createElement('a');
+          link.href = this.settings.cartUrl || '/cart'; link.className = 'wp-link'; link.textContent = 'View cart';
+          status.append(msg, link);
+          status.hidden = false;
+        }
+        if (!sourceBtn && this.addBtn) {
+          this.addBtn.classList.add('is-added');
+          this.addBtn.textContent = 'Added ✓';
+          window.setTimeout(() => { this.addBtn.classList.remove('is-added'); this.setVariant(this.currentVariant(), true); }, 2500);
+        }
+        this.refreshCartCount();
+      } catch (err) {
+        if (status) { status.classList.add('is-error'); status.textContent = err.message; status.hidden = false; }
+      } finally {
+        if (btn) btn.removeAttribute('aria-busy');
+      }
+    }
+    async refreshCartCount() {
+      try {
+        const cart = await (await fetch(this.settings.cartJs || '/cart.js', { headers: { Accept: 'application/json' } })).json();
+        document.querySelectorAll('cart-icon').forEach((icon) => { if (typeof icon.renderCartBubble === 'function') icon.renderCartBubble(cart.item_count); });
+        document.dispatchEvent(new CustomEvent('wp:cart-updated', { detail: { cart } }));
+      } catch (e) { /* the cart count updates on the next page load */ }
+    }
+  });
+}
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "WP Product",
+  "class": "wp-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "Show breadcrumb",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_weight_badge",
+      "label": "Show weight badge on the image",
+      "default": true,
+      "info": "Read from LITE, 200, 400, 600 or 800 in the product title."
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_mobile_bar",
+      "label": "Sticky add to cart bar on mobile",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "low_stock_threshold",
+      "label": "Show \"Only X left\" at or below",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 3,
+      "info": "Set to 0 to turn it off."
+    },
+    {
+      "type": "header",
+      "content": "Look"
+    },
+    {
+      "type": "paragraph",
+      "content": "Leave a color empty to use the Woolpower default."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "color",
+      "id": "style_heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color",
+      "id": "style_text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "color",
+      "id": "style_accent_color",
+      "label": "Button and accent color"
+    },
+    {
+      "type": "color",
+      "id": "style_button_text_color",
+      "label": "Button text color"
+    },
+    {
+      "type": "color",
+      "id": "style_card_color",
+      "label": "Card and tile color"
+    },
+    {
+      "type": "select",
+      "id": "style_heading_size",
+      "label": "Heading size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "xlarge",
+          "label": "Extra large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "style_heading_case",
+      "label": "Heading letters",
+      "options": [
+        {
+          "value": "upper",
+          "label": "ALL CAPS"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        }
+      ],
+      "default": "upper"
+    },
+    {
+      "type": "select",
+      "id": "style_align",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "style_radius",
+      "label": "Corner rounding",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "style_width",
+      "label": "Width",
+      "options": [
+        {
+          "value": "contained",
+          "label": "Contained"
+        },
+        {
+          "value": "full",
+          "label": "Full width"
+        }
+      ],
+      "default": "contained"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "select",
+      "id": "style_button_look",
+      "label": "Button style",
+      "options": [
+        {
+          "value": "default",
+          "label": "As set on each button"
+        },
+        {
+          "value": "filled",
+          "label": "Filled with accent color"
+        },
+        {
+          "value": "outline",
+          "label": "Outline in accent color"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "style_button_shape",
+      "label": "Button shape",
+      "options": [
+        {
+          "value": "pill",
+          "label": "Pill"
+        },
+        {
+          "value": "rounded",
+          "label": "Rounded"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        }
+      ],
+      "default": "pill"
+    },
+    {
+      "type": "select",
+      "id": "style_button_size",
+      "label": "Button size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "style_button_case",
+      "label": "Button letters",
+      "options": [
+        {
+          "value": "upper",
+          "label": "ALL CAPS"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        }
+      ],
+      "default": "upper"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "wp_title",
+      "name": "Title",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "wp_rating",
+      "name": "Rating",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Shows the product's star rating when a reviews app fills the standard reviews metafields."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "wp_price",
+      "name": "Price",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "note",
+          "label": "Note under price"
+        }
+      ]
+    },
+    {
+      "type": "wp_bullets",
+      "name": "Benefit bullets",
+      "settings": [
+        {
+          "type": "text",
+          "id": "bullet_1",
+          "label": "Bullet 1",
+          "default": "Warm when you stop, breathable when you move"
+        },
+        {
+          "type": "text",
+          "id": "bullet_2",
+          "label": "Bullet 2",
+          "default": "Terry loops inside trap warm air"
+        },
+        {
+          "type": "text",
+          "id": "bullet_3",
+          "label": "Bullet 3",
+          "default": "No side seams, so nothing rubs under a pack"
+        },
+        {
+          "type": "text",
+          "id": "bullet_4",
+          "label": "Bullet 4"
+        }
+      ]
+    },
+    {
+      "type": "wp_text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Text</p>"
+        }
+      ]
+    },
+    {
+      "type": "wp_variants",
+      "name": "Color and size",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "fit_note",
+          "label": "Fit note",
+          "default": "Close to the body, with room to layer. True to size."
+        },
+        {
+          "type": "text",
+          "id": "size_guide_label",
+          "label": "Size guide link label",
+          "default": "Size guide"
+        },
+        {
+          "type": "url",
+          "id": "size_guide_link",
+          "label": "Size guide link"
+        }
+      ]
+    },
+    {
+      "type": "wp_buy",
+      "name": "Add to cart",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_quantity",
+          "label": "Show quantity",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "add_label",
+          "label": "Button label",
+          "default": "Add to cart"
+        },
+        {
+          "type": "checkbox",
+          "id": "price_in_button",
+          "label": "Show price in button",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "sold_out_label",
+          "label": "Sold out label",
+          "default": "Sold out"
+        },
+        {
+          "type": "text",
+          "id": "unavailable_label",
+          "label": "Unavailable label",
+          "default": "Unavailable"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "label": "Show Buy it now buttons",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "wp_delivery",
+      "name": "Delivery box",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "line_1",
+          "label": "Line 1",
+          "default": "<strong>Free shipping</strong> on US orders over $[X]"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "line_2",
+          "label": "Line 2",
+          "default": "<strong>Free exchanges</strong> within [X] days"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "line_3",
+          "label": "Line 3",
+          "default": "<strong>Made in Östersund, Sweden</strong>"
+        }
+      ]
+    },
+    {
+      "type": "wp_pairing",
+      "name": "Wear it with",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Wear it with"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product",
+          "info": "Connect a product metafield to show a different pairing on each product."
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "label": "Note",
+          "default": "Base layer under it"
+        }
+      ]
+    },
+    {
+      "type": "wp_accordion",
+      "name": "Accordion",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Details"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Content</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "open",
+          "label": "Open by default",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "wp_specs",
+      "name": "Spec table",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Fabric and weight"
+        },
+        {
+          "type": "richtext",
+          "id": "intro",
+          "label": "Intro"
+        },
+        {
+          "type": "checkbox",
+          "id": "auto_weight",
+          "label": "Add weight and layer from the title",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "label_1",
+          "label": "Row 1 label",
+          "default": "Fabric"
+        },
+        {
+          "type": "text",
+          "id": "value_1",
+          "label": "Row 1 value",
+          "default": "Ullfrotté wool terry"
+        },
+        {
+          "type": "text",
+          "id": "label_2",
+          "label": "Row 2 label",
+          "default": "Composition"
+        },
+        {
+          "type": "text",
+          "id": "value_2",
+          "label": "Row 2 value",
+          "default": "[X]% merino, [Y]% polyamide"
+        },
+        {
+          "type": "text",
+          "id": "label_3",
+          "label": "Row 3 label"
+        },
+        {
+          "type": "text",
+          "id": "value_3",
+          "label": "Row 3 value"
+        },
+        {
+          "type": "text",
+          "id": "label_4",
+          "label": "Row 4 label"
+        },
+        {
+          "type": "text",
+          "id": "value_4",
+          "label": "Row 4 value"
+        },
+        {
+          "type": "text",
+          "id": "label_5",
+          "label": "Row 5 label"
+        },
+        {
+          "type": "text",
+          "id": "value_5",
+          "label": "Row 5 value"
+        },
+        {
+          "type": "checkbox",
+          "id": "open",
+          "label": "Open by default",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "wp_disclosures",
+      "name": "Disclosures",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Shows the product's legal disclosures, if it has any, as accordions."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "WP Product",
+      "blocks": [
+        {
+          "type": "wp_title"
+        },
+        {
+          "type": "wp_rating"
+        },
+        {
+          "type": "wp_price"
+        },
+        {
+          "type": "wp_bullets"
+        },
+        {
+          "type": "wp_variants"
+        },
+        {
+          "type": "wp_buy"
+        },
+        {
+          "type": "wp_delivery"
+        },
+        {
+          "type": "wp_pairing"
+        },
+        {
+          "type": "wp_accordion",
+          "settings": {
+            "title": "Details"
+          }
+        },
+        {
+          "type": "wp_specs"
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": [
+      "product"
+    ]
+  }
+}
+{% endschema %}
