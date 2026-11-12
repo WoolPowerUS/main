@@ -12,30 +12,105 @@
     "header": {
       "type": "wp-collection-header",
       "settings": {
-        "helper_link": "/"
+        "show_breadcrumb": true,
+        "show_description": true,
+        "helper_label": "Not sure? Take the layer finder",
+        "helper_link": "/",
+        "background_color": "",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
+        "style_heading_size": "medium",
+        "style_heading_case": "upper",
+        "style_align": "left",
+        "style_radius": 12,
+        "style_width": "contained",
+        "style_button_look": "default",
+        "style_button_shape": "pill",
+        "style_button_size": "medium",
+        "style_button_case": "upper",
+        "padding_top": 24,
+        "padding_bottom": 8
       }
     },
     "pills": {
       "type": "wp-category-pills",
       "blocks": {
-        "p1": {"type": "pill", "settings": {"collection": "base-layer", "label": "", "link": ""}},
-        "p2": {"type": "pill", "settings": {"collection": "lite", "label": "LITE", "link": ""}},
-        "p3": {"type": "pill", "settings": {"collection": "mid-layer", "label": "", "link": ""}},
-        "p4": {"type": "pill", "settings": {"collection": "socks", "label": "", "link": ""}},
-        "p5": {"type": "pill", "settings": {"collection": "hunting-kit", "label": "", "link": ""}},
-        "p6": {"type": "pill", "settings": {"collection": "ullfrotte", "label": "", "link": ""}}
+        "p1": {
+          "type": "pill",
+          "settings": {
+            "collection": "base-layer",
+            "label": "",
+            "link": ""
+          }
+        },
+        "p2": {
+          "type": "pill",
+          "settings": {
+            "collection": "lite",
+            "label": "LITE",
+            "link": ""
+          }
+        },
+        "p3": {
+          "type": "pill",
+          "settings": {
+            "collection": "mid-layer",
+            "label": "",
+            "link": ""
+          }
+        },
+        "p4": {
+          "type": "pill",
+          "settings": {
+            "collection": "socks",
+            "label": "",
+            "link": ""
+          }
+        },
+        "p5": {
+          "type": "pill",
+          "settings": {
+            "collection": "hunting-kit",
+            "label": "",
+            "link": ""
+          }
+        },
+        "p6": {
+          "type": "pill",
+          "settings": {
+            "collection": "ullfrotte",
+            "label": "",
+            "link": ""
+          }
+        }
       },
-      "block_order": ["p1", "p2", "p3", "p4", "p5", "p6"],
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6"
+      ],
       "settings": {
         "label": "Categories",
         "show_images": true,
+        "background_color": "",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
         "style_heading_size": "medium",
         "style_heading_case": "upper",
         "style_align": "left",
         "style_radius": 0,
         "style_width": "contained",
         "style_button_look": "default",
-        "style_button_shape": "pill",
+        "style_button_shape": "square",
         "style_button_size": "medium",
         "style_button_case": "upper",
         "padding_top": 8,
@@ -44,26 +119,101 @@
     },
     "main": {
       "type": "wp-main-collection",
-      "settings": {},
       "blocks": {
-        "promo": {"type": "promo", "settings": {"link": "/"}}
+        "promo": {
+          "type": "promo",
+          "settings": {
+            "position": 3,
+            "color": "#414a44",
+            "eyebrow": "Layer finder",
+            "heading": "Which weight is right for you?",
+            "text": "Two questions. One clear answer.",
+            "button_label": "Start",
+            "link": "/"
+          }
+        }
       },
-      "block_order": ["promo"]
+      "block_order": [
+        "promo"
+      ],
+      "settings": {
+        "per_page": 24,
+        "columns": 3,
+        "columns_mobile": "2",
+        "quick_add": true,
+        "load_more_label": "Load more",
+        "enable_filtering": true,
+        "filters_open": true,
+        "open_filters": 3,
+        "enable_sorting": true,
+        "background_color": "",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
+        "style_heading_size": "medium",
+        "style_heading_case": "upper",
+        "style_align": "left",
+        "style_radius": 12,
+        "style_width": "contained",
+        "style_button_look": "default",
+        "style_button_shape": "pill",
+        "style_button_size": "medium",
+        "style_button_case": "upper",
+        "padding_top": 0,
+        "padding_bottom": 48
+      }
     },
     "faq": {
       "type": "wp-faq",
       "blocks": {
-        "f1": {"type": "question", "settings": {"question": "Does merino itch?", "answer": "<p>Our fine merino is knitted with soft terry loops on the inside, so it sits gently against skin.</p>"}},
-        "f2": {"type": "question", "settings": {"question": "How should a base layer fit?", "answer": "<p>Close to the body but not tight. If you are between sizes, see the size guide.</p>"}},
-        "f3": {"type": "question", "settings": {"question": "Can I machine wash it?", "answer": "<p>[Care instructions to confirm.]</p>"}},
-        "f4": {"type": "question", "settings": {"question": "What if the size is wrong?", "answer": "<p>Exchanges are free within [X] days.</p>"}}
+        "f1": {
+          "type": "question",
+          "settings": {
+            "question": "Does merino itch?",
+            "answer": "<p>Our fine merino is knitted with soft terry loops on the inside, so it sits gently against skin.</p>"
+          }
+        },
+        "f2": {
+          "type": "question",
+          "settings": {
+            "question": "How should a base layer fit?",
+            "answer": "<p>Close to the body but not tight. If you are between sizes, see the size guide.</p>"
+          }
+        },
+        "f3": {
+          "type": "question",
+          "settings": {
+            "question": "Can I machine wash it?",
+            "answer": "<p>[Care instructions to confirm.]</p>"
+          }
+        },
+        "f4": {
+          "type": "question",
+          "settings": {
+            "question": "What if the size is wrong?",
+            "answer": "<p>Exchanges are free within [X] days.</p>"
+          }
+        }
       },
-      "block_order": ["f1", "f2", "f3", "f4"],
+      "block_order": [
+        "f1",
+        "f2",
+        "f3",
+        "f4"
+      ],
       "settings": {
         "heading": "How to choose a base layer",
         "text": "<p>A base layer sits against your skin and moves moisture away before it cools you. The number is the fabric weight in grams per square metre. A higher number is warmer.</p><p>Most people start with 200 and add a 400 mid layer on colder days. If you sweat hard, go LITE.</p>",
         "open_first": false,
         "schema_markup": true,
+        "background_color": "",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
         "style_heading_size": "medium",
         "style_heading_case": "upper",
         "style_align": "left",
@@ -78,5 +228,10 @@
       }
     }
   },
-  "order": ["header", "pills", "main", "faq"]
+  "order": [
+    "header",
+    "pills",
+    "main",
+    "faq"
+  ]
 }
