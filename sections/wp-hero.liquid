@@ -1,4 +1,4 @@
-<div class="wp wp-hero" id="wp-{{ section.id }}" style="--wp-section-bg: {{ section.settings.background_color }}; --wp-pt: {{ section.settings.padding_top }}px; --wp-pb: {{ section.settings.padding_bottom }}px;">
+<div class="wp wp-hero wp--case-{{ section.settings.style_heading_case }} wp--align-{{ section.settings.style_align }} wp--width-{{ section.settings.style_width }} wp--size-{{ section.settings.style_heading_size }} wp--btn-{{ section.settings.style_button_look }} wp--btn-{{ section.settings.style_button_shape }} wp--btn-{{ section.settings.style_button_size }} wp--btn-case-{{ section.settings.style_button_case }}" id="wp-{{ section.id }}" style="--wp-section-bg: {{ section.settings.background_color }}; --wp-pt: {{ section.settings.padding_top }}px; --wp-pb: {{ section.settings.padding_bottom }}px; --wp-radius: {{ section.settings.style_radius }}px;{%- if section.settings.style_heading_color != blank %} --wp-heading-user: {{ section.settings.style_heading_color }};{%- endif -%}{%- if section.settings.style_text_color != blank %} --wp-text: {{ section.settings.style_text_color }}; --wp-text-user: {{ section.settings.style_text_color }};{%- endif -%}{%- if section.settings.style_accent_color != blank %} --wp-cta: {{ section.settings.style_accent_color }};{%- endif -%}{%- if section.settings.style_button_text_color != blank %} --wp-cta-text: {{ section.settings.style_button_text_color }};{%- endif -%}{%- if section.settings.style_card_color != blank %} --wp-card: {{ section.settings.style_card_color }}; --wp-card-user: {{ section.settings.style_card_color }};{%- endif -%}">
   <div class="wp__inner wp__inner--wide">
     <div class="wp-hero__card wp-hero--{{ section.settings.height }} wp-hero--{{ section.settings.content_position }}" style="--wp-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};">
       <div class="wp-hero__media">
@@ -55,10 +55,10 @@
 .wp-hero__img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .wp-hero__img--mobile { display: none; }
 .wp-hero__content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; padding: 56px; max-width: 760px; }
-.wp-hero__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-weight: 800; font-size: clamp(40px, 6vw, 80px); line-height: 1; text-transform: uppercase; color: #FFFFFF; }
-.wp-hero__text { margin: 0; font-size: 18px; color: #F0F4F6; max-width: 480px; }
+.wp-hero__heading { margin: 0; font-family: var(--font-heading--family, inherit); font-weight: 800; font-size: calc(clamp(40px, 6vw, 80px) * var(--wp-hs, 1)); line-height: 1; text-transform: uppercase; color: var(--wp-heading-user, #FFFFFF); }
+.wp-hero__text { margin: 0; font-size: 18px; color: var(--wp-text-user, #F0F4F6); max-width: 480px; }
 .wp-hero__buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
-.wp-hero__float { position: absolute; right: 24px; bottom: 24px; z-index: 1; display: flex; align-items: center; gap: 16px; max-width: 320px; padding: 18px 20px; border-radius: var(--wp-radius); background: #FFFFFF; color: var(--wp-ink); text-decoration: none; text-align: left; box-shadow: 0 8px 24px rgba(31,45,64,0.18); }
+.wp-hero__float { position: absolute; right: 24px; bottom: 24px; z-index: 1; display: flex; align-items: center; gap: 16px; max-width: 320px; padding: 18px 20px; border-radius: var(--wp-radius); background: var(--wp-card); color: var(--wp-ink); text-decoration: none; text-align: left; box-shadow: 0 8px 24px rgba(31,45,64,0.18); }
 .wp-hero__float strong { display: block; font-size: 14px; }
 .wp-hero__float span span { display: block; font-size: 13px; color: var(--wp-text); }
 .wp-hero__float-icon { flex: none; width: 44px; height: 44px; border-radius: 999px; background: var(--wp-bg); display: flex; align-items: center; justify-content: center; color: var(--wp-forest); }
@@ -199,19 +199,214 @@
     },
     {
       "type": "header",
-      "content": "Section style"
+      "content": "Look"
+    },
+    {
+      "type": "paragraph",
+      "content": "Leave a color empty to use the Woolpower default."
     },
     {
       "type": "color",
       "id": "background_color",
-      "label": "Background color"
+      "label": "Background"
+    },
+    {
+      "type": "color",
+      "id": "style_heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color",
+      "id": "style_text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "color",
+      "id": "style_accent_color",
+      "label": "Button and accent color"
+    },
+    {
+      "type": "color",
+      "id": "style_button_text_color",
+      "label": "Button text color"
+    },
+    {
+      "type": "color",
+      "id": "style_card_color",
+      "label": "Card and tile color"
+    },
+    {
+      "type": "select",
+      "id": "style_heading_size",
+      "label": "Heading size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "xlarge",
+          "label": "Extra large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "style_heading_case",
+      "label": "Heading letters",
+      "options": [
+        {
+          "value": "upper",
+          "label": "ALL CAPS"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        }
+      ],
+      "default": "upper"
+    },
+    {
+      "type": "select",
+      "id": "style_align",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "style_radius",
+      "label": "Corner rounding",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "style_width",
+      "label": "Width",
+      "options": [
+        {
+          "value": "contained",
+          "label": "Contained"
+        },
+        {
+          "value": "full",
+          "label": "Full width"
+        }
+      ],
+      "default": "contained"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "select",
+      "id": "style_button_look",
+      "label": "Button style",
+      "options": [
+        {
+          "value": "default",
+          "label": "As set on each button"
+        },
+        {
+          "value": "filled",
+          "label": "Filled with accent color"
+        },
+        {
+          "value": "outline",
+          "label": "Outline in accent color"
+        }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "style_button_shape",
+      "label": "Button shape",
+      "options": [
+        {
+          "value": "pill",
+          "label": "Pill"
+        },
+        {
+          "value": "rounded",
+          "label": "Rounded"
+        },
+        {
+          "value": "square",
+          "label": "Square"
+        }
+      ],
+      "default": "pill"
+    },
+    {
+      "type": "select",
+      "id": "style_button_size",
+      "label": "Button size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "style_button_case",
+      "label": "Button letters",
+      "options": [
+        {
+          "value": "upper",
+          "label": "ALL CAPS"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        }
+      ],
+      "default": "upper"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
     },
     {
       "type": "range",
       "id": "padding_top",
       "label": "Top padding",
       "min": 0,
-      "max": 120,
+      "max": 160,
       "step": 4,
       "unit": "px",
       "default": 16
@@ -221,7 +416,7 @@
       "id": "padding_bottom",
       "label": "Bottom padding",
       "min": 0,
-      "max": 120,
+      "max": 160,
       "step": 4,
       "unit": "px",
       "default": 0
