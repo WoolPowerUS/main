@@ -176,7 +176,7 @@
       "settings": {
         "heading": "Cold-weather essentials",
         "products_to_show": 4,
-        "columns": 4,
+        "columns": 3,
         "quick_add": true,
         "view_all_label": "Shop all",
         "background_color": "",
@@ -188,7 +188,7 @@
         "style_heading_size": "medium",
         "style_heading_case": "upper",
         "style_align": "left",
-        "style_radius": 12,
+        "style_radius": 0,
         "style_width": "contained",
         "style_button_look": "default",
         "style_button_shape": "pill",
@@ -483,6 +483,7 @@
           "type": "quote",
           "settings": {
             "rating": 5,
+            "headline": "",
             "quote": "[Customer review quote about warmth on a long shift]",
             "author": "[Name]",
             "detail": "[use case]"
@@ -492,6 +493,7 @@
           "type": "quote",
           "settings": {
             "rating": 5,
+            "headline": "",
             "quote": "[Customer review quote about durability after years of wear]",
             "author": "[Name]",
             "detail": "[use case]"
@@ -501,6 +503,7 @@
           "type": "quote",
           "settings": {
             "rating": 5,
+            "headline": "",
             "quote": "[Customer review quote about comfort, no itch]",
             "author": "[Name]",
             "detail": "[use case]"
@@ -515,7 +518,15 @@
       "settings": {
         "eyebrow": "Trusted where it's coldest",
         "heading": "What people say after a winter in it",
+        "layout": "cards",
         "summary": "[Average rating] from [number] reviews",
+        "rating_value": "[X.X]",
+        "rating_count": "Based on [N] reviews",
+        "show_fit": true,
+        "fit_label": "Fit",
+        "fit_position": 50,
+        "button_label": "Write a review",
+        "button_link": "",
         "background_color": "#ffffff",
         "style_heading_color": "",
         "style_text_color": "",
