@@ -11,7 +11,6 @@
   "sections": {
     "main": {
       "type": "wp-main-product",
-      "settings": {},
       "blocks": {
         "title": {
           "type": "wp_title",
@@ -19,31 +18,59 @@
         },
         "rating": {
           "type": "wp_rating",
-          "settings": {}
+          "settings": {
+            "link": ""
+          }
         },
         "price": {
           "type": "wp_price",
-          "settings": {}
+          "settings": {
+            "note": ""
+          }
         },
         "bullets": {
           "type": "wp_bullets",
-          "settings": {}
+          "settings": {
+            "bullet_1": "Warm when you stop, breathable when you move",
+            "bullet_2": "Terry loops inside trap warm air",
+            "bullet_3": "No side seams, so nothing rubs under a pack",
+            "bullet_4": ""
+          }
         },
         "variants": {
           "type": "wp_variants",
-          "settings": {}
+          "settings": {
+            "fit_note": "Close to the body, with room to layer. True to size.",
+            "size_guide_label": "Size guide",
+            "size_guide_link": ""
+          }
         },
         "buy": {
           "type": "wp_buy",
-          "settings": {}
+          "settings": {
+            "show_quantity": true,
+            "add_label": "Add to cart",
+            "price_in_button": true,
+            "sold_out_label": "Sold out",
+            "unavailable_label": "Unavailable",
+            "show_dynamic_checkout": false
+          }
         },
         "delivery": {
           "type": "wp_delivery",
-          "settings": {}
+          "settings": {
+            "line_1": "<strong>Free shipping</strong> on US orders over $[X]",
+            "line_2": "<strong>Free exchanges</strong> within [X] days",
+            "line_3": "<strong>Made in Östersund, Sweden</strong>"
+          }
         },
         "pairing": {
           "type": "wp_pairing",
-          "settings": {}
+          "settings": {
+            "heading": "Wear it with",
+            "product": "",
+            "note": "Base layer under it"
+          }
         },
         "details": {
           "type": "wp_accordion",
@@ -55,27 +82,45 @@
         },
         "specs": {
           "type": "wp_specs",
-          "settings": {}
+          "settings": {
+            "title": "Fabric and weight",
+            "intro": "",
+            "auto_weight": true,
+            "label_1": "Fabric",
+            "value_1": "Ullfrotté wool terry",
+            "label_2": "Composition",
+            "value_2": "[X]% merino, [Y]% polyamide",
+            "label_3": "",
+            "value_3": "",
+            "label_4": "",
+            "value_4": "",
+            "label_5": "",
+            "value_5": "",
+            "open": false
+          }
         },
         "fit": {
           "type": "wp_accordion",
           "settings": {
             "title": "Fit",
-            "content": "<p>Close fit with room for a base layer underneath. If you are between sizes, see the size guide.</p>"
+            "content": "<p>Close fit with room for a base layer underneath. If you are between sizes, see the size guide.</p>",
+            "open": false
           }
         },
         "care": {
           "type": "wp_accordion",
           "settings": {
             "title": "Care",
-            "content": "<p>[Care instructions to confirm.]</p>"
+            "content": "<p>[Care instructions to confirm.]</p>",
+            "open": false
           }
         },
         "shipping": {
           "type": "wp_accordion",
           "settings": {
             "title": "Shipping and returns",
-            "content": "<p>Free US shipping over $[X]. Free exchanges within [X] days. Read our <a href=\"/policies/shipping-policy\" title=\"Shipping policy\">shipping policy</a> and <a href=\"/policies/refund-policy\" title=\"Refund policy\">refund policy</a>.</p>"
+            "content": "<p>Free US shipping over $[X]. Free exchanges within [X] days. Read our <a href=\"/policies/shipping-policy\" title=\"Shipping policy\">shipping policy</a> and <a href=\"/policies/refund-policy\" title=\"Refund policy\">refund policy</a>.</p>",
+            "open": false
           }
         },
         "disclosures": {
@@ -98,16 +143,35 @@
         "care",
         "shipping",
         "disclosures"
-      ]
+      ],
+      "settings": {
+        "show_breadcrumb": true,
+        "show_weight_badge": true,
+        "enable_zoom": true,
+        "zoom_label": "Click to zoom",
+        "sticky_mobile_bar": true,
+        "low_stock_threshold": 3,
+        "background_color": "",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
+        "style_heading_size": "medium",
+        "style_heading_case": "upper",
+        "style_align": "left",
+        "style_radius": 0,
+        "style_width": "contained",
+        "style_button_look": "default",
+        "style_button_shape": "square",
+        "style_button_size": "medium",
+        "style_button_case": "upper",
+        "padding_top": 20,
+        "padding_bottom": 56
+      }
     },
     "features": {
       "type": "wp-icon-grid",
-      "settings": {
-        "columns": 4,
-        "background_color": "#FFFFFF",
-        "padding_top": 48,
-        "padding_bottom": 48
-      },
       "blocks": {
         "f1": {
           "type": "item",
@@ -147,13 +211,36 @@
         "f2",
         "f3",
         "f4"
-      ]
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "text": "",
+        "columns": 4,
+        "style": "plain",
+        "layout": "stacked",
+        "icon_color": "{{ settings.color_palette.color2 }}",
+        "background_color": "#ffffff",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
+        "style_heading_size": "medium",
+        "style_heading_case": "upper",
+        "style_align": "left",
+        "style_radius": 12,
+        "style_width": "contained",
+        "style_button_look": "default",
+        "style_button_shape": "pill",
+        "style_button_size": "medium",
+        "style_button_case": "upper",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
     },
     "layering": {
       "type": "wp-layer-builder",
-      "settings": {
-        "text": "Build the system around it."
-      },
       "blocks": {
         "l1": {
           "type": "step",
@@ -184,21 +271,37 @@
         "l1",
         "l2",
         "l3"
-      ]
+      ],
+      "settings": {
+        "heading": "How to layer it",
+        "text": "Build the system around it.",
+        "current_prefix": "This one:",
+        "background_color": "",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
+        "style_heading_size": "medium",
+        "style_heading_case": "upper",
+        "style_align": "left",
+        "style_radius": 12,
+        "style_width": "contained",
+        "style_button_look": "default",
+        "style_button_shape": "pill",
+        "style_button_size": "medium",
+        "style_button_case": "upper",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     },
     "reviews": {
       "type": "wp-reviews",
-      "settings": {
-        "layout": "summary",
-        "heading": "Reviews",
-        "background_color": "#FFFFFF",
-        "padding_top": 56,
-        "padding_bottom": 56
-      },
       "blocks": {
         "q1": {
           "type": "quote",
           "settings": {
+            "rating": 5,
             "headline": "[Review headline from a verified buyer]",
             "quote": "[Real review text goes here. Connect your reviews app to fill this section.]",
             "author": "[Name]",
@@ -208,6 +311,7 @@
         "q2": {
           "type": "quote",
           "settings": {
+            "rating": 5,
             "headline": "[Review headline]",
             "quote": "[Review text]",
             "author": "[Name]",
@@ -218,11 +322,65 @@
       "block_order": [
         "q1",
         "q2"
-      ]
+      ],
+      "settings": {
+        "eyebrow": "Trusted where it's coldest",
+        "heading": "Reviews",
+        "layout": "summary",
+        "summary": "",
+        "rating_value": "[X.X]",
+        "rating_count": "Based on [N] reviews",
+        "show_fit": true,
+        "fit_label": "Fit",
+        "fit_position": 50,
+        "button_label": "Write a review",
+        "button_link": "",
+        "background_color": "#ffffff",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
+        "style_heading_size": "medium",
+        "style_heading_case": "upper",
+        "style_align": "left",
+        "style_radius": 12,
+        "style_width": "contained",
+        "style_button_look": "default",
+        "style_button_shape": "pill",
+        "style_button_size": "medium",
+        "style_button_case": "upper",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
     },
     "recommendations": {
       "type": "wp-recommendations",
-      "settings": {}
+      "settings": {
+        "heading": "You may also like",
+        "intent": "related",
+        "limit": 4,
+        "columns": 4,
+        "card_style": "simple",
+        "quick_add": true,
+        "background_color": "",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
+        "style_heading_size": "medium",
+        "style_heading_case": "upper",
+        "style_align": "left",
+        "style_radius": 12,
+        "style_width": "contained",
+        "style_button_look": "default",
+        "style_button_shape": "pill",
+        "style_button_size": "medium",
+        "style_button_case": "upper",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
