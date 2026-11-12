@@ -11,7 +11,6 @@
   "sections": {
     "hero": {
       "type": "wp-hero",
-      "settings": {},
       "blocks": {
         "btn_women": {
           "type": "cta",
@@ -33,15 +32,40 @@
       "block_order": [
         "btn_women",
         "btn_men"
-      ]
+      ],
+      "settings": {
+        "overlay_opacity": 55,
+        "height": "large",
+        "content_position": "bottom-left",
+        "eyebrow": "Merino base and mid layers",
+        "eyebrow_color": "{{ settings.color_palette.color7 }}",
+        "heading": "Built for real cold",
+        "text": "Warm when you're still. Breathable when you move. Made in Östersund, Sweden.",
+        "show_card": true,
+        "card_title": "Not sure which weight?",
+        "card_text": "Find your layer in 2 taps",
+        "card_link": "",
+        "background_color": "",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
+        "style_heading_size": "medium",
+        "style_heading_case": "upper",
+        "style_align": "left",
+        "style_radius": 0,
+        "style_width": "full",
+        "style_button_look": "default",
+        "style_button_shape": "square",
+        "style_button_size": "medium",
+        "style_button_case": "upper",
+        "padding_top": 16,
+        "padding_bottom": 0
+      }
     },
     "categories": {
       "type": "wp-category-tiles",
-      "settings": {
-        "heading": "Shop by category",
-        "link_label": "View all",
-        "link_url": "shopify://collections/base-layer"
-      },
       "blocks": {
         "t1": {
           "type": "tile",
@@ -55,35 +79,40 @@
           "type": "tile",
           "settings": {
             "collection": "women-long-johns",
-            "label": "Long johns"
+            "label": "Long johns",
+            "link": ""
           }
         },
         "t3": {
           "type": "tile",
           "settings": {
             "collection": "mid-layer",
-            "label": "Mid layers"
+            "label": "Mid layers",
+            "link": ""
           }
         },
         "t4": {
           "type": "tile",
           "settings": {
             "collection": "socks",
-            "label": "Socks"
+            "label": "Socks",
+            "link": ""
           }
         },
         "t5": {
           "type": "tile",
           "settings": {
             "collection": "women-headwear",
-            "label": "Headwear"
+            "label": "Headwear",
+            "link": ""
           }
         },
         "t6": {
           "type": "tile",
           "settings": {
             "collection": "women-accessories",
-            "label": "Accessories"
+            "label": "Accessories",
+            "link": ""
           }
         }
       },
@@ -94,13 +123,36 @@
         "t4",
         "t5",
         "t6"
-      ]
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "Shop by category",
+        "link_label": "View all",
+        "link_url": "shopify://collections/base-layer",
+        "columns": 6,
+        "columns_mobile": 2,
+        "aspect": "square",
+        "background_color": "",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
+        "style_heading_size": "medium",
+        "style_heading_case": "upper",
+        "style_align": "left",
+        "style_radius": 12,
+        "style_width": "contained",
+        "style_button_look": "default",
+        "style_button_shape": "pill",
+        "style_button_size": "medium",
+        "style_button_case": "upper",
+        "padding_top": 64,
+        "padding_bottom": 24
+      }
     },
     "essentials": {
       "type": "wp-product-tabs",
-      "settings": {
-        "heading": "Cold-weather essentials"
-      },
       "blocks": {
         "tab_w": {
           "type": "tab",
@@ -120,11 +172,34 @@
       "block_order": [
         "tab_w",
         "tab_m"
-      ]
+      ],
+      "settings": {
+        "heading": "Cold-weather essentials",
+        "products_to_show": 4,
+        "columns": 4,
+        "quick_add": true,
+        "view_all_label": "Shop all",
+        "background_color": "",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
+        "style_heading_size": "medium",
+        "style_heading_case": "upper",
+        "style_align": "left",
+        "style_radius": 12,
+        "style_width": "contained",
+        "style_button_look": "default",
+        "style_button_shape": "pill",
+        "style_button_size": "medium",
+        "style_button_case": "upper",
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
     },
     "finder": {
       "type": "wp-layer-finder",
-      "settings": {},
       "blocks": {
         "r_any": {
           "type": "recommendation",
@@ -212,14 +287,42 @@
         "r_still_cool",
         "r_still_deep",
         "r_deep"
-      ]
+      ],
+      "settings": {
+        "eyebrow": "Layer finder",
+        "heading": "Find your weight in two taps",
+        "q1": "1. What will you be doing?",
+        "activity_1": "Moving hard",
+        "activity_2": "Stop and go",
+        "activity_3": "Standing still",
+        "default_activity": "2",
+        "q2": "2. How cold does it get?",
+        "temp_1": "Cool",
+        "temp_2": "Cold",
+        "temp_3": "Deep cold",
+        "default_temp": "2",
+        "result_label": "Your layer",
+        "background_color": "",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
+        "style_heading_size": "medium",
+        "style_heading_case": "upper",
+        "style_align": "left",
+        "style_radius": 12,
+        "style_width": "contained",
+        "style_button_look": "default",
+        "style_button_shape": "pill",
+        "style_button_size": "medium",
+        "style_button_case": "upper",
+        "padding_top": 0,
+        "padding_bottom": 64
+      }
     },
     "benefits": {
       "type": "wp-icon-grid",
-      "settings": {
-        "eyebrow": "Why Woolpower",
-        "heading": "Merino that works as hard as you do"
-      },
       "blocks": {
         "b1": {
           "type": "item",
@@ -277,13 +380,36 @@
         "b4",
         "b5",
         "b6"
-      ]
+      ],
+      "settings": {
+        "eyebrow": "Why Woolpower",
+        "heading": "Merino that works as hard as you do",
+        "text": "",
+        "columns": 3,
+        "style": "plain",
+        "layout": "stacked",
+        "icon_color": "{{ settings.color_palette.color2 }}",
+        "background_color": "",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
+        "style_heading_size": "medium",
+        "style_heading_case": "upper",
+        "style_align": "left",
+        "style_radius": 12,
+        "style_width": "contained",
+        "style_button_look": "default",
+        "style_button_shape": "pill",
+        "style_button_size": "medium",
+        "style_button_case": "upper",
+        "padding_top": 80,
+        "padding_bottom": 48
+      }
     },
     "activities": {
       "type": "wp-image-tiles",
-      "settings": {
-        "heading": "Shop by activity"
-      },
       "blocks": {
         "a1": {
           "type": "tile",
@@ -323,17 +449,40 @@
         "a2",
         "a3",
         "a4"
-      ]
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "Shop by activity",
+        "link_label": "",
+        "link_url": "",
+        "columns": 4,
+        "aspect": "portrait",
+        "background_color": "",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
+        "style_heading_size": "medium",
+        "style_heading_case": "upper",
+        "style_align": "left",
+        "style_radius": 12,
+        "style_width": "contained",
+        "style_button_look": "default",
+        "style_button_shape": "pill",
+        "style_button_size": "medium",
+        "style_button_case": "upper",
+        "padding_top": 40,
+        "padding_bottom": 64
+      }
     },
     "reviews": {
       "type": "wp-reviews",
-      "settings": {
-        "summary": "[Average rating] from [number] reviews"
-      },
       "blocks": {
         "q1": {
           "type": "quote",
           "settings": {
+            "rating": 5,
             "quote": "[Customer review quote about warmth on a long shift]",
             "author": "[Name]",
             "detail": "[use case]"
@@ -342,6 +491,7 @@
         "q2": {
           "type": "quote",
           "settings": {
+            "rating": 5,
             "quote": "[Customer review quote about durability after years of wear]",
             "author": "[Name]",
             "detail": "[use case]"
@@ -350,6 +500,7 @@
         "q3": {
           "type": "quote",
           "settings": {
+            "rating": 5,
             "quote": "[Customer review quote about comfort, no itch]",
             "author": "[Name]",
             "detail": "[use case]"
@@ -360,20 +511,64 @@
         "q1",
         "q2",
         "q3"
-      ]
+      ],
+      "settings": {
+        "eyebrow": "Trusted where it's coldest",
+        "heading": "What people say after a winter in it",
+        "summary": "[Average rating] from [number] reviews",
+        "background_color": "#ffffff",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
+        "style_heading_size": "medium",
+        "style_heading_case": "upper",
+        "style_align": "left",
+        "style_radius": 12,
+        "style_width": "contained",
+        "style_button_look": "default",
+        "style_button_shape": "pill",
+        "style_button_size": "medium",
+        "style_button_case": "upper",
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
     },
     "story": {
       "type": "wp-image-with-text",
-      "settings": {}
+      "settings": {
+        "image_position": "left",
+        "card_color": "{{ settings.color_palette.color2 }}",
+        "text_color": "{{ settings.color_palette.background }}",
+        "eyebrow": "Made in Östersund, Sweden",
+        "eyebrow_color": "{{ settings.color_palette.color7 }}",
+        "heading": "Where winter is a way of life",
+        "text": "<p>We knit our own Ullfrotté fabric: fine merino blended with polyamide so it lasts, with terry loops inside that trap warm air against your skin.</p>",
+        "button_label": "Our story",
+        "button_link": "",
+        "button_style": "outline-light",
+        "background_color": "",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
+        "style_heading_size": "medium",
+        "style_heading_case": "upper",
+        "style_align": "left",
+        "style_radius": 12,
+        "style_width": "contained",
+        "style_button_look": "default",
+        "style_button_shape": "pill",
+        "style_button_size": "medium",
+        "style_button_case": "upper",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     },
     "service": {
       "type": "wp-icon-grid",
-      "settings": {
-        "style": "cards",
-        "layout": "inline",
-        "padding_top": 0,
-        "padding_bottom": 64
-      },
       "blocks": {
         "s1": {
           "type": "item",
@@ -404,7 +599,33 @@
         "s1",
         "s2",
         "s3"
-      ]
+      ],
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "text": "",
+        "columns": 3,
+        "style": "cards",
+        "layout": "inline",
+        "icon_color": "{{ settings.color_palette.color2 }}",
+        "background_color": "",
+        "style_heading_color": "",
+        "style_text_color": "",
+        "style_accent_color": "",
+        "style_button_text_color": "",
+        "style_card_color": "",
+        "style_heading_size": "medium",
+        "style_heading_case": "upper",
+        "style_align": "left",
+        "style_radius": 12,
+        "style_width": "contained",
+        "style_button_look": "default",
+        "style_button_shape": "pill",
+        "style_button_size": "medium",
+        "style_button_case": "upper",
+        "padding_top": 0,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
