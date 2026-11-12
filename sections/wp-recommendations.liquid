@@ -6,7 +6,15 @@
       </div>
       <div class="wp-grid" style="--wp-cols: {{ section.settings.columns }};">
         {%- for p in recommendations.products -%}
-          {% render 'wp-product-card', product: p, quick_add: section.settings.quick_add %}
+          {%- if section.settings.card_style == 'simple' -%}
+            <a class="wp-card wp-card--simple" href="{{ p.url }}">
+              <span class="wp-card__media wp-media">{{ p.featured_media | image_url: width: 800 | image_tag: loading: 'lazy', widths: '360, 540, 800', sizes: '(min-width: 990px) 25vw, 50vw', alt: p.featured_media.alt | default: p.title }}</span>
+              <span class="wp-card__title">{{ p.title }}</span>
+              <span class="wp-card__price">{% if p.price_varies %}From {% endif %}{{ p.price | money }}</span>
+            </a>
+          {%- else -%}
+            {% render 'wp-product-card', product: p, quick_add: section.settings.quick_add %}
+          {%- endif -%}
         {%- endfor -%}
       </div>
     {%- endif -%}
@@ -79,9 +87,25 @@ if (!customElements.get('wp-recommendations')) {
       "default": 4
     },
     {
+      "type": "select",
+      "id": "card_style",
+      "label": "Card style",
+      "options": [
+        {
+          "value": "simple",
+          "label": "Simple: image, name, price"
+        },
+        {
+          "value": "full",
+          "label": "Full: badge, swatches, quick add"
+        }
+      ],
+      "default": "simple"
+    },
+    {
       "type": "checkbox",
       "id": "quick_add",
-      "label": "Quick add by size",
+      "label": "Quick add by size (full cards)",
       "default": true
     },
     {

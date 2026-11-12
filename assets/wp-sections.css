@@ -130,3 +130,5 @@
 .wp--btn-filled .wp-btn:hover { background: color-mix(in srgb, var(--wp-cta) 82%, #000000); border-color: color-mix(in srgb, var(--wp-cta) 82%, #000000); color: var(--wp-cta-text, #FFFFFF); }
 .wp--btn-outline .wp-btn { background: transparent; border-color: var(--wp-cta); color: var(--wp-cta); }
 .wp--btn-outline .wp-btn:hover { background: var(--wp-cta); color: var(--wp-cta-text, #FFFFFF); }
+.wp-card--simple { text-decoration: none; gap: 8px; }
+.wp-card--simple:hover .wp-card__title { color: var(--wp-cta); }

@@ -189,40 +189,35 @@
     "reviews": {
       "type": "wp-reviews",
       "settings": {
-        "eyebrow": "Reviews",
-        "heading": "What people say after a winter in it",
-        "summary": "[Average rating] from [number] reviews"
+        "layout": "summary",
+        "heading": "Reviews",
+        "background_color": "#FFFFFF",
+        "padding_top": 56,
+        "padding_bottom": 56
       },
       "blocks": {
         "q1": {
           "type": "quote",
           "settings": {
-            "quote": "[Review from a verified buyer. Connect a reviews app to fill this section.]",
+            "headline": "[Review headline from a verified buyer]",
+            "quote": "[Real review text goes here. Connect your reviews app to fill this section.]",
             "author": "[Name]",
-            "detail": "Verified buyer"
+            "detail": "Verified buyer · Size M"
           }
         },
         "q2": {
           "type": "quote",
           "settings": {
+            "headline": "[Review headline]",
             "quote": "[Review text]",
             "author": "[Name]",
-            "detail": "Verified buyer"
-          }
-        },
-        "q3": {
-          "type": "quote",
-          "settings": {
-            "quote": "[Review text]",
-            "author": "[Name]",
-            "detail": "Verified buyer"
+            "detail": "Verified buyer · Size S"
           }
         }
       },
       "block_order": [
         "q1",
-        "q2",
-        "q3"
+        "q2"
       ]
     },
     "recommendations": {

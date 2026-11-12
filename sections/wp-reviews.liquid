@@ -1,5 +1,44 @@
-<div class="wp wp-quotes wp--case-{{ section.settings.style_heading_case }} wp--align-{{ section.settings.style_align }} wp--width-{{ section.settings.style_width }} wp--size-{{ section.settings.style_heading_size }} wp--btn-{{ section.settings.style_button_look }} wp--btn-{{ section.settings.style_button_shape }} wp--btn-{{ section.settings.style_button_size }} wp--btn-case-{{ section.settings.style_button_case }}" id="wp-{{ section.id }}" style="--wp-section-bg: {{ section.settings.background_color }}; --wp-pt: {{ section.settings.padding_top }}px; --wp-pb: {{ section.settings.padding_bottom }}px; --wp-radius: {{ section.settings.style_radius }}px;{%- if section.settings.style_heading_color != blank %} --wp-heading-user: {{ section.settings.style_heading_color }};{%- endif -%}{%- if section.settings.style_text_color != blank %} --wp-text: {{ section.settings.style_text_color }}; --wp-text-user: {{ section.settings.style_text_color }};{%- endif -%}{%- if section.settings.style_accent_color != blank %} --wp-cta: {{ section.settings.style_accent_color }};{%- endif -%}{%- if section.settings.style_button_text_color != blank %} --wp-cta-text: {{ section.settings.style_button_text_color }};{%- endif -%}{%- if section.settings.style_card_color != blank %} --wp-card: {{ section.settings.style_card_color }}; --wp-card-user: {{ section.settings.style_card_color }};{%- endif -%}">
-  <div class="wp__inner">
+<div class="wp wp-quotes wp-quotes--{{ section.settings.layout }} wp--case-{{ section.settings.style_heading_case }} wp--align-{{ section.settings.style_align }} wp--width-{{ section.settings.style_width }} wp--size-{{ section.settings.style_heading_size }} wp--btn-{{ section.settings.style_button_look }} wp--btn-{{ section.settings.style_button_shape }} wp--btn-{{ section.settings.style_button_size }} wp--btn-case-{{ section.settings.style_button_case }}" id="wp-{{ section.id }}" style="--wp-section-bg: {{ section.settings.background_color }}; --wp-pt: {{ section.settings.padding_top }}px; --wp-pb: {{ section.settings.padding_bottom }}px; --wp-radius: {{ section.settings.style_radius }}px;{%- if section.settings.style_heading_color != blank %} --wp-heading-user: {{ section.settings.style_heading_color }};{%- endif -%}{%- if section.settings.style_text_color != blank %} --wp-text: {{ section.settings.style_text_color }}; --wp-text-user: {{ section.settings.style_text_color }};{%- endif -%}{%- if section.settings.style_accent_color != blank %} --wp-cta: {{ section.settings.style_accent_color }};{%- endif -%}{%- if section.settings.style_button_text_color != blank %} --wp-cta-text: {{ section.settings.style_button_text_color }};{%- endif -%}{%- if section.settings.style_card_color != blank %} --wp-card: {{ section.settings.style_card_color }}; --wp-card-user: {{ section.settings.style_card_color }};{%- endif -%}">
+  <div class="wp__inner"{% if section.settings.layout == 'summary' %} id="reviews"{% endif %}>
+    {%- if section.settings.layout == 'summary' -%}
+      {%- liquid
+        assign r_value = section.settings.rating_value
+        assign r_count = section.settings.rating_count
+        assign r_pct = 100
+        if product and product.metafields.reviews.rating.value != blank
+          assign r = product.metafields.reviews.rating.value
+          assign r_value = r.rating | round: 1
+          assign r_count = product.metafields.reviews.rating_count.value | prepend: 'Based on ' | append: ' reviews'
+          assign r_pct = r.rating | divided_by: r.scale_max | times: 100
+        endif
+      -%}
+      <div class="wp-quotes__summary-wrap">
+        <div class="wp-quotes__summary">
+          {%- if section.settings.heading != blank -%}<h2 class="wp-h2">{{ section.settings.heading }}</h2>{%- endif -%}
+          {%- if r_value != blank -%}<span class="wp-quotes__score">{{ r_value }}</span>{%- endif -%}
+          <span class="wp-quotes__bar-stars" style="--rating: {{ r_pct }}%" aria-hidden="true"></span>
+          {%- if r_count != blank -%}<span class="wp-quotes__count">{{ r_count }}</span>{%- endif -%}
+          {%- if section.settings.show_fit -%}
+            <div class="wp-quotes__fit">
+              <strong>{{ section.settings.fit_label }}</strong>
+              <span class="wp-quotes__fit-track"><span style="left: {{ section.settings.fit_position }}%"></span></span>
+              <span class="wp-quotes__fit-scale"><span>Runs small</span><span>True to size</span><span>Runs large</span></span>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.button_label != blank -%}<a class="wp-btn wp-btn--outline" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label }}</a>{%- endif -%}
+        </div>
+        <div class="wp-quotes__list">
+          {%- for block in section.blocks -%}
+            <figure class="wp-quotes__row" {{ block.shopify_attributes }}>
+              {%- if block.settings.rating > 0 -%}<span class="wp-quotes__stars wp-quotes__stars--gold" role="img" aria-label="{{ block.settings.rating }} out of 5 stars">{% for i in (1..block.settings.rating) %}★{% endfor %}</span>{%- endif -%}
+              {%- if block.settings.headline != blank -%}<p class="wp-quotes__headline">{{ block.settings.headline }}</p>{%- endif -%}
+              <blockquote>{{ block.settings.quote }}</blockquote>
+              <figcaption>{{ block.settings.author }}{% if block.settings.detail != blank %} · {{ block.settings.detail }}{% endif %}</figcaption>
+            </figure>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- else -%}
     <div class="wp-head">
       <div>
         {%- if section.settings.eyebrow != blank -%}<span class="wp-eyebrow" style="color: var(--wp-forest)">{{ section.settings.eyebrow }}</span>{%- endif -%}
@@ -13,11 +52,13 @@
           {%- if block.settings.rating > 0 -%}
             <span class="wp-quotes__stars" role="img" aria-label="{{ block.settings.rating }} out of 5 stars">{% for i in (1..block.settings.rating) %}★{% endfor %}</span>
           {%- endif -%}
+          {%- if block.settings.headline != blank -%}<p class="wp-quotes__headline">{{ block.settings.headline }}</p>{%- endif -%}
           <blockquote>{{ block.settings.quote }}</blockquote>
           <figcaption>{{ block.settings.author }}{% if block.settings.detail != blank %}, {{ block.settings.detail }}{% endif %}</figcaption>
         </figure>
       {%- endfor -%}
     </div>
+    {%- endif -%}
   </div>
 </div>
 
@@ -28,6 +69,27 @@
 .wp-quotes__stars { color: var(--wp-cta); letter-spacing: 2px; }
 .wp-quotes__item blockquote { margin: 0; font-size: 16px; color: var(--wp-ink); }
 .wp-quotes__item figcaption { font-size: 13px; }
+.wp-quotes__headline { margin: 0; font-weight: 700; color: var(--wp-ink); }
+.wp-quotes__summary-wrap { display: flex; flex-wrap: wrap; gap: 56px; }
+.wp-quotes__summary { flex: 0 1 300px; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.wp-quotes__summary .wp-btn { margin-top: 12px; min-height: 44px; }
+.wp-quotes__score { font-size: 40px; font-weight: 800; line-height: 1.1; color: var(--wp-ink); }
+.wp-quotes__bar-stars { position: relative; display: inline-block; font-size: 18px; letter-spacing: 2px; color: var(--wp-line); }
+.wp-quotes__bar-stars::before { content: "★★★★★"; }
+.wp-quotes__bar-stars::after { content: "★★★★★"; position: absolute; left: 0; top: 0; width: var(--rating, 100%); overflow: hidden; color: var(--wp-yellow); }
+.wp-quotes__count { font-size: 13px; }
+.wp-quotes__fit { align-self: stretch; margin-top: 12px; display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
+.wp-quotes__fit strong { color: var(--wp-ink); }
+.wp-quotes__fit-track { position: relative; height: 4px; border-radius: 999px; background: var(--wp-line-soft); }
+.wp-quotes__fit-track span { position: absolute; top: -4px; width: 12px; height: 12px; margin-left: -6px; border-radius: 999px; background: var(--wp-ink); }
+.wp-quotes__fit-scale { display: flex; justify-content: space-between; }
+.wp-quotes__list { flex: 1 1 520px; display: flex; flex-direction: column; }
+.wp-quotes__row { margin: 0; padding: 20px 0; border-bottom: 1px solid var(--wp-line-soft); }
+.wp-quotes__row:first-child { padding-top: 0; }
+.wp-quotes__row blockquote { margin: 4px 0; font-size: 14px; }
+.wp-quotes__row figcaption { font-size: 12px; }
+.wp-quotes__row .wp-quotes__headline { margin-top: 6px; }
+.wp-quotes__stars--gold { color: var(--wp-yellow); }
 {% endstylesheet %}
 
 {% schema %}
@@ -48,10 +110,79 @@
       "default": "What people say after a winter in it"
     },
     {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "cards",
+          "label": "Cards"
+        },
+        {
+          "value": "summary",
+          "label": "Rating summary and list"
+        }
+      ],
+      "default": "cards"
+    },
+    {
       "type": "text",
       "id": "summary",
-      "label": "Rating summary",
+      "label": "Rating summary (cards layout)",
       "info": "For example: 4.8 from 1,200 reviews"
+    },
+    {
+      "type": "header",
+      "content": "Rating summary and list layout"
+    },
+    {
+      "type": "paragraph",
+      "content": "On product pages the rating fills in from a reviews app when one is connected."
+    },
+    {
+      "type": "text",
+      "id": "rating_value",
+      "label": "Average rating",
+      "default": "[X.X]"
+    },
+    {
+      "type": "text",
+      "id": "rating_count",
+      "label": "Review count",
+      "default": "Based on [N] reviews"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_fit",
+      "label": "Show fit scale",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "fit_label",
+      "label": "Fit label",
+      "default": "Fit"
+    },
+    {
+      "type": "range",
+      "id": "fit_position",
+      "label": "Fit position",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Write a review"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
     },
     {
       "type": "header",
@@ -292,6 +423,11 @@
           "max": 5,
           "step": 1,
           "default": 5
+        },
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "Headline"
         },
         {
           "type": "textarea",
