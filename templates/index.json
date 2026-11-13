@@ -34,14 +34,15 @@
         "btn_men"
       ],
       "settings": {
+        "image": "shopify://shop_images/pulka-skiing-4-original-1081980.webp",
         "overlay_opacity": 55,
-        "height": "large",
+        "height": "full",
         "content_position": "bottom-left",
         "eyebrow": "Merino base and mid layers",
         "eyebrow_color": "{{ settings.color_palette.color7 }}",
         "heading": "Built for real cold",
         "text": "Warm when you're still. Breathable when you move. Made in Östersund, Sweden.",
-        "show_card": true,
+        "show_card": false,
         "card_title": "Not sure which weight?",
         "card_text": "Find your layer in 2 taps",
         "card_link": "",
@@ -60,7 +61,7 @@
         "style_button_shape": "square",
         "style_button_size": "medium",
         "style_button_case": "upper",
-        "padding_top": 16,
+        "padding_top": 0,
         "padding_bottom": 0
       }
     },
