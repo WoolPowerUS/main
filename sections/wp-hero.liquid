@@ -1,6 +1,19 @@
 <div class="wp wp-hero wp--case-{{ section.settings.style_heading_case }} wp--align-{{ section.settings.style_align }} wp--width-{{ section.settings.style_width }} wp--size-{{ section.settings.style_heading_size }} wp--btn-{{ section.settings.style_button_look }} wp--btn-{{ section.settings.style_button_shape }} wp--btn-{{ section.settings.style_button_size }} wp--btn-case-{{ section.settings.style_button_case }}" id="wp-{{ section.id }}" style="--wp-section-bg: {{ section.settings.background_color }}; --wp-pt: {{ section.settings.padding_top }}px; --wp-pb: {{ section.settings.padding_bottom }}px; --wp-radius: {{ section.settings.style_radius }}px;{%- if section.settings.style_heading_color != blank %} --wp-heading-user: {{ section.settings.style_heading_color }};{%- endif -%}{%- if section.settings.style_text_color != blank %} --wp-text: {{ section.settings.style_text_color }}; --wp-text-user: {{ section.settings.style_text_color }};{%- endif -%}{%- if section.settings.style_accent_color != blank %} --wp-cta: {{ section.settings.style_accent_color }};{%- endif -%}{%- if section.settings.style_button_text_color != blank %} --wp-cta-text: {{ section.settings.style_button_text_color }};{%- endif -%}{%- if section.settings.style_card_color != blank %} --wp-card: {{ section.settings.style_card_color }}; --wp-card-user: {{ section.settings.style_card_color }};{%- endif -%}">
-  <div class="wp__inner wp__inner--wide">
-    <div class="wp-hero__card wp-hero--{{ section.settings.height }} wp-hero--{{ section.settings.content_position }}" style="--wp-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};">
+  {%- liquid
+    assign hero_pos = section.settings.content_position
+    case hero_pos
+      when 'center'
+        assign hero_h = 'center'
+      when 'top-left', 'center-left', 'bottom-left'
+        assign hero_h = 'left'
+      when 'top-right', 'center-right', 'bottom-right'
+        assign hero_h = 'right'
+      else
+        assign hero_h = 'center'
+    endcase
+  -%}
+  <div class="wp__inner wp__inner--wide{% if section.settings.full_width %} wp-hero__bleed{% endif %}">
+    <div class="wp-hero__card wp-hero--{{ section.settings.height }} wp-hero--{{ hero_pos }} wp-hero--h-{{ hero_h }}" style="--wp-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};">
       <div class="wp-hero__media">
         {%- if section.settings.image != blank -%}
           {%- if section.settings.image_mobile != blank -%}
@@ -45,13 +58,23 @@
 .wp-hero--medium { --wp-hero-h: 560px; }
 .wp-hero--large { --wp-hero-h: 680px; }
 .wp-hero--full { --wp-hero-h: calc(100svh - 140px); }
-.wp-hero--bottom-left { align-items: flex-end; }
-.wp-hero--center-left { align-items: center; }
-.wp-hero--center { align-items: center; justify-content: center; text-align: center; }
-.wp-hero--center .wp-hero__content { align-items: center; }
+.wp-hero__bleed { max-width: none; padding-inline: 0; }
+.wp-hero__bleed .wp-hero__card { border-radius: 0; }
+.wp-hero--top-left, .wp-hero--top-center, .wp-hero--top-right { align-items: flex-start; }
+.wp-hero--center-left, .wp-hero--center, .wp-hero--center-right { align-items: center; }
+.wp-hero--bottom-left, .wp-hero--bottom-center, .wp-hero--bottom-right { align-items: flex-end; }
+.wp-hero--h-left { justify-content: flex-start; }
+.wp-hero--h-center { justify-content: center; text-align: center; }
+.wp-hero--h-right { justify-content: flex-end; text-align: right; }
+.wp-hero--h-center .wp-hero__content { align-items: center; }
+.wp-hero--h-right .wp-hero__content { align-items: flex-end; }
+.wp-hero--h-center .wp-hero__buttons { justify-content: center; }
+.wp-hero--h-right .wp-hero__buttons { justify-content: flex-end; }
+.wp-hero--h-right .wp-hero__float { right: auto; left: 24px; }
 .wp-hero__media { position: absolute; inset: 0; }
 .wp-hero__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(20,26,24,var(--wp-overlay)) 0%, rgba(20,26,24,calc(var(--wp-overlay) * 0.4)) 60%, rgba(20,26,24,0) 100%); }
-.wp-hero--center .wp-hero__media::after { background: rgba(20,26,24,var(--wp-overlay)); }
+.wp-hero--h-center .wp-hero__media::after { background: rgba(20,26,24,var(--wp-overlay)); }
+.wp-hero--h-right .wp-hero__media::after { background: linear-gradient(270deg, rgba(20,26,24,var(--wp-overlay)) 0%, rgba(20,26,24,calc(var(--wp-overlay) * 0.4)) 60%, rgba(20,26,24,0) 100%); }
 .wp-hero__img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .wp-hero__img--mobile { display: none; }
 .wp-hero__content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; padding: 56px; max-width: 760px; }
@@ -63,10 +86,13 @@
 .wp-hero__float span span { display: block; font-size: 13px; color: var(--wp-text); }
 .wp-hero__float-icon { flex: none; width: 44px; height: 44px; border-radius: 999px; background: var(--wp-bg); display: flex; align-items: center; justify-content: center; color: var(--wp-forest); }
 @media (max-width: 749px) {
-  .wp-hero__card { min-height: min(var(--wp-hero-h, 640px), 560px); flex-direction: column; justify-content: flex-end; }
+  .wp-hero__card, .wp-hero__card[class*="wp-hero--h-"] { min-height: min(var(--wp-hero-h, 640px), 560px); flex-direction: column; justify-content: flex-end; align-items: stretch; }
+  .wp-hero__card.wp-hero--top-left, .wp-hero__card.wp-hero--top-center, .wp-hero__card.wp-hero--top-right { justify-content: flex-start; }
+  .wp-hero__card.wp-hero--center-left, .wp-hero__card.wp-hero--center, .wp-hero__card.wp-hero--center-right { justify-content: center; }
+  .wp-hero--h-right .wp-hero__float { left: auto; }
   .wp-hero__img--mobile { display: block; }
   .wp-hero__img--desktop { display: none; }
-  .wp-hero__media::after { background: linear-gradient(0deg, rgba(20,26,24,var(--wp-overlay)) 0%, rgba(20,26,24,calc(var(--wp-overlay) * 0.3)) 70%); }
+  .wp-hero__card .wp-hero__media::after { background: linear-gradient(0deg, rgba(20,26,24,var(--wp-overlay)) 0%, rgba(20,26,24,calc(var(--wp-overlay) * 0.3)) 70%); }
   .wp-hero__content { padding: 28px 20px; }
   .wp-hero__float { position: relative; right: auto; bottom: auto; margin: 0 12px 12px; max-width: none; }
   .wp-hero__buttons .wp-btn { flex: 1 1 auto; }
@@ -123,13 +149,28 @@
       "default": "large"
     },
     {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full screen width",
+      "info": "Runs the banner edge to edge with square corners.",
+      "default": false
+    },
+    {
       "type": "select",
       "id": "content_position",
       "label": "Text position",
       "options": [
         {
-          "value": "bottom-left",
-          "label": "Bottom left"
+          "value": "top-left",
+          "label": "Top left"
+        },
+        {
+          "value": "top-center",
+          "label": "Top center"
+        },
+        {
+          "value": "top-right",
+          "label": "Top right"
         },
         {
           "value": "center-left",
@@ -138,6 +179,22 @@
         {
           "value": "center",
           "label": "Center"
+        },
+        {
+          "value": "center-right",
+          "label": "Middle right"
+        },
+        {
+          "value": "bottom-left",
+          "label": "Bottom left"
+        },
+        {
+          "value": "bottom-center",
+          "label": "Bottom center"
+        },
+        {
+          "value": "bottom-right",
+          "label": "Bottom right"
         }
       ],
       "default": "bottom-left"
