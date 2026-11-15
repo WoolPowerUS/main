@@ -72,7 +72,7 @@
         "t1": {
           "type": "tile",
           "settings": {
-            "collection": "women-shirts",
+            "collection": "mens-womens-shirts",
             "label": "Tops",
             "link": "shopify://collections/base-layer"
           }
@@ -80,7 +80,7 @@
         "t2": {
           "type": "tile",
           "settings": {
-            "collection": "women-long-johns",
+            "collection": "mens-womens-jackets-vests",
             "label": "Long johns",
             "link": ""
           }
@@ -88,7 +88,7 @@
         "t3": {
           "type": "tile",
           "settings": {
-            "collection": "mid-layer",
+            "collection": "mens-womens-long-johns-copy",
             "label": "Mid layers",
             "link": ""
           }
@@ -96,7 +96,7 @@
         "t4": {
           "type": "tile",
           "settings": {
-            "collection": "socks",
+            "collection": "mens-womens-underwear-copy",
             "label": "Socks",
             "link": ""
           }
@@ -104,7 +104,7 @@
         "t5": {
           "type": "tile",
           "settings": {
-            "collection": "women-headwear",
+            "collection": "mens-womens-headware-copy",
             "label": "Headwear",
             "link": ""
           }
@@ -112,7 +112,7 @@
         "t6": {
           "type": "tile",
           "settings": {
-            "collection": "women-accessories",
+            "collection": "mens-womens-sock-insoles-copy",
             "label": "Accessories",
             "link": ""
           }
@@ -130,10 +130,10 @@
         "eyebrow": "",
         "heading": "Shop by category",
         "link_label": "View all",
-        "link_url": "shopify://collections/base-layer",
+        "link_url": "shopify://collections",
         "columns": 6,
         "columns_mobile": 2,
-        "aspect": "square",
+        "aspect": "portrait",
         "background_color": "",
         "style_heading_color": "",
         "style_text_color": "",
@@ -144,12 +144,12 @@
         "style_heading_case": "upper",
         "style_align": "left",
         "style_radius": 12,
-        "style_width": "contained",
+        "style_width": "full",
         "style_button_look": "default",
-        "style_button_shape": "pill",
+        "style_button_shape": "square",
         "style_button_size": "medium",
         "style_button_case": "upper",
-        "padding_top": 64,
+        "padding_top": 40,
         "padding_bottom": 24
       }
     },
