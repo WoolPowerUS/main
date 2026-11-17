@@ -73,48 +73,45 @@
           "type": "tile",
           "settings": {
             "collection": "mens-womens-shirts",
-            "label": "Tops",
-            "link": "shopify://collections/base-layer"
+            "image": "shopify://shop_images/shirts-08-lite-summer-hiking-tent-1708542.webp",
+            "label": "Shirts",
+            "link": "shopify://collections/mens-womens-shirts"
           }
         },
         "t2": {
           "type": "tile",
           "settings": {
             "collection": "mens-womens-jackets-vests",
-            "label": "Long johns",
-            "link": ""
+            "image": "shopify://shop_images/jackets-and-vests-06-autumn-hike-1418159.webp",
+            "label": "Jackets & Vests",
+            "link": "shopify://collections/mens-womens-jackets-vests"
           }
         },
         "t3": {
           "type": "tile",
           "settings": {
             "collection": "mens-womens-long-johns-copy",
-            "label": "Mid layers",
-            "link": ""
+            "image": "shopify://shop_images/socks-04-hiking-summer-284469.webp",
+            "label": "Socks & Insoles",
+            "link": "shopify://collections/mens-womens-long-johns-copy"
           }
         },
         "t4": {
           "type": "tile",
           "settings": {
             "collection": "mens-womens-underwear-copy",
-            "label": "Socks",
-            "link": ""
-          }
-        },
-        "t5": {
-          "type": "tile",
-          "settings": {
-            "collection": "mens-womens-headware-copy",
-            "label": "Headwear",
-            "link": ""
+            "image": "shopify://shop_images/long-johns-04-winter-running-1520575.webp",
+            "label": "Long Johns",
+            "link": "shopify://collections/mens-womens-underwear-copy"
           }
         },
         "t6": {
           "type": "tile",
           "settings": {
             "collection": "mens-womens-sock-insoles-copy",
+            "image": "shopify://shop_images/wrist-gaiters-10-autumn-coffee-outdoor-328776.webp",
             "label": "Accessories",
-            "link": ""
+            "link": "shopify://collections/mens-womens-sock-insoles-copy"
           }
         }
       },
@@ -123,7 +120,6 @@
         "t2",
         "t3",
         "t4",
-        "t5",
         "t6"
       ],
       "settings": {
@@ -131,7 +127,7 @@
         "heading": "Shop by category",
         "link_label": "View all",
         "link_url": "shopify://collections",
-        "columns": 6,
+        "columns": 5,
         "columns_mobile": 2,
         "aspect": "portrait",
         "background_color": "",
